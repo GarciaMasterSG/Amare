@@ -1,0 +1,179 @@
+[
+  {
+    "ContainingType": "Amare.Controllers.AddGuestsController",
+    "Method": "AddGuestsPost",
+    "RelativePath": "api/AddGuests",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "guest",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Amare.Controllers.ChallengesController",
+    "Method": "ChallengesPost",
+    "RelativePath": "api/Challenges",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "ChallengeName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ChallengeDescription",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ChallengePoints",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Amare.Controllers.ExpensesController",
+    "Method": "AddExpense",
+    "RelativePath": "api/Expenses",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "ExpenseName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ExpensePrice",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Amare.Controllers.TablesController",
+    "Method": "CreateTable",
+    "RelativePath": "api/Tables",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "table",
+        "Type": "Amare.Models.Tables",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Amare.Controllers.TasksController",
+    "Method": "TasksPost",
+    "RelativePath": "api/Tasks",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "TaskName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "TaskDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Amare.Controllers.VendorsController",
+    "Method": "addVendors",
+    "RelativePath": "api/Vendors",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "VendorName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "VendorDescription",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "VendorType",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "VendorPrice",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Amare.Controllers.WeddingEventController",
+    "Method": "WeddingEventPost",
+    "RelativePath": "api/WeddingEvent",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "WeddingEventName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "WeddingEventTime",
+        "Type": "System.TimeSpan",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

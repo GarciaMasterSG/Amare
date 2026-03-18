@@ -1,0 +1,1744 @@
+body{
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+#Container{
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+nav {
+    position: relative;
+    height: 100%;
+    width: 17%;
+    background: rgb(253, 235, 237);
+    box-shadow: 2px 2px 10px 3px rgba(0, 0, 0, 0.126);
+    z-index: 999;
+    user-select: none;
+}
+
+#FlowerDecorate{
+    height: 14rem;
+    width: 14rem;
+    transform: rotate(45deg) translate(3%, 45%);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+nav h1{
+    background: linear-gradient(90deg, #c69f29, #ffc000);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    text-align: center;
+    font-size: 3.5rem;
+    font-family: 'Dancing Script';
+    border-bottom: 1px solid rgba(133, 133, 133, 0.47);
+    margin: 10px 0;
+    user-select: none;
+}
+
+.Link{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    height: 4rem;
+    padding-left: 20%;
+    box-sizing: border-box;
+}
+
+.Link h2{
+    font-family: 'Cormorant Garamond';
+    user-select: none;
+    cursor: pointer;
+}
+
+.Link h2:hover{
+    background: linear-gradient(90deg, #c69f29, #ffc000);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.BtnActive{
+    background-color: rgba(128, 128, 128, 0.126);
+    border-radius: 5px;
+    border-left: 5px solid #ffc000;
+    box-sizing: border-box;
+}
+
+.TextActive{
+    background: linear-gradient(90deg, #c69f29, #ffc000);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+#Panel{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 83%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background: linear-gradient(rgb(253, 245, 247), rgb(250, 233, 236), rgb(253, 245, 247), rgb(250, 233, 236));
+    user-select: none;
+}
+
+#DashboardPanel{
+    padding-left: 1.25rem;
+    box-sizing: border-box;
+    height: 11%;
+}
+
+#Budget{
+    grid-row-start: 1;
+    grid-row-end: 3;
+}
+
+#PanelElements{
+    position: absolute;
+    top: 11%;
+    right: 0;
+    display: grid;
+    gap: 1rem;
+    width: 100%;
+    height: 90%;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    box-sizing: border-box;
+    padding: 1rem;
+    transition: opacity 0.6s;
+}
+
+#DaysToGo, #TaskList, #GuestList, #TableSeating, #Budget{
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-weight: 700;
+    font-family: 'Cormorant Garamond';
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 1px 1px 5px 3px rgba(255, 192, 203, 0.326);
+    padding: 8px;
+}
+
+#DaysToGo h2, #TaskList h2, #GuestList h2, #TableSeating h2, #Budget h2{
+    margin: 0;
+}
+
+#DaysToGo h3, #TaskList h3, #TableSeating h3, #Budget h3{
+    margin: 0;
+}
+
+#Tasks, #Tables, #Expenses{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    box-shadow: 1px 1px 5px 3px rgba(0, 0, 0, 0.057);
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(255, 192, 203, 0.42), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(255, 192, 203, 0.42), transparent 40%),
+        radial-gradient(circle at 65% 20%, rgba(255, 192, 203, 0.42), transparent 40%),
+        radial-gradient(circle at 35% 70%, rgba(255, 192, 203, 0.42), transparent 40%),
+        white
+    ;
+    height: 77.5%;
+    overflow-y: scroll;
+    border-radius: 8px;
+    scrollbar-width: none;
+    
+}
+
+#TotalGuests{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    box-shadow: 1px 1px 5px 3px rgba(0, 0, 0, 0.057);
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(255, 192, 203, 0.42), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(255, 192, 203, 0.42), transparent 40%),
+        radial-gradient(circle at 65% 20%, rgba(255, 192, 203, 0.42), transparent 40%),
+        radial-gradient(circle at 35% 70%, rgba(255, 192, 203, 0.42), transparent 40%),
+        white
+    ;
+    height: 77.5%;
+    overflow-y: scroll;
+    border-radius: 8px;
+    scrollbar-width: none;
+}
+
+#TotalGuests h1{
+    background: linear-gradient(90deg, #c69f29, #ffc000);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-size: 8rem;
+}
+
+#Expenses{
+    height: 48%;
+}
+
+#MainDaysToGo{
+    padding: 5px;
+    color: white;
+    text-shadow: 1px 1px 3px #c69f29;
+    height: 55%;
+    background-image: url('/images/DaysToGo.jpg');
+    background-size: cover;
+    box-sizing: border-box;
+}
+
+#ToGos{
+    display: flex;
+    flex-direction: column;
+    height: 60%;
+    gap: 1rem;
+}
+
+.Task, .Guest, .Table, .Expense{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid silver;
+    padding: 2px;
+    box-sizing: border-box;
+}
+
+#ChartBudget{
+    display: flex;
+    justify-content: center;
+    position: relative;
+    height: 14rem;
+    width: 100%;
+}
+
+#ChartBudget canvas{
+    filter: drop-shadow(1px 1px 5px rgba(0, 0, 0, 0.13));
+}
+
+#ChartBudget h3{
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    margin: 0;
+}
+
+#TaskDaysToGo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    background-color: rgb(252, 229, 233);
+    height: 30%;
+    border-radius: 8px;
+}
+
+#BudgetDaysToGo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    background-color: rgb(252, 229, 233);
+    height: 30%;
+    border-radius: 8px;
+}
+
+#VendorsPanel{
+    position: absolute;
+    top: 11%;
+    right: 0;
+    display: grid;
+    gap: 1rem;
+    width: 100%;
+    height: 90%;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    box-sizing: border-box;
+    padding: 1rem;
+    user-select: none;
+    transition: opacity 0.6s;
+}
+
+#VendorsToHire{
+    position: relative;
+    background-color: white;
+    height: 100%;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    border-radius: 8px;
+}
+
+#VendorsHired{
+    background-color: white;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    border-radius: 8px;
+}
+
+#ExtraExpenses{
+    background-color: white;
+    border-radius: 8px;
+}
+
+#BudgetAvalaible{
+    background-color: white;
+    border-radius: 8px;
+}
+
+#VendorsToHireList, #VendorsHiredList{
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    width: 100%;
+    height: 85%;
+    gap: 1.5rem;
+    scrollbar-width: none;
+    box-sizing: border-box;
+}
+
+#VendorsToHire, #VendorsHired, #ExtraExpenses, #BudgetAvalaible{
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    box-shadow: 1px 1px 5px 3px rgba(0, 0, 0, 0.057)
+}
+
+#ExtraExpenses{
+    position: relative;
+}
+
+.VendorToHire, .VendorHired{
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background: 
+        radial-gradient(circle at 10% 90%, rgba(255, 192, 203, 0.42), transparent 20%),
+        radial-gradient(circle at 90% 90%, rgba(255, 192, 203, 0.42), transparent 40%),
+        radial-gradient(circle at 65% 20%, rgba(255, 192, 203, 0.42), transparent 40%),
+        radial-gradient(circle at 35% 70%, rgba(255, 192, 203, 0.42), transparent 40%),
+        white
+    ;
+    box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: 1px 1px 5px 6px rgba(255, 192, 203, 0.347);
+}
+
+.VendorToHire img, .VendorHired img{
+    height: 11rem;
+    width: 100%;
+    border-radius: 8px 8px 0 0 ;
+}
+
+.VendorToHireTitle, .VendorHiredTitle{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 3rem;  
+}
+
+.VendorToHireTitle, .VendorHiredTitle, .VendorToHire h3, .VendorHired h3{
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.VendorToHireTitle h3, .VendorHiredTitle h3{
+    font-size: 1.35rem;
+    padding: 0;
+}
+
+.VendorToHire > h3, .VendorHired > h3{
+    margin: 0;
+    margin-bottom: 30px;
+    font-weight: 200;
+    font-size: 1.1rem;
+}
+
+.VendorToHireTitle button, .VendorHiredTitle button{
+    background: linear-gradient(180deg, rgb(243, 199, 206), rgb(220, 137, 151));
+    border: none;
+    width: 5rem;
+    height: 2rem;
+    border-radius: 3px;
+    font-weight: 500;
+    font-family: 'Cormorant Garamond';
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+    box-shadow: 1px 1px 5px 3px rgba(244, 176, 176, 0.345)  ;
+}
+
+.VendorToHireTitle button:hover, .VendorHiredTitle button:hover{
+    transform: scale(1.1);
+}
+
+.HiredRemoveButton:hover, .ToHireRemoveButton:hover{
+    color: red;
+}
+
+.ToHireButton:hover{
+    color: rgb(48, 114, 48);
+}
+
+#VendorsToHireHeader{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5px;
+}
+
+#VendorsHired h2{
+    padding: 0 5px
+}
+
+#VendorsToHireHeader button{
+    background: linear-gradient(180deg, rgb(243, 199, 206), rgb(220, 137, 151));
+    border: none;
+    height: 2.25rem;
+    width: 7.25rem;
+    border-radius: 3px;
+    font-weight: 800;
+    font-size: 1.25rem;
+    font-family: 'Cormorant Garamond';
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+    box-shadow: 1px 1px 5px 3px rgba(244, 176, 176, 0.345)  ;
+}
+
+#VendorsToHireHeader button:hover{
+    transform: scale(1.05);
+    color: rgb(48, 114, 48);
+}
+
+#VendorsToHireForm img{
+    position: absolute;
+    top: 3%;
+    right: 3%;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#VendorsToHireForm img:hover{
+    transform: scale(1.1);
+}
+
+#VendorsToHireForm{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 95.5%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: 
+        radial-gradient(circle at 10% 90%, rgba(255, 192, 203, 0.42), transparent 20%),
+        radial-gradient(circle at 90% 90%, rgba(255, 192, 203, 0.42), transparent 40%),
+        radial-gradient(circle at 65% 20%, rgba(255, 192, 203, 0.42), transparent 40%),
+        radial-gradient(circle at 35% 70%, rgba(255, 192, 203, 0.42), transparent 40%),
+        white
+    ;
+    border-radius: 8px;
+    padding-top: 1.75rem;
+    transform: scale(0);
+    transition: transform 0.3s;
+}
+
+#VendorsToHireForm form{
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    height: 100%;
+}
+
+#VendorsToHireForm form input, #VendorsToHireForm form select{
+    color: #c69f29;
+    font-size: 1.25rem;
+    font-family: 'Cormorant Garamond';
+    font-weight: 500;
+    height: 2.25rem;
+    width: 15rem;
+    border-radius: 3px;
+    border: 1px solid rgba(133, 133, 133, 0.47);
+    padding: 0 0.5rem;
+    box-sizing: border-box;
+}
+
+#VendorsToHireForm form button{
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-family: 'Cormorant Garamond';
+    height: 3rem;
+    padding-left: 5px;
+    box-sizing: border-box;
+    cursor: pointer;
+    background: linear-gradient(90deg, #c69f29, #ffc000, #c69f29);
+    border: none;
+    transition: transform 0.2s;
+    margin-top: 1.5rem;
+}
+
+#VendorsToHireForm form button:hover{
+    transform: scale(1.02);
+}
+
+#ExtraExpensesHeader{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5px;
+}
+
+
+#ExtraExpensesHeader button{
+    background: linear-gradient(180deg, rgb(243, 199, 206), rgb(220, 137, 151));
+    border: none;
+    height: 2.25rem;
+    width: 7.25rem;
+    border-radius: 3px;
+    font-weight: 800;
+    font-size: 1.25rem;
+    font-family: 'Cormorant Garamond';
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+    box-shadow: 1px 1px 5px 3px rgba(244, 176, 176, 0.345);
+}
+
+#ExtraExpensesHeader button:hover{
+    transform: scale(1.05);
+    color: rgb(48, 114, 48);
+}
+
+#ExtraExpensesList{
+    display: flex;
+    flex-direction: column;
+    background: 
+        radial-gradient(circle at 10% 90%, rgba(255, 192, 203, 0.42), transparent 20%),
+        radial-gradient(circle at 90% 90%, rgba(255, 192, 203, 0.42), transparent 40%),
+        radial-gradient(circle at 65% 20%, rgba(255, 192, 203, 0.42), transparent 40%),
+        radial-gradient(circle at 35% 70%, rgba(255, 192, 203, 0.42), transparent 40%),
+        white
+    ;
+    height: 70%;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    border-radius: 0 0 8px 8px;
+}
+
+.ExtraExpense{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5px;
+    font-size: 0.85rem;
+    border-bottom: 1px solid rgba(133, 133, 133, 0.47);
+    
+}
+
+.ExtraExpense h3{
+    font-weight: 200;
+}
+
+.ExtraExpense button{
+    background: linear-gradient(180deg, rgb(243, 199, 206), rgb(220, 137, 151));
+    border: none;
+    height: 2rem;
+    width: 5rem;
+    border-radius: 3px;
+    font-weight: 500;
+    font-family: 'Cormorant Garamond';
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+    box-shadow: 1px 1px 5px 3px rgba(244, 176, 176, 0.345);
+}
+
+.ExtraExpense button:hover{
+    transform: scale(1.05);
+    color: red;
+}
+
+#ExtraExpensesForm{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: 
+        radial-gradient(circle at 10% 90%, rgba(255, 192, 203, 0.42), transparent 20%),
+        radial-gradient(circle at 90% 90%, rgba(255, 192, 203, 0.42), transparent 40%),
+        radial-gradient(circle at 65% 20%, rgba(255, 192, 203, 0.42), transparent 40%),
+        radial-gradient(circle at 35% 70%, rgba(255, 192, 203, 0.42), transparent 40%),
+        white
+    ;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    transform: scale(0);
+    transition: transform 0.3s;
+}
+
+#ExtraExpensesForm h2{
+    margin: 0;
+    margin-top: 2rem;
+}
+
+#ExtraExpensesForm form{
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+#ExtraExpensesForm form input{
+    color: #c69f29;
+    font-size: 1rem;
+    font-family: 'Cormorant Garamond';
+    font-weight: 500;
+    height: 1.5rem;
+    width: 15rem;
+    border-radius: 3px;
+    border: 1px solid rgba(133, 133, 133, 0.47);
+    padding: 0 0.5rem;
+    box-sizing: border-box;
+}
+
+#ExtraExpensesForm form button{
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 600;
+    font-family: 'Cormorant Garamond';
+    height: 1.5rem;
+    padding-left: 5px;
+    box-sizing: border-box;
+    cursor: pointer;
+    background: linear-gradient(90deg, #c69f29, #ffc000, #c69f29);
+    border: none;
+    transition: transform 0.2s;
+    margin-top: 0.75rem;
+}
+
+#ExtraExpensesForm img{
+    position: absolute;
+    top: 3%;
+    right: 3%;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#BudgetAvalaible h2{
+    padding: 0 5px;
+}
+
+#TotalBudgetAvailable{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 2rem;
+    height: 65%;
+    align-items: center;
+    padding: 0 5px;
+    margin-top: 2rem;
+    font-size: 1.75rem;
+}
+
+#TotalBudgetAvailable h3{
+    margin: 0;
+    font-weight: 200;
+}
+
+#TotalBudgetAvailable::before{
+    content: '';
+    position: absolute;
+    justify-self: center;
+    bottom: 2rem;
+    left: 0;
+    margin-left: 5%;
+    width: 90%;
+    height: 2rem;
+    background: linear-gradient(90deg, #c69f29, #ffc000);
+}
+
+#TotalBudgetAvailable::after{
+    content: '';
+    position: absolute;
+    justify-self: center;
+    bottom: 2rem;
+    right: 0;
+    margin-right: 5%;
+    width: var(--progressbar, 20%);
+    height: 2rem;
+    background-color: white;
+}
+
+#PlanningPanel{
+    position: absolute;
+    top: 11%;
+    right: 0;
+    display: grid;
+    font-family: 'Cormorant Garamond';
+    gap: 1rem;
+    width: 100%;
+    height: 90%;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    box-sizing: border-box;
+    padding: 1rem;
+    user-select: none;
+    transition: opacity 0.6s;
+}
+
+#TablesPlanning, #WeddingSchedulePlanning, #ManageTasksPlanning, #ChallengesPlanning, #GuestListPlanning{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    box-shadow: 1px 1px 5px 3px rgba(0, 0, 0, 0.057);
+    background-color: white;
+}
+
+#TablesPlanningHeader, #WeddingSchedulePlanningHeader, #ManageTaskPlanningHeader, #ChallengePlanningHeader, #GuestListPlanningHeader{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5px;
+}
+
+#TablesPlanningHeader button, #WeddingSchedulePlanningHeader button, #ManageTaskPlanningHeader button, #ChallengePlanningHeader button, #GuestListPlanningHeader button{
+    background: linear-gradient(180deg, rgb(243, 199, 206), rgb(220, 137, 151));
+    border: none;
+    height: 2.25rem;
+    width: 7.25rem;
+    border-radius: 3px;
+    font-weight: 800;
+    font-size: 1.25rem;
+    font-family: 'Cormorant Garamond';
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+    box-shadow: 1px 1px 5px 3px rgba(244, 176, 176, 0.345)  ;
+}
+
+#TablesPlanningHeader button:hover, #WeddingSchedulePlanningHeader button:hover, #ManageTaskPlanningHeader button:hover, #ChallengePlanningHeader button:hover, #GuestListPlanningHeader button:hover{
+    transform: scale(1.05);
+    color: green;
+}
+
+#TablesPlanning{
+    display: flex;
+    flex-direction: column;
+    
+    grid-row-start: 1;
+    grid-row-end: 3;
+}
+
+#TablesPlaningSection{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60%;
+    width: 100%;
+    background: 
+        radial-gradient(circle at 25% 25%, rgba(255, 192, 203, 0.42), transparent 40%),
+        radial-gradient(circle at 25% 75%, rgba(255, 192, 203, 0.42), transparent 40%),
+        radial-gradient(circle at 75% 25%, rgba(255, 192, 203, 0.42), transparent 40%),
+        radial-gradient(circle at 75% 75%, rgba(255, 192, 203, 0.42), transparent 40%),
+        white
+    ;
+    border-radius: 8px;
+}
+
+#SelectedTable{
+    position: relative;
+    height: 17rem;
+    width: 17rem;
+    border-radius: 50%;
+    background-color: rgba(255, 192, 203, 0.804);
+}
+
+#SelectedTable::before{
+    content: '';
+    position: absolute;
+    height: 16rem;
+    width: 16rem;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.728);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.seat{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-origin: center;
+}
+
+#SmallCircle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-family: 'Caveat';
+    position: absolute;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    height: 4rem;
+    width: 4rem;
+    background: radial-gradient(#fbc217, #fad156);
+    box-shadow: 0px 0px 3px 3px #ffbf0063;
+}
+
+#TablesPlanningList{
+    height: 50%;
+    width: 100%;
+    padding: 10px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    box-sizing: border-box;
+}
+
+.TablePlanning{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid silver;
+    cursor: pointer;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+.TablePlanning:hover{
+    color: #c69f29;
+}
+
+.RemoveTable{
+    background: linear-gradient(180deg, rgb(243, 199, 206), rgb(220, 137, 151));
+    border: none;
+    width: 4.5rem;
+    height: 1.75rem;
+    border-radius: 3px;
+    font-weight: 500;
+    font-family: 'Cormorant Garamond';
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+    box-shadow: 1px 1px 5px 3px rgba(244, 176, 176, 0.345)
+}
+
+.RemoveTable:hover{
+    transform: scale(1.1);
+    color: red;
+}
+
+#TablesForm{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    border-radius: 8px;
+    transition: transform 0.3s;
+}
+
+#AddTablesForm > img{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#AddTablesForm > img:hover{
+    transform: scale(1.1);
+}
+
+#TablesForm input{
+    font-weight: 600;
+    font-size: 1rem;
+    font-family: 'Cormorant Garamond';
+}
+
+#AddTablesForm{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#AddTablesForm > label{
+    align-self: center;
+}
+
+#AddGuestToTable{
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    height: 20rem;
+    width: 18rem;
+    border-radius: 8px;
+    background-color: rgba(230, 228, 228, 0.845);
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+#AddGuestToTable input{
+    width: 10rem;
+}
+
+#AddGuestHeader{
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+#AddGuestHeader img{
+    height: 2rem;
+    width: 2rem;
+    background-color: rgb(237, 237, 237);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#AddGuestHeader img:hover{
+    opacity: 0.8;
+}
+
+#AddGuestHeader img:active{
+    opacity: 0.5;
+}
+
+#AddTablesForm button{
+    align-self: center;
+    background: linear-gradient(180deg, rgb(243, 199, 206), rgb(220, 137, 151));
+    border: none;
+    width: 4.5rem;
+    height: 1.75rem;
+    border-radius: 3px;
+    font-weight: 500;
+    font-family: 'Cormorant Garamond';
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+    box-shadow: 1px 1px 5px 3px rgba(244, 176, 176, 0.345)
+}
+
+#AddTablesForm button:hover{
+    transform: scale(1.1);
+}
+
+#WeddingItinerary{
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+#WeddingScheduleForm h2{
+    margin-top: 1.5rem;
+}
+
+.WeddingActivity{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid silver;
+}
+
+.WeddingActivity h3{
+    margin: 7.5px;
+}
+
+#WeddingScheduleForm{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    border-radius: 8px;
+    transition: transform 0.3s;
+}
+
+#WeddingScheduleForm img{
+    height: 3rem;
+    width: 3rem;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#WeddingScheduleForm img:hover{
+    transform: scale(1.1);
+}
+
+
+#ScheduleForm{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#ScheduleForm label{
+    align-self: center;
+}
+
+#ScheduleForm input{
+    font-weight: 600;
+    font-size: 1rem;
+    font-family: 'Cormorant Garamond';
+}
+
+#ScheduleForm button{
+    align-self: center;
+    background: linear-gradient(180deg, rgb(243, 199, 206), rgb(220, 137, 151));
+    border: none;
+    width: 4.5rem;
+    height: 1.75rem;
+    border-radius: 3px;
+    font-weight: 500;
+    font-family: 'Cormorant Garamond';
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+    box-shadow: 1px 1px 5px 3px rgba(244, 176, 176, 0.345);
+    margin-top: 1rem;
+}
+
+#ScheduleForm button:hover{
+    transform: scale(1.1);
+}
+
+
+#ManageTasks{
+    overflow-y: scroll;
+    scrollbar-width: none;
+    padding: 5px;
+}
+
+.ManageTask{
+    display: flex;
+    height: 3.5rem;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid silver;
+}
+
+.ManageTaskActive{
+    border-radius: 50%;
+    height: 0.6rem;
+    width: 0.6rem;
+}
+
+.ManageTask button{
+    background: linear-gradient(180deg, rgb(243, 199, 206), rgb(220, 137, 151));
+    border: none;
+    width: 4.5rem;
+    height: 1.75rem;
+    border-radius: 3px;
+    font-weight: 500;
+    font-family: 'Cormorant Garamond';
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+    box-shadow: 1px 1px 5px 3px rgba(244, 176, 176, 0.345)
+}
+
+.ManageTask button:hover{
+    transform: scale(1.1);
+}
+
+.ManageDone:hover{
+    color: green;
+}
+
+.ManageRemove:hover{
+    color: red;
+}
+
+#TasksDivForm{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border-radius: 8px;
+    transition: transform 0.3s;
+}
+
+#TasksDivForm img{
+    height: 3rem;
+    width: 3rem;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#TasksDivForm img:hover{
+    transform: scale(1.1);
+}
+
+#TaskForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+}
+
+#TaskForm h2{
+    margin-top: 1.5rem;
+}
+
+#TaskForm input{
+    font-weight: 600;
+    font-size: 1rem;
+    font-family: 'Cormorant Garamond';
+}
+
+#TaskForm button{
+    align-self: center;
+    background: linear-gradient(180deg, rgb(243, 199, 206), rgb(220, 137, 151));
+    border: none;
+    width: 4.5rem;
+    height: 1.75rem;
+    border-radius: 3px;
+    font-weight: 500;
+    font-family: 'Cormorant Garamond';
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+    box-shadow: 1px 1px 5px 3px rgba(244, 176, 176, 0.345);
+    margin-top: 1rem;
+}
+
+#ChallengesList{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+.Challenge{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    border-radius: 8px;
+    background: linear-gradient(180deg, rgb(254, 225, 229), rgb(255, 228, 232));
+    margin: 0px 5px;
+    
+}
+
+.ChallengeName{
+    display: flex;
+    flex-direction: column;
+}
+
+.ChallengeName h2{
+    font-size: 1.25rem;
+}
+
+.ChallengeName h3, .ChallengeName h2{
+    margin: 4px 0;
+}
+
+.Challenge button{
+    background: linear-gradient(180deg, rgb(243, 199, 206), rgb(220, 137, 151));
+    border: none;
+    width: 4.5rem;
+    height: 1.75rem;
+    border-radius: 3px;
+    font-weight: 500;
+    font-family: 'Cormorant Garamond';
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+    box-shadow: 1px 1px 5px 3px rgba(244, 176, 176, 0.345)
+}
+
+.Challenge button:hover{
+    transform: scale(1.1);
+}
+
+.ChallengeRemove:hover{
+    color: red ;
+}
+
+#GuestPlanningList{
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+.GuestPlanning{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid silver;
+}
+
+.GuestPlanningNumber{
+    flex: 1;
+}
+
+.GuestPlanningName{
+    flex: 2;
+}
+
+#ChallengeDivForm{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    border-radius: 8px;
+    transition: transform 0.3s;
+}
+
+#ChallengeDivForm img{
+    height: 3rem;
+    width: 3rem;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#ChallengeDivForm img:hover{
+    transform: scale(1.1);
+}
+
+#ChallengeForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+
+}
+
+#ChallengeForm h2{
+    margin: 15px;
+}
+
+#ChallengeForm input{
+    font-weight: 600;
+    font-size: 1rem;
+    font-family: 'Cormorant Garamond';
+}
+
+#ChallengeForm button{
+    align-self: center;
+    background: linear-gradient(180deg, rgb(243, 199, 206), rgb(220, 137, 151));
+    border: none;
+    width: 4.5rem;
+    height: 1.75rem;
+    border-radius: 3px;
+    font-weight: 500;
+    font-family: 'Cormorant Garamond';
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+    box-shadow: 1px 1px 5px 3px rgba(244, 176, 176, 0.345);
+    margin-top: 1rem;
+}
+
+#GuestPlanningForm{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    border-radius: 8px;
+    transition: transform 0.3s;
+}
+
+#GuestPlanningForm img{
+    height: 3rem;
+    width: 3rem;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#GuestPlanningForm img:hover{
+    transform: scale(1.1);
+}
+
+#GuestForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+
+}
+
+#GuestPlanningForm h2{
+    margin: 15px;
+}
+
+#GuestForm input{
+    font-weight: 600;
+    font-size: 1rem;
+    font-family: 'Cormorant Garamond';
+}
+
+#GuestForm button{
+    align-self: center;
+    background: linear-gradient(180deg, rgb(243, 199, 206), rgb(220, 137, 151));
+    border: none;
+    width: 4.5rem;
+    height: 1.75rem;
+    border-radius: 3px;
+    font-weight: 500;
+    font-family: 'Cormorant Garamond';
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+    box-shadow: 1px 1px 5px 3px rgba(244, 176, 176, 0.345);
+    margin-top: 1rem;
+}
+
+#LiveFeedPanelContainer{
+    position: absolute;
+    top: 11%;
+    right: 0;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    width: calc(100% - 2rem);
+    height: 86%;
+    box-sizing: border-box;
+    margin: 1rem;
+    user-select: none;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 1px 1px 5px 3px rgba(0, 0, 0, 0.057);
+    transition: opacity 0.6s;
+}
+
+#LiveFeedPanel{
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+    min-width: 21rem;
+    width: 30%;
+    height: 100%;
+    box-sizing: border-box;
+    font-family: 'Cormorant Garamond';
+    overflow-x: hidden;
+    scrollbar-width: none;
+}
+
+#Phone{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 998;
+}
+
+#AddPost{
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    border-radius: 50%;
+    background: linear-gradient(180deg, rgb(243, 199, 206), rgb(220, 137, 151));
+    z-index: 998;
+    cursor: pointer;
+}
+
+#PhoneScreen{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    height: 95%;
+    margin-top: 20px;
+    scrollbar-width: none;
+}
+
+#PhoneHeader{
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background-color: white;
+    height: 5rem;
+    width: 100%;
+    border-radius: 12px 12px 0 0;
+    padding: 15px;
+    box-sizing: border-box;
+    padding-top: 38px;;
+}
+
+#PhoneHeader img{
+    height: 40px;
+    width: 40px;
+}
+
+#LiveFeedPosts{
+    width: 100%;
+    height: 32rem;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    box-sizing: border-box;
+    border-radius: 0 0 35px 35px;
+}
+
+.Post{
+    background-color: white;
+    
+
+}
+
+.Post h3, h4{
+    padding-left: 15px;
+}
+
+.Post h3{
+    padding-top: 10px;
+}
+
+.Post h4{
+    padding-bottom: 15px;
+}
+
+.MainPost{
+    position: relative;
+    width: 100%;
+}
+
+.PostLike{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color:#ffc000;
+    font-size: 2rem;
+    bottom: 0;
+    left: 10px;
+    transform: translateY(50%) scale(0.8);
+    height: 4rem;
+    width: 4rem;
+    background-image: url('/images/Like.png');
+    background-size: cover;
+    transition: opacity 0.6s;
+    user-select: none;
+}
+
+.PostLike h5{
+    margin: 0;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+}
+
+.PostImage{
+    width: 100%;
+}
+
+.PostImage img{
+    width: 100%;
+}
+
+.LikeAnimation{
+    animation: Like 0.6s;
+}
+
+@keyframes Like{
+    0% {
+        transform: translateY(50%) scale(0.8);
+    }
+
+    100% {
+        transform: translateY(20%) scale(1.1);
+        opacity: 0;
+    }
+}
+
+#UploadPostForm{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    top: 1rem;
+    left: 0.75rem;
+    height: 95%;
+    width: 95%;
+    background-color: white;
+    border-radius: 40px;
+    padding: 2rem;
+    z-index: 998;
+    box-sizing: border-box;
+    user-select: none;
+    transform: translateX(110%);
+    transition: transform 0.5s;
+}
+
+#UploadPostForm input[type='file']{
+    display: none;
+}
+
+#UploadPostForm textarea{
+    font-size: 1rem;
+    width: 60%;
+    height: 30%;
+    font-family: 'Cormorant Garamond';
+}
+
+#UploadImage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(180deg, rgb(243, 199, 206), rgb(220, 137, 151));
+    border: none;
+    width: 9rem;
+    height: 2.5rem;
+    border-radius: 3px;
+    font-weight: 500;
+    font-family: 'Cormorant Garamond';
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+    box-shadow: 1px 1px 5px 3px rgba(244, 176, 176, 0.345);
+}
+
+#UploadPostForm button{
+    margin-top: 4rem;
+    background: linear-gradient(180deg, rgb(243, 199, 206), rgb(220, 137, 151));
+    font-size: 1.5rem;
+    border: none;
+    width: 10rem;
+    height: 3rem;
+    border-radius: 3px;
+    font-weight: 500;
+    font-family: 'Cormorant Garamond';
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+    box-shadow: 1px 1px 5px 3px rgba(244, 176, 176, 0.345);
+}
+
+#CloseUploadPost{
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    height: 3rem;
+    width: 3rem;
+    cursor: pointer;
+}
+
+#MyAccountPanel{
+    position: absolute;
+    top: 11%;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    font-family: 'Cormorant Garamond';
+    width: calc(100% - 2rem);
+    height: 86%;
+    box-sizing: border-box;
+    margin: 1rem;
+    user-select: none;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 1px 1px 5px 3px rgba(0, 0, 0, 0.057);
+    transition: opacity 0.6s;
+    z-index: 999;
+}
+
+
+
+#MyAccountPanel > h2{
+    font-size: 2.25rem;
+    margin: 0;
+}
+
+#MyWeddingData{
+    display: flex;
+    height: 85%;
+}
+
+#MyAccountPhotoContainer{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+#EditAccountPhoto{
+    position: absolute;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    bottom: 30%;
+    right: 30%;
+    background-color: rgba(255, 255, 255, 0.413);
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+#EditAccountPhoto:hover {
+    opacity: 0.7;
+}
+
+#MyAccountPhoto{
+    flex: 1;
+}
+
+#AccountPhoto{
+    height: 18rem;
+    width: 18rem;
+    border-radius: 50%;
+}
+
+#ProfilePhotoForm{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    height: 18rem;
+    width: 18rem;
+    border-radius: 50%;
+    background-color: rgb(252, 215, 221);
+    transform: translate(50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+#ProfilePhotoForm input{
+    display: none;
+}
+
+#ProfilePhotoForm label{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2rem;
+    width: 75%;
+    background: rgb(220, 137, 151);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+#ProfilePhotoForm label:hover{
+    transform: scale(1.1);
+}
+
+#MyAccountInformation{
+    display: grid;
+    height: 100%;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    padding: 2rem;
+    font-size: 1.25rem;
+    box-sizing: border-box;
+    gap: 0.5rem;
+    flex: 2;
+}
+
+#WeddingInfo1, #WeddingInfo2{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+}
+
+#WeddingInfo2{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+#WeddingLocation, #WeddingDate{
+    display: flex;
+    align-items: center;
+}
+
+#WeddingLocation img, #WeddingDate img{
+    height: 50px;
+    width: 50px;
+}
+
+#WeddingInfo2 a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    background: linear-gradient(180deg, rgb(243, 199, 206), rgb(220, 137, 151));
+    font-size: 1rem;
+    border: none;
+    width: 10rem;
+    height: 3rem;
+    border-radius: 3px;
+    font-weight: 500;
+    font-family: 'Cormorant Garamond';
+    cursor: pointer;
+    transition: transform 0.2s;
+    box-shadow: 1px 1px 5px 3px rgba(244, 176, 176, 0.345);
+    transform-origin: left;
+}
+
+#WeddingInfo2 a:hover{
+    transform: scale(1.1);
+}
+
+.NoActive{
+    opacity: 0;
+    pointer-events: none;
+}
+
+.Active{
+    opacity: 1;
+}

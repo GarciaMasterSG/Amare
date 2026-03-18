@@ -1,0 +1,305 @@
+html, body{
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(222, 150, 162, 0.411), white, rgba(222, 150, 162, 0.411));
+    background-repeat: no-repeat;
+}
+
+#Flower1{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 22rem;
+    width: 45rem;
+    transform: translate(-20%,-15%) rotate(180deg);
+    pointer-events: none;
+}
+
+#Flower2{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 22rem;
+    width: 45rem;
+    transform: translate(20%,5%) rotate(-20deg);
+    pointer-events: none;
+}
+
+#Container{
+    position: relative;
+    gap: 3rem;
+    width: 22rem;
+    height: 40rem;
+    padding: 1.5rem;
+    border-radius: 6px;
+    transition: opacity 0.2s;
+}
+
+#Logo{
+    position: absolute;
+    top: 2.5rem;
+    left: 50%;
+    transform: translate(-50%,0);
+    height: 15rem;
+    width: 19rem;
+}
+
+#Logo img{
+    height: 100%;
+    width: 100%;
+}
+
+.SignupForm{
+    color: #c69f29;
+    position: absolute;
+    font-family: 'Cormorant Garamond';
+    left: 50%;
+    transform: translate(-50%, 0);
+    top: 42%;
+    width: 100%;
+    height: 25rem;
+    background-color: rgba(254, 242, 245, 0.995);
+    border-radius: 10px;
+    border: 3px solid #ebd38a;
+    box-shadow: 1px 1px 10px 3px rgba(255, 192, 203, 0.08);
+    padding: 0.75rem;
+    box-sizing: border-box;
+    transition: opacity 0.5s;
+}
+
+#BrideGroomButton{
+    background-image: url('/images/SignupBrideGroom.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 6rem;
+    width: 40%;
+    cursor: pointer;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: pink;
+    text-shadow: 1px 1px 1px black;
+    font-family: 'Cormorant Garamond';
+    border: none;
+    border-radius: 3px;
+    transition: transform 0.5s;
+}
+
+#BrideGroomButton:hover{
+    transform: scale(1.1);
+}
+
+#GuestButton{
+    background-image: url('/images/SignupGuest.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 6rem;
+    width: 40%;
+    cursor: pointer;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: pink;
+    text-shadow: 1px 1px 1px black;
+    font-family: 'Cormorant Garamond';
+    border: none;
+    border-radius: 3px;
+    transition: transform 0.5s;
+}
+
+#GuestButton:hover{
+    transform: scale(1.1);
+}
+
+#AskRole{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 1rem;
+    z-index: 9;
+}
+
+#BrideOrGroom{
+    z-index: 8;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 1rem;
+}
+
+#GroomButton{
+    background-image: url('/images/Groom.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 6rem;
+    width: 40%;
+    cursor: pointer;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: pink;
+    text-shadow: 1px 1px 1px black;
+    font-family: 'Cormorant Garamond';
+    border: none;
+    border-radius: 3px;
+    transition: transform 0.5s;
+}
+
+#GroomButton:hover{
+    transform: scale(1.1);
+}
+
+#BrideButton{
+    background-image: url('/images/Bride.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 6rem;
+    width: 40%;
+    cursor: pointer;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: pink;
+    text-shadow: 1px 1px 1px black;
+    font-family: 'Cormorant Garamond';
+    border: none;
+    border-radius: 3px;
+    transition: transform 0.5s;
+}
+
+#BrideButton:hover{
+    transform: scale(1.1);
+}
+
+#CreateWC{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 1rem;
+    z-index: 7;
+}
+
+#CreateWC input{
+    font-size: 1rem;
+    font-weight: 700;
+    height: 1.5rem;
+    color: #c69f29;
+    font-family: 'Cormorant Garamond';
+}
+
+#CreateWC button{
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Cormorant Garamond';
+    padding-left: 5px;
+    box-sizing: border-box;
+    cursor: pointer;
+    background: linear-gradient(90deg, #c69f29, #ffc000, #c69f29);
+    border: none;
+    border-radius: 2px;
+}
+
+#CreateWC button:active{
+    opacity: 0.4;
+}
+
+#BrideGroomAccount{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 1rem;
+    z-index: 6;
+}
+
+#BrideGroomAccount input{
+    font-size: 1rem;
+    font-weight: 700;
+    height: 1.5rem;
+    color: #c69f29;
+    font-family: 'Cormorant Garamond';
+}
+
+#BrideGroomAccount button{
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Cormorant Garamond';
+    padding-left: 5px;
+    box-sizing: border-box;
+    cursor: pointer;
+    background: linear-gradient(90deg, #c69f29, #ffc000, #c69f29);
+    border: none;
+    border-radius: 2px;
+}
+
+#AskWC{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 1rem;
+    z-index: 5;
+}
+
+#AskWC input{
+    font-size: 1rem;
+    font-weight: 700;
+    height: 1.5rem;
+    color: #c69f29;
+    font-family: 'Cormorant Garamond';
+}
+
+#CheckWeddingCode{
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Cormorant Garamond';
+    padding-left: 5px;
+    box-sizing: border-box;
+    cursor: pointer;
+    background: linear-gradient(90deg, #c69f29, #ffc000, #c69f29);
+    border: none;
+    border-radius: 2px;
+}
+
+#GuestAccount{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 1rem;
+    z-index: 4;
+}
+
+#GuestAccount input{
+    font-size: 1rem;
+    font-weight: 700;
+    height: 1.5rem;
+    color: #c69f29;
+    font-family: 'Cormorant Garamond';
+}
+
+#GuestAccount button{
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Cormorant Garamond';
+    padding-left: 5px;
+    box-sizing: border-box;
+    cursor: pointer;
+    background: linear-gradient(90deg, #c69f29, #ffc000, #c69f29);
+    border: none;
+    border-radius: 2px;
+}
+
+@media (window < 768px) {
+    
+}
+

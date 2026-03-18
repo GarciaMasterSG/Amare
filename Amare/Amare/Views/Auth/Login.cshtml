@@ -1,0 +1,34 @@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/Login.css">
+    <title> Amaré </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <img id="Flower1" src="~/images/flowers.png" alt="">
+    <img id="Flower2" src="~/images/flowers.png" alt="">
+    <div id='Container'>
+        <div id="Logo">
+            <img src="~/images/Logo.png" alt="">
+        </div>
+        <form asp-controller='Auth' asp-action='Login' method='post' id='LoginForm'>
+            <input placeholder="Email" name="email" type="text">
+            <input placeholder="Password" name='password' type="password">
+            <button type="submit"> Login </button>
+        </form>
+        <a id='ToSignUp' asp-controller="Auth" asp-action="Signup"> Don't have account? </a>
+    </div>
+
+    <script src="/js/Login.js"></script>
+</body>
+</html>

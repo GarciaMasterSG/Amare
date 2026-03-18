@@ -1,0 +1,75 @@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/Signup.css">
+    <title> Amaré </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <img id="Flower1" src="~/images/flowers.png" alt="">
+    <img id="Flower2" src="~/images/flowers.png" alt="">
+    <div id='Container'>
+        <div id="Logo">
+            <img src="~/images/Logo.png" alt="">
+        </div>
+        <form class="SignupForm" id='AskRole' action="">
+            <h2> Every person has a role in a love story 💖. Which is yours? </h2>
+            <button type='button' onclick="FormAskRoleBrideGroom()" id='BrideGroomButton'> We're getting married </button>
+            <button type='button' onclick="FormAskRoleGuest()" id='GuestButton'> Guest </button>
+        </form>
+        <form class="SignupForm" id='BrideOrGroom' action="">
+            <h2> Beatiful! Let's start your journey 💍 <br>
+                Who are you?
+            </h2>
+            <button onclick="FormBrideOrGroomGroom()" type='button' id='GroomButton'> Groom </button>
+            <button onclick="FormBrideOrGroomBride()" type='button' id='BrideButton'> Bride </button>
+        </form>
+        <form class="SignupForm" id='CreateWC' action="">
+            <h2> Now, create your Wedding Code 😍 </h2>
+            <label for="IUserName"> Your Name: </label>
+            <input id='IUserName' name="UserName" type="text" required>
+            <label id='CoupleName' for="ICoupleName"> Groom's Name: </label>
+            <input id='ICoupleName' name="CoupleName" type="text" required>
+            <label for="IWeddingCode"> Create your <span> Wedding Code </span></label>
+            <input id='IWeddingCode' name="WeddingCode" type="text" required>
+            <button onclick="CreateWC()" type="button"> Submit </button>
+        </form>
+        <form class="SignupForm" id='BrideGroomAccount' action="">
+            <h2> Last step, set your account 🍾 </h2>
+            <label for="IBGEmail"> Email : </label>
+            <input id='IBGEmail' name="Email" type="text">
+            <label for="IBGPassword"> Password : </label>
+            <input id='IBGPassword' name="Password" type="text"/>
+            <label for="IBGConfirmedPassword"> Confirm Password : </label>
+            <input id='IBGConfirmedPassword' name="ConfirmedPassword" type="text">
+            <button onclick="BrideGroomAccount()" type="button"> Signup </button>
+        </form>
+        <form class="SignupForm" id="AskWC" action="">
+            <h2> We're so happy you're here. 😊<br>
+                Do you have a Wedding Code?
+            </h2>
+            <input id='GuestWeddingCode' name="WeddingCode" type="text">
+            <button onclick="AskWC()" id='CheckWeddingCode' type="button"> Check </button>
+        </form>
+        <form class="SignupForm" id='GuestAccount'>
+            <h2> Perfect! 😍 let's go to set your account</h2>
+            <input id='IGName' name="Name" placeholder="Name" type="text">
+            <input id='IGEmail' name="Email" placeholder="Email" type="text">
+            <input id='IGPassword' name="Password" placeholder="Password" type="password">
+            <input id='IGConfirmedPassword' placeholder="Confirm your password" type="password">
+            <button onclick="GuestAccount()" type="button"> Signup </button>
+        </form>
+    </div>
+
+    <script src="/js/Signup.js"></script>
+</body>
+</html>
