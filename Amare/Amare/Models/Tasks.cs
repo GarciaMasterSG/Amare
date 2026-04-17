@@ -7,5 +7,7 @@
         public string TaskName { get; set; }
 
         public DateTime TaskDate { get; set; }
+
+        public int TaskCompleted { get; set; } = 0;
     }
 }

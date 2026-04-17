@@ -8,6 +8,6 @@
 
         public string ChallengeDescription { get; set; }
 
-        public string ChallengePoints { get; set; }
+        public int ChallengePoints { get; set; }
     }
 }

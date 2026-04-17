@@ -94,13 +94,8 @@ C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\refint\Ama
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\Amare.pdb
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\Amare.genruntimeconfig.cache
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\ref\Amare.dll
-C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\compressed\0asdewve08-{0}-uik4czufwi-uik4czufwi.gz
-C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\compressed\ar56d44r3e-{0}-ra3b0x1shf-ra3b0x1shf.gz
-C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\compressed\gxim75b20w-{0}-fx7qh07ndv-fx7qh07ndv.gz
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\bin\Debug\net9.0\MySqlConnector.dll
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\Amare.csproj.AssemblyReference.cache
-C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\compressed\vdddlq8t29-{0}-ne3c6e5xgh-ne3c6e5xgh.gz
-C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\compressed\uo9yqerelx-{0}-40ikift7rf-40ikift7rf.gz
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\Amare.csproj.Up2Date
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\bin\Debug\net9.0\Azure.Core.dll
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\bin\Debug\net9.0\Azure.Identity.dll
@@ -148,4 +143,10 @@ C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\bin\Debug\net9.0\runtimes\w
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\bin\Debug\net9.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\bin\Debug\net9.0\runtimes\win\lib\net9.0\System.Diagnostics.EventLog.dll
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\bin\Debug\net9.0\runtimes\win\lib\net9.0\System.Security.Cryptography.Pkcs.dll
-C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\compressed\j6qt58j2nk-{0}-v4w2mvtmj8-v4w2mvtmj8.gz
+C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\Amare.sourcelink.json
+C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\compressed\vdddlq8t29-{0}-ucol7v0y24-ucol7v0y24.gz
+C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\compressed\uo9yqerelx-{0}-inkofi9epe-inkofi9epe.gz
+C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\compressed\ar56d44r3e-{0}-zg6va4mfw6-zg6va4mfw6.gz
+C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\compressed\gxim75b20w-{0}-wqthrlzvbz-wqthrlzvbz.gz
+C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\compressed\j6qt58j2nk-{0}-ymxiqf6du4-ymxiqf6du4.gz
+C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\compressed\0asdewve08-{0}-gpzdjm3c1a-gpzdjm3c1a.gz

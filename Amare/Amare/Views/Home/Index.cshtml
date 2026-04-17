@@ -41,28 +41,18 @@
         </nav>
         <div id="Panel">
             <div id='DashboardPanel'>
-                <h1> Jose & Rafa's Wedding </h1>
+                <h1> @ViewBag.Groom & @ViewBag.Bride's Wedding </h1>
             </div>
             <div id='PanelElements' class="Active">
                 <div id='Budget'>
                     <div id='ChartDiv'>
                         <h2> Budget Overview </h2>
-                        <div id='ChartBudget'>
-                            <h3> Total Budget <br>
-                                $20000
-                            </h3>
+                        <div id='ChartBudget'> 
                             <canvas id='Chart'></canvas>
                         </div>
                     </div>
                     <div id='Expenses'>
-                        <div class='Expense'>
-                            <h3> Vendor </h3>
-                            <h3> $2000 </h3>
-                        </div>
-                        <div class='Expense'>
-                            <h3> DJ </h3>
-                            <h3> $2000 </h3>
-                        </div>
+                        
                     </div>
                 </div>
                 <div id='TaskList'>
@@ -70,7 +60,7 @@
                         <h2> Task Pendings </h2>
                     </div>
                     <div id='TotalTasks'>
-                        <h1> 20 </h1>
+                        <h1> </h1>
                         <h4> Tasks</h4>
                     </div>
                 </div>
@@ -79,7 +69,7 @@
                         <h2> Total Guests </h2>
                     </div>
                     <div id='TotalGuests'>
-                        <h1> 64 </h1>
+                        <h1> </h1>
                         <h4> Guests</h4>
                     </div>
                 </div>
@@ -93,12 +83,11 @@
                         <div id="TaskDaysToGo">
                             <img src="" alt="">
                             <h3> Number Of Tables </h3>
-                            <h3> &lt; 6 &gt; </h3>
+                            <h3 id='DashboardNumberTables'>  </h3>
                         </div>
                         <div id='BudgetDaysToGo'>
                             <img src="" alt="">
                             <h3> Available Budget </h3>
-                            <h3> &lt; $2000 &gt; </h3>
                         </div>
                     </div>
                 </div>
@@ -107,16 +96,7 @@
                         <h2> Table Seating </h2>
                     </div>
                     <div id='Tables'>
-                        <div class="Table">
-                            <h3> 1 </h3>
-                            <h3> Chicago </h3>
-                            <h3> 6 people </h3>
-                        </div>
-                        <div class="Table">
-                            <h3> 1 </h3>
-                            <h3> Orlando </h3>
-                            <h3> 6 people </h3>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -127,33 +107,7 @@
                         <button onclick="OpenVendorsForm()"> Add </button>
                     </div>
                     <div id='VendorsToHireList'>
-                        <div class="VendorToHire">
-                            <img src="/images/VendorsPhotos/WeddingDefault.jpg" alt="">
-                            <div class='VendorToHireTitle'>
-                                <h3> Vendor Name </h3>
-                                <button class="ToHireButton"> Hired </button>
-                                <button class="ToHireRemoveButton"> Remove </button>
-                            </div>
-                            <h3> Vendor Service </h3>
-                        </div>
-                        <div class="VendorToHire">
-                            <img src="/images/VendorsPhotos/WeddingFlorist.jpg" alt="">
-                            <div class='VendorToHireTitle'>
-                                <h3> Vendor Name </h3>
-                                <button class="ToHireButton"> Hired </button>
-                                <button class="ToHireRemoveButton"> Remove </button>
-                            </div>
-                            <h3> Vendor Service </h3>
-                        </div>
-                        <div class="VendorToHire">
-                            <img src="/images/VendorsPhotos/WeddingVenue.jpg" alt="">
-                            <div class='VendorToHireTitle'>
-                                <h3> Vendor Name </h3>
-                                <button class="ToHireButton"> Hired </button>
-                                <button class="ToHireRemoveButton"> Remove </button>
-                            </div>
-                            <h3> Vendor Service </h3>
-                        </div>
+                        
                     </div>
                     <div id='VendorsToHireForm'>
                         <img onclick="CloseVendorsForm()" src="~/images/close.png" alt="">
@@ -180,22 +134,7 @@
                 <div id='VendorsHired'>
                     <h2> Hired Vendors </h2>
                     <div id='VendorsHiredList'>
-                        <div class="VendorHired">
-                            <img src="/images/VendorsPhotos/PhotographerWedding.jpg" alt="">
-                            <div class="VendorHiredTitle">
-                                <h3> Vendor Name </h3>
-                                <button class="HiredRemoveButton"> Remove </button>
-                            </div>
-                            <h3> Vendor Service </h3>
-                        </div>
-                        <div class="VendorHired">
-                            <img src="/images/VendorsPhotos/WeddingBuffet.jpg" alt="">
-                            <div class="VendorHiredTitle">
-                                <h3> Vendor Name </h3>
-                                <button class="HiredRemoveButton"> Remove </button>
-                            </div>
-                            <h3> Vendor Service </h3>
-                        </div>
+                        
                     </div>
                 </div>
                 <div id='ExtraExpenses' >
@@ -204,16 +143,7 @@
                         <button onclick="OpenExtraExpensesForm()"> Add </button>
                     </div>
                     <div id='ExtraExpensesList'>
-                        <div class="ExtraExpense">
-                            <h3> Expense Name </h3>
-                            <h3> $2000 </h3>
-                            <button class="ExtraExpenseRemoveButton"> Remove </button>
-                        </div>
-                        <div class="ExtraExpense">
-                            <h3> Expense Name </h3>
-                            <h3> $2000 </h3>
-                            <button class="ExtraExpenseRemoveButton"> Remove </button>
-                        </div>
+    
                     </div>
                     <div id='ExtraExpensesForm'>
                         <img onclick="CloseExtraExpensesForm()" src="~/images/close.png" alt="">
@@ -231,7 +161,6 @@
                     <h2> Budget Available </h2>
                     <div id='TotalBudgetAvailable'>
                         <h3> Total Budget Available </h3>
-                        <h3> $20000 </h3>
                     </div>
                 </div>
             </div>
@@ -249,24 +178,7 @@
                         </div>
                     </div>
                     <div id='TablesPlanningList'>
-                        <div class="TablePlanning"> 
-                            <h3> 1 </h3>
-                            <h3> Chicago </h3>
-                            <h3> 6 people </h3>
-                            <button class="RemoveTable"> Remove </button>
-                        </div>
-                        <div class="TablePlanning">
-                            <h3> 2 </h3>
-                            <h3> Orlando </h3>
-                            <h3> 6 people </h3>
-                            <button class="RemoveTable"> Remove </button>
-                        </div>
-                        <div class="TablePlanning">
-                            <h3> 3 </h3>
-                            <h3> Miami </h3>
-                            <h3> 6 people </h3>
-                            <button class="RemoveTable"> Remove </button>
-                        </div>
+        
                     </div>
                     <div id='TablesForm'>
                         <h2> Create a new Table </h2>
@@ -295,21 +207,7 @@
                         <button onclick="OpenWeddingScheduleForm()"> Add </button>
                     </div>
                     <div id='WeddingItinerary'>
-                        <div class='WeddingActivity'>
-                            <h3> &#8594; </h3>
-                            <h3> Activity Name </h3>
-                            <h3> 13:00 </h3>
-                        </div>
-                        <div class='WeddingActivity'>
-                            <h3> &#8594; </h3>
-                            <h3> Activity Name </h3>
-                            <h3> 15:00 </h3>
-                        </div>
-                        <div class='WeddingActivity'>
-                            <h3> &#8594; </h3>
-                            <h3> Activity Name </h3>
-                            <h3> 18:00 </h3>
-                        </div>
+                        
                     </div>
                     <div id='WeddingScheduleForm'>
                         <img onclick="CloseWeddingScheduleForm()" src="~/images/close.png" alt="">
@@ -329,27 +227,7 @@
                         <button onclick="OpenTaskForm()"> Add </button>
                     </div>
                     <div id='ManageTasks'>
-                        <div class='ManageTask'>
-                            <div style="background-color: green;" class='ManageTaskActive'></div>
-                            <h3> Call Vendor </h3>
-                            <h3> 12/04/26 </h3>
-                            <button class='ManageDone'> Done </button>
-                            <button class="ManageRemove"> Remove </button>
-                        </div>
-                        <div class='ManageTask'>
-                            <div style="background-color: green;" class='ManageTaskActive'></div>
-                            <h3> Call Vendor </h3>
-                            <h3> 12/04/26 </h3>
-                            <button class='ManageDone'> Done </button>
-                            <button class="ManageRemove"> Remove </button>
-                        </div>
-                        <div class='ManageTask'>
-                            <div style="background-color: red;" class='ManageTaskActive'></div>
-                            <h3> Call Vendor </h3>
-                            <h3> 12/04/26 </h3>
-                            <button class='ManageDone'> Done </button>
-                            <button class="ManageRemove"> Remove </button>
-                        </div>
+                        
                     </div>
                     <div id='TasksDivForm'>
                         <img onclick="CloseTaskForm()" src="~/images/close.png" alt="">
@@ -369,22 +247,7 @@
                         <button onclick="OpenChallengePlanning()"> Add </button>
                     </div>
                     <div id='ChallengesList'>
-                        <div class="Challenge">
-                            <div class="ChallengeName">
-                                <h2> Challenge's Name </h2>
-                                <h3> 200 points </h3>
-                            </div>
-                            <button class='ChallengeRemove'> Remove </button>
-                            <button> description </button>
-                        </div>
-                        <div class="Challenge">
-                            <div class="ChallengeName">
-                                <h2> Challenge's Name </h2>
-                                <h3> 200 points </h3>
-                            </div>
-                            <button class='ChallengeRemove'> Remove </button>
-                            <button> description </button>
-                        </div>
+                        
                     </div>
                     <div id='ChallengeDivForm'>
                         <img onclick="CloseChallengePlanning()" src="~/images/close.png" alt="">
@@ -406,14 +269,7 @@
                         <button onclick="OpenGuestsForm()"> Add </button>    
                     </div>
                     <div id='GuestPlanningList'>
-                        <div class="GuestPlanning">
-                            <h3 class="GuestPlanningNumber"> 1 </h3>
-                            <h3 class="GuestPlanningName"> Jose Garcia </h3>
-                        </div>
-                        <div class="GuestPlanning">
-                            <h3 class="GuestPlanningNumber"> 2 </h3>
-                            <h3 class="GuestPlanningName"> Rafaela Rodrigues </h3>
-                        </div>
+                        
                     </div>
                     <div id='GuestPlanningForm'>
                         <img onclick="CloseGuestsForm()" src="~/images/close.png" alt="">
@@ -481,6 +337,7 @@
                     <div id='MyAccountPhoto'>
                         <div id='MyAccountPhotoContainer'>
                             <div id='ProfilePhotoForm'>
+                                <img onclick="CloseProfilePhotoForm()" src="~/images/close.png" alt="">
                                 <label for="ProfilePhotoFormInput">
                                     Upload Photo
                                     <input id="ProfilePhotoFormInput" type="file" accept="images/*">
@@ -516,34 +373,71 @@
     <script src="/js/Index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        const char = document.getElementById('Chart')
 
-        new Chart(char, {
-        type: 'doughnut',
-        data: {
-            labels: [],
-            datasets: [{
-                data: [2000, 2000, 26000],
-                borderWidth: 1,
-                backgroundColor: ['#c69f29', '#ffc000', 'pink']
-            }]
-        },
-        options: {
-            plugins: {
-                tooltip: {
-                    backgroundColor: 'Green',
-                    callbacks: {
-                        label: function(context) {
-                            return Intl.NumberFormat('en-US', {
-                                style: "currency",
-                                currency: "USD"
-                            }).format(context.raw);
+        async function loadDataChart(){
+            [rawExpenses, rawVendors, rawBudget] = await Promise.allSettled([
+                fetch('/api/Expenses').then(response => response.json()),
+                fetch('/api/Vendors').then(response => response.json()),
+                fetch('/api/Budget').then(response => response.json())
+            ])
+
+            const char = document.getElementById('Chart')
+            console.log(char)
+
+            let totalExpense = 0
+
+            let expenses = []
+
+            let vendors = []
+
+            const maxBudget = rawBudget.value[0].maxBudget
+
+            rawExpenses.value.forEach(e => {
+                expenses.push(e.expensePrice)
+                totalExpense += e.expensePrice
+            })
+
+            rawVendors.value.forEach(v => {
+                if (v.hired == 1){
+                    vendors.push(v.vendorPrice)
+                    totalExpense += v.vendorPrice
+                }
+            })
+
+            const budget = maxBudget - totalExpense
+
+            console.log(totalExpense, budget, maxBudget, expenses, vendors)
+
+            new Chart(char, {
+            type: 'doughnut',
+            data: {
+                labels: [],
+                datasets: [{
+                    data: [totalExpense, budget],
+                    borderWidth: 1,
+                    backgroundColor: ['#c69f29', '#ffc000']
+                }]
+            },
+            options: {
+                plugins: {
+                    tooltip: {
+                        backgroundColor: 'Yellow',
+                        callbacks: {
+                            label: function(context) {
+                                return Intl.NumberFormat('en-US', {
+                                    style: "currency",
+                                    currency: "USD"
+                                }).format(context.raw);
+                            }
                         }
                     }
                 }
             }
+        })
         }
-    });
+
+        loadDataChart()
+
     </script>
 </body>
 </html>

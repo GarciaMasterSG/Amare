@@ -11,5 +11,7 @@
         public string? VendorType { get; set; }
 
         public int VendorPrice { get; set; }
+
+        public int Hired { get; set; } = 0;
     }
 }

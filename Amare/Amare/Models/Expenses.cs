@@ -6,6 +6,6 @@
 
         public string? ExpenseName { get; set; }
 
-        public string? ExpensePrice { get; set; }
+        public int ExpensePrice { get; set; }
     }
 }

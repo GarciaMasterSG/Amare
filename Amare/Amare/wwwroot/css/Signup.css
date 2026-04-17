@@ -121,11 +121,11 @@ html, body{
     justify-content: start;
     align-items: center;
     gap: 1rem;
-    z-index: 9;
+    z-index: 10;
 }
 
 #BrideOrGroom{
-    z-index: 8;
+    z-index: 9;
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -181,7 +181,7 @@ html, body{
     justify-content: start;
     align-items: center;
     gap: 1rem;
-    z-index: 7;
+    z-index: 8;
 }
 
 #CreateWC input{
@@ -209,13 +209,47 @@ html, body{
     opacity: 0.4;
 }
 
-#BrideGroomAccount{
+#BrideAndGroomNames{
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: center;
     gap: 1rem;
     z-index: 6;
+}
+
+#BrideAndGroomNames input{
+    font-size: 1rem;
+    font-weight: 700;
+    height: 1.5rem;
+    color: #c69f29;
+    font-family: 'Cormorant Garamond';
+}
+
+#BrideAndGroomNames button{
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Cormorant Garamond';
+    padding-left: 5px;
+    box-sizing: border-box;
+    cursor: pointer;
+    background: linear-gradient(90deg, #c69f29, #ffc000, #c69f29);
+    border: none;
+    border-radius: 2px;
+}
+
+#BrideAndGroomNames button:active{
+    opacity: 0.4;
+}
+
+#BrideGroomAccount{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 1rem;
+    z-index: 5;
 }
 
 #BrideGroomAccount input{
@@ -245,7 +279,7 @@ html, body{
     justify-content: start;
     align-items: center;
     gap: 1rem;
-    z-index: 5;
+    z-index: 4;
 }
 
 #AskWC input{
@@ -275,7 +309,7 @@ html, body{
     justify-content: start;
     align-items: center;
     gap: 1rem;
-    z-index: 4;
+    z-index: 3;
 }
 
 #GuestAccount input{
@@ -297,6 +331,31 @@ html, body{
     background: linear-gradient(90deg, #c69f29, #ffc000, #c69f29);
     border: none;
     border-radius: 2px;
+}
+
+#ErrorMessage{
+    position: absolute;
+    background-color: white;
+    color: #c69f29;
+    font-family: 'Cormorant Garamond';
+    font-size: 1.65rem;
+    font-weight: 700;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    height: 8rem;
+    width: 26rem;
+    z-index: 999;
+    gap: 2rem;
+    box-shadow: 1px 1px 10px 3px #c69f29;
+    border-radius: 8px;
+    box-sizing: border-box;
+    padding: 1.5rem;
+}
+
+#ErrorMessage img{
+    height: 3rem;
+    width: 3rem
 }
 
 @media (window < 768px) {

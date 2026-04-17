@@ -33,14 +33,20 @@
             <button onclick="FormBrideOrGroomGroom()" type='button' id='GroomButton'> Groom </button>
             <button onclick="FormBrideOrGroomBride()" type='button' id='BrideButton'> Bride </button>
         </form>
-        <form class="SignupForm" id='CreateWC' action="">
-            <h2> Now, create your Wedding Code 😍 </h2>
+        <form class='SignupForm' id='BrideAndGroomNames' action="">
+            <h2> Tell me your names ✨ </h2>
             <label for="IUserName"> Your Name: </label>
             <input id='IUserName' name="UserName" type="text" required>
             <label id='CoupleName' for="ICoupleName"> Groom's Name: </label>
             <input id='ICoupleName' name="CoupleName" type="text" required>
+            <button onclick="CreateNames()" type="button"> Submit </button>
+        </form>
+        <form class="SignupForm" id='CreateWC' action="">
+            <h2> Now, create your Wedding Code 😍 </h2>
             <label for="IWeddingCode"> Create your <span> Wedding Code </span></label>
             <input id='IWeddingCode' name="WeddingCode" type="text" required>
+            <label for="MaxBudget"> Your Budget </label>
+            <input id='MaxBudget' name="MaxBudget" type="text">
             <button onclick="CreateWC()" type="button"> Submit </button>
         </form>
         <form class="SignupForm" id='BrideGroomAccount' action="">
@@ -68,6 +74,10 @@
             <input id='IGConfirmedPassword' placeholder="Confirm your password" type="password">
             <button onclick="GuestAccount()" type="button"> Signup </button>
         </form>
+    </div>
+    <div id='ErrorMessage'>
+        <img src="~/images/infoIcon.png" alt="">
+        <p> </p>
     </div>
 
     <script src="/js/Signup.js"></script>

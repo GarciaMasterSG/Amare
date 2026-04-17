@@ -7,18 +7,39 @@ namespace Amare.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TablesController : ControllerBase
+    public class TablesController : BaseController
     {
-        private readonly DbUserProfile _profile;
+        private readonly DbUserProfile _db;
 
-        public TablesController(DbUserProfile profile)
+        public TablesController(DbUserProfile db)
         {
-            _profile = profile;
+            _db = db;
         }
+
         [HttpPost]
         public async Task<IActionResult> CreateTable([FromBody] Tables table)
         {
-            return Ok(table);
+            List<string> NoOnTable = new List<string>();
+
+            table.Guests.ForEach( async guest =>
+            {
+                string queryGuests = "UPDATE Guest SET TableName = @TableName WHERE GuestName = @GuestName AND WeddingCode = @WeddingCode";
+
+                List<SqlParameter> parametersGuests = new List<SqlParameter>()
+                {
+                    new SqlParameter("@TableName", table.Name),
+                    new SqlParameter("@GuestName", guest),
+                    new SqlParameter("@WeddingCode", weddingnCode)
+                };
+                int rows = await _db.PostQueryExecuter(queryGuests, parametersGuests);
+
+                if (rows == 0)
+                {
+                    NoOnTable.Add(guest);
+                }
+            });
+
+            return Ok(NoOnTable);
         }
     }
 }

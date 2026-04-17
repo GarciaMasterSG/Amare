@@ -124,3 +124,23 @@ html, body{
     transform: scale(1.05);
 }
 
+#ErrorMessage{
+    position: absolute;
+    background-color: white;
+    color: #c69f29;
+    font-family: 'Cormorant Garamond';
+    font-size: 1.65rem;
+    font-weight: 700;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    height: 8rem;
+    width: 26rem;
+    z-index: 999;
+    gap: 2rem;
+    box-shadow: 1px 1px 10px 3px #c69f29;
+    border-radius: 8px;
+    box-sizing: border-box;
+    padding: 1.5rem;
+}
+

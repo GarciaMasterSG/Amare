@@ -1,13 +1,45 @@
+using Amare.Data;
 using Amare.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using System.Diagnostics;
 
 namespace Amare.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly DbUserProfile _db;
+
+        public HomeController(DbUserProfile db)
         {
+           _db = db;
+        }
+        public async Task<IActionResult> Index()
+        {
+            var weddingCode = HttpContext.Session.GetString("UserWeddingCode");
+            string query = "SELECT * FROM Wedding WHERE WeddingCode = @WeddingCode";
+
+            List<SqlParameter> parameters = new List<SqlParameter>()
+            {
+                new SqlParameter("@WeddingCode",weddingCode)
+            };
+
+            var couple = await _db.GetQueryExecuter(query, r => new Wedding {
+                Groom = Convert.ToString(r["Groom"]),
+                Bride = Convert.ToString(r["Bride"]),
+                WeddingCode = Convert.ToString(r["WeddingCode"])
+            }, parameters);
+
+            var coupleName = couple.FirstOrDefault(w => w.WeddingCode == weddingCode);
+
+            if (coupleName == null)
+            {
+                return View();
+            }
+
+            ViewBag.Groom = coupleName.Groom;
+            ViewBag.Bride = coupleName.Bride;
+
             return View();
         }
 

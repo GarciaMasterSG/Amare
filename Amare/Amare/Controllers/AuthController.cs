@@ -22,7 +22,7 @@ namespace Amare.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Login([FromForm]string email, string password)
+        public async Task<IActionResult> Login([FromForm]string email, string password)
         {
             string query = "SELECT * FROM UserProfile WHERE Email = @Email";
 
@@ -30,7 +30,7 @@ namespace Amare.Controllers
                 new SqlParameter("@Email", email)
             };
 
-            var users = _db.GetQueryExecuter<UserProfile>(query,
+            var users = await _db.GetQueryExecuter<UserProfile>(query,
                     r => new UserProfile
                     {
                         Id = Convert.ToInt16(r["UserId"]),
@@ -42,30 +42,47 @@ namespace Amare.Controllers
                         Role = Convert.ToString(r["Role"])
                     }, parameters);
 
+            if (!users.Any())
+            {
+                return BadRequest(new
+                {
+                    redirectUrl = Url.Action("Login", "Auth"),
+                    noLogin = "No email found"
+                });
+            }
+
             var user = users.FirstOrDefault(u => u.Password == password);
 
             if (user == null)
             {
-                return Ok(new
+                return BadRequest(new
                 {
-                    redirectUrl = Url.Action("Login", "Auth")
+                    redirectUrl = Url.Action("Login", "Auth"),
+                    noLogin = "Wrong Password"
                 });
             }
-            
+
+            HttpContext.Session.SetString("UserWeddingCode", user.WeddingCode);
+            HttpContext.Session.SetString("UserName", user.Name);
+            HttpContext.Session.SetInt32("UserId", user.Id);
 
             return Ok(new {redirectUrl = Url.Action("Index", "Home")});
         }
+
+        [HttpGet]
         public IActionResult SignUp()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult SignUpBG([FromBody] SignupPost request)
+        public async Task<IActionResult> SignUpBG([FromBody] SignupPost request)
         {
-            var queryCouple = "INSERT INTO UserProfile(Name, Email, Password, ProfilePhoto, WeddingCode, Role) VALUES (@Name, @Email, @Password, @ProfilePhoto, @WeddingCode, @Role); INSERT INTO Wedding(WeddingCode, Groom, Bride) VALUES (@WeddingCode, @Groom, @Bride)";
+            try
+            {
+                var queryCouple = "INSERT INTO Wedding(WeddingCode, Groom, Bride) VALUES (@WeddingCode, @Groom, @Bride); INSERT INTO UserProfile(Name, Email, Password, ProfilePhoto, WeddingCode, Role) VALUES (@Name, @Email, @Password, @ProfilePhoto, @WeddingCode, @Role); INSERT INTO Budget(WeddingCode, MaxBudget) VALUES (@WeddingCode, @MaxBudget)";
 
-            List<SqlParameter> parametersCouple = new List<SqlParameter>() {
+                List<SqlParameter> parametersCouple = new List<SqlParameter>() {
                 new SqlParameter("@Name", request.userProfile.Name),
                 new SqlParameter("@Email", request.userProfile.Email),
                 new SqlParameter("@Password", request.userProfile.Password),
@@ -73,13 +90,41 @@ namespace Amare.Controllers
                 new SqlParameter("@WeddingCode", request.userProfile.WeddingCode),
                 new SqlParameter("@Role", request.userProfile.Role),
                 new SqlParameter("@Groom", request.wedding.Groom),
-                new SqlParameter("@Bride", request.wedding.Bride)
-            };
+                new SqlParameter("@Bride", request.wedding.Bride),
+                new SqlParameter("@MaxBudget", request.maxBudget)
+                };
 
-            _db.PostQueryExecuter(queryCouple, parametersCouple);
-        
+                await _db.PostQueryExecuter(queryCouple, parametersCouple);
 
-            return Ok(new { redirectUrl = Url.Action("Login", "Auth") });
+
+                return Ok(new { redirectUrl = Url.Action("Login", "Auth") });
+            }
+            catch (SqlException exeption)
+            {
+                if (exeption.Number == 2627 || exeption.Number == 2601)
+                {
+                    if (exeption.Message.Contains("UQ_Email"))
+                    {
+                        return BadRequest(new { redirectUrl = Url.Action("SignUp", "Auth"), Error = "Email already exist" });
+                    } 
+
+                    else if (exeption.Message.Contains("UQ_WeddingCode"))
+                    {
+                        return BadRequest(new { redirectUrl = Url.Action("SignUp", "Auth"), Error = "WeddingCode already exist" });
+                    }
+                    else if (exeption.Message.Contains("UQ_Wedding"))
+                    {
+                        return BadRequest(new { redirectUrl = Url.Action("SignUp", "Auth"), Error = "WeddingCode already exist" });
+                    }
+
+                    return BadRequest();
+                }
+
+                else
+                {
+                    return BadRequest();
+                }
+            }
         }
 
         [HttpPost]
@@ -88,7 +133,7 @@ namespace Amare.Controllers
             return Ok(new {WC = weddingCode});
         }
         [HttpPost]
-        public IActionResult SignUpG([FromBody] UserProfile user)
+        public async Task<IActionResult> SignUpG([FromBody] UserProfile user)
         {
             var queryGuest = "INSERT INTO UserProfile(Name, Email, Password, ProfilePhoto, WeddingCode, Role) VALUES (@Name, @Email, @Password, @ProfilePhoto, @WeddingCode, @Role);";
 
@@ -101,7 +146,7 @@ namespace Amare.Controllers
                 new SqlParameter("@Role", user.Role),
             };
 
-            _db.PostQueryExecuter(queryGuest, parametersGuest);
+            await _db.PostQueryExecuter(queryGuest, parametersGuest);
 
             return Ok(new { redirectUrl = Url.Action("Login", "Auth") });
         }
