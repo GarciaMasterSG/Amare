@@ -1,5 +1,6 @@
 ﻿using Amare.Data;
 using Amare.Models;
+using LogicLayer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 
@@ -9,29 +10,17 @@ namespace Amare.Controllers
     [Route("api/[controller]")]
     public class AddGuestsController : BaseController
     {
-        private readonly DbUserProfile _db;
+        private readonly AddGuests _addGuests;
 
-        public AddGuestsController(DbUserProfile db)
+        public AddGuestsController(AddGuests addGuests)
         {
-            _db = db;
+            _addGuests = addGuests;
         }
 
         [HttpGet]
-        public async Task<GetGuests> GetGuests()
+        public async Task<GetGuestsDTO> GetGuest()
         {
-            string query = "SELECT Id, GuestName, WeddingCode, TableName FROM Guest WHERE WeddingCode = @WeddingCode";
-
-            List<SqlParameter> parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@WeddingCode",weddingnCode)
-            };
-
-            var guest = await _db.GetQueryExecuter(query, r => new Guests
-            {
-                Id = Convert.ToInt16(r["Id"]),
-                GuestName = Convert.ToString(r["Guestname"]),
-                TableName = Convert.ToString(r["TableName"])
-            }, parameters);
+            var guest = await _addGuests.GetGuest(weddingnCode);
 
             var guests = guest.Select(guest => new SpecificGuest { GuestName = guest.GuestName, Id = guest.Id }).ToList();
 
@@ -41,7 +30,7 @@ namespace Amare.Controllers
                 GuestNames = t.Select(guest => guest.GuestName).ToList()
             }).ToList();
 
-            return new GetGuests
+            return new GetGuestsDTO
             {
                 GuestsList = guests,
                 GroupedTables = tables
@@ -51,17 +40,7 @@ namespace Amare.Controllers
         [HttpPost]
         public async Task<IActionResult> AddGuestsPost([FromForm] string guest)
         {
-            var weddingCode = HttpContext.Session.GetString("UserWeddingCode");
-
-            string query = "INSERT INTO Guest(GuestName, WeddingCode) VALUES (@GuestName, @WeddingCode); SELECT SCOPE_IDENTITY()";
-
-            List<SqlParameter> parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@GuestName", guest),
-                new SqlParameter("@WeddingCode", weddingCode)
-            };
-
-            int id = await _db.PostQueryExecuter(query, parameters);
+            int id = await _addGuests.AddGuestsPost(guest, weddingnCode);
 
             return Ok(id);
         }
@@ -69,14 +48,7 @@ namespace Amare.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteData(int id)
         {
-            string query = "DELETE FROM Guest WHERE Id = @Id";
-
-            List<SqlParameter> parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", id)
-            };
-
-            await _db.PatchDeleteQueryExecuter(query, parameters);
+            await _addGuests.DeleteAddGuests(id);
 
             return Ok();
         }
@@ -84,15 +56,7 @@ namespace Amare.Controllers
         [HttpDelete("guesttable/({table})")]
         public async Task<IActionResult> DeleteTable(string tableName)
         {
-            string query = "UPDATE Guest SET TableName = NULL WHERE WeddingCode = @WeddingCode AND TableName = @TableName";
-
-            List<SqlParameter> parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@WeddingCode", weddingnCode),
-                new SqlParameter("@TableName", tableName)
-            };
-
-            await _db.PatchDeleteQueryExecuter(query, parameters);
+            await _addGuests.DeleteTable(tableName, weddingnCode);
 
             return Ok();
         } 

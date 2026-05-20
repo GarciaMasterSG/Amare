@@ -2,6 +2,7 @@
 using Amare.Models;
 using Amare.Data;
 using Microsoft.Data.SqlClient;
+using LogicLayer;
 
 namespace Amare.Controllers
 {
@@ -9,55 +10,26 @@ namespace Amare.Controllers
     [Route("api/[controller]")]
     public class VendorsController : BaseController
     {
-        private readonly DbUserProfile _db;
+        private readonly Vendors _vendors;
 
-        public VendorsController(DbUserProfile db)
+        public VendorsController(Vendors vendors)
         {
-            _db = db;
+            _vendors = vendors;
         }
 
         [HttpGet]
-        public async Task<List<Vendors>> GetVendors()
+        public async Task<List<VendorsDTO>> GetVendors()
         {
-            string query = "SELECT Id, VendorName, Description, Price, Hired FROM Vendor WHERE WeddingCode = @WeddingCode";
-
-            List<SqlParameter> parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@WeddingCode", weddingnCode),
-            };
-
-            var vendors = await _db.GetQueryExecuter(query, r => new Vendors
-            {
-                Id = Convert.ToInt16(r["Id"]),
-                VendorName = Convert.ToString(r["VendorName"]),
-                VendorDescription = Convert.ToString(r["Description"]),
-                VendorPrice = Convert.ToInt16(r["Price"]),
-                Hired = Convert.ToInt16(r["Hired"])
-            }, parameters);
+            var vendors = await _vendors.GetVendors(weddingnCode);
 
             return vendors;
 
         }
 
         [HttpPost]
-        public async Task<IActionResult> addVendors([FromForm] Vendors vendors)
+        public async Task<IActionResult> addVendors([FromForm] VendorsDTO vendors)
         {
-            var weddingCode = HttpContext.Session.GetString("UserWeddingCode");
-
-            int hired = 0;
-
-            string query = "INSERT INTO Vendor(VendorName, WeddingCode, Description, Price, Hired) VALUES (@VendorName, @WeddingCode, @Description, @Price, @Hired); SELECT SCOPE_IDENTITY()";
-
-            List<SqlParameter> parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@VendorName", vendors.VendorName),
-                new SqlParameter("@WeddingCode", weddingCode),
-                new SqlParameter("@Description", vendors.VendorDescription),
-                new SqlParameter("@Price", vendors.VendorPrice),
-                new SqlParameter("@Hired", hired)
-            };
-
-            int id = await _db.PostQueryExecuter(query, parameters);
+            int id = await _vendors.PostVendors(vendors, weddingnCode);
 
             return Ok(id);
         }
@@ -65,14 +37,7 @@ namespace Amare.Controllers
         [HttpPatch("{id}")]
         public async Task<IActionResult> UpdateHired(int id)
         {
-            string query = "UPDATE Vendor SET Hired = 1 WHERE Id = @Id";
-
-            List<SqlParameter> parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", id)
-            };
-
-            await _db.PatchDeleteQueryExecuter(query, parameters);
+            await _vendors.UpdateHired(id);
 
             return Ok();
         }
@@ -80,14 +45,7 @@ namespace Amare.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteData(int id)
         {
-            string query = "DELETE FROM Vendor WHERE Id = @Id";
-
-            List<SqlParameter> parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", id)
-            };
-
-            await _db.PatchDeleteQueryExecuter(query, parameters);
+            await _vendors.DeleteVendors(id);
 
             return Ok();
         }

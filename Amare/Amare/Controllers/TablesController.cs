@@ -2,6 +2,7 @@
 using Amare.Models;
 using Amare.Data;
 using Microsoft.Data.SqlClient;
+using LogicLayer;
 
 namespace Amare.Controllers
 {
@@ -9,37 +10,19 @@ namespace Amare.Controllers
     [Route("api/[controller]")]
     public class TablesController : BaseController
     {
-        private readonly DbUserProfile _db;
+        private readonly Tables _tables;
 
-        public TablesController(DbUserProfile db)
+        public TablesController(Tables tables)
         {
-            _db = db;
+            _tables = tables;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTable([FromBody] Tables table)
+        public async Task<IActionResult> CreateTable([FromBody] TablesDTO table)
         {
-            List<string> NoOnTable = new List<string>();
+            var noOnTable = await _tables.PostTable(table, weddingnCode);
 
-            table.Guests.ForEach( async guest =>
-            {
-                string queryGuests = "UPDATE Guest SET TableName = @TableName WHERE GuestName = @GuestName AND WeddingCode = @WeddingCode";
-
-                List<SqlParameter> parametersGuests = new List<SqlParameter>()
-                {
-                    new SqlParameter("@TableName", table.Name),
-                    new SqlParameter("@GuestName", guest),
-                    new SqlParameter("@WeddingCode", weddingnCode)
-                };
-                int rows = await _db.PostQueryExecuter(queryGuests, parametersGuests);
-
-                if (rows == 0)
-                {
-                    NoOnTable.Add(guest);
-                }
-            });
-
-            return Ok(NoOnTable);
+            return Ok(noOnTable);
         }
     }
 }

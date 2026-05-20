@@ -3,6 +3,8 @@ using Amare.Models;
 using Amare.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Http;
+using Models.Interfaces;
+using LogicLayer;
 
 namespace Amare.Controllers
 {
@@ -10,49 +12,26 @@ namespace Amare.Controllers
     [Route("api/[controller]")]
     public class ExpensesController : BaseController
     {
-        private readonly DbUserProfile _db;
+        private readonly Expenses _expenses;
 
-        public ExpensesController(DbUserProfile db) 
+        public ExpensesController(Expenses expenses) 
         { 
-            _db = db;
+            _expenses = expenses;
         }
 
         [HttpGet]
-        public async Task<List<Expenses>> GetExpenses()
+        public async Task<List<ExpensesDTO>> GetExpenses()
         {
-            string query = "SELECT Id, ExpenseName, WeddingCode, Price FROM Expense WHERE WeddingCode = @WeddingCode";
-
-            List<SqlParameter> parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@WeddingCode", weddingnCode)
-            };
-
-            var expenses = await _db.GetQueryExecuter(query, r => new Expenses
-            {
-                Id = Convert.ToInt16(r["Id"]),
-                ExpenseName = Convert.ToString(r["ExpenseName"]),
-                ExpensePrice = Convert.ToInt32(r["Price"])
-            }, parameters);
+            var expenses = await _expenses.GetExpenses(weddingnCode);
 
             return expenses;
             
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddExpense([FromForm] Expenses expenses)
+        public async Task<IActionResult> PostExpense([FromForm] ExpensesDTO expenses)
         {
-
-
-            string query = "INSERT INTO Expense(ExpenseName, WeddingCode, Price) VALUES (@ExpenseName, @WeddingCode, @Price); SELECT SCOPE_IDENTITY()";
-
-            List<SqlParameter> parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Expensename", expenses.ExpenseName),
-                new SqlParameter("@WeddingCode", weddingnCode),
-                new SqlParameter("@Price", expenses.ExpensePrice)
-            }; 
-
-            int id = await _db.PostQueryExecuter(query, parameters);
+            int id = await _expenses.PostExpenses(expenses, weddingnCode);
 
             return Ok(id);
         }
@@ -60,14 +39,7 @@ namespace Amare.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteData(int id)
         {
-            string query = "DELETE FROM Expense WHERE Id = @Id";
-
-            List<SqlParameter> parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", id)
-            };
-
-            await _db.PatchDeleteQueryExecuter(query, parameters);
+            await _expenses.DeleteExpenses(id);
 
             return Ok();
         }

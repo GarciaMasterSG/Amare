@@ -24,10 +24,12 @@ namespace Amare.Controllers
                 new SqlParameter("@WeddingCode",weddingCode)
             };
 
-            var couple = await _db.GetQueryExecuter(query, r => new Wedding {
+            var couple = await _db.GetQueryExecuter(query, r => new WeddingDTO {
                 Groom = Convert.ToString(r["Groom"]),
                 Bride = Convert.ToString(r["Bride"]),
-                WeddingCode = Convert.ToString(r["WeddingCode"])
+                WeddingCode = Convert.ToString(r["WeddingCode"]),
+                WeddingLocation = Convert.ToString(r["WeddingLocation"]),
+                WeddingDate = Convert.ToDateTime(r["WeddingDate"]) 
             }, parameters);
 
             var coupleName = couple.FirstOrDefault(w => w.WeddingCode == weddingCode);
@@ -37,8 +39,15 @@ namespace Amare.Controllers
                 return View();
             }
 
+            string weddingDate = coupleName.WeddingDate.ToString("dd/MM/yy");
+
             ViewBag.Groom = coupleName.Groom;
             ViewBag.Bride = coupleName.Bride;
+            ViewBag.Email = HttpContext.Session.GetString("UserEmail");
+            ViewBag.UserName = HttpContext.Session.GetString("UserName");
+            ViewBag.Location = coupleName.WeddingLocation;
+            ViewBag.Date = weddingDate;
+            ViewBag.Points = HttpContext.Session.GetInt32("UserPoints");
 
             return View();
         }

@@ -144,3 +144,9 @@ html, body{
     padding: 1.5rem;
 }
 
+@media (max-width: 1024px) {
+    #Flower2{
+        z-index: -1;
+    }
+}
+

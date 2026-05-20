@@ -3,6 +3,7 @@ using Amare.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Amare.Data;
 using Microsoft.Data.SqlClient;
+using LogicLayer;
 
 namespace Amare.Controllers
 {
@@ -10,50 +11,25 @@ namespace Amare.Controllers
     [Route("api/[controller]")]
     public class TasksController : BaseController
     {
-        private readonly DbUserProfile _db;
+        private readonly Tasks _tasks;
 
-        public TasksController(DbUserProfile db)
+        public TasksController(Tasks tasks)
         {
-            _db = db;
+            _tasks = tasks;
         }
 
         [HttpGet]
-        public async Task<List<Tasks>> Gettasks()
+        public async Task<List<TasksDTO>> Gettasks()
         {
-            string query = "SELECT Id, TaskName, TaskDate, TaskCompleted FROM Task WHERE WeddingCode = @WeddingCode";
-
-            List<SqlParameter> parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@WeddingCode", weddingnCode)
-            };
-
-            var tasks = await _db.GetQueryExecuter(query, r => new Tasks
-            {
-                Id = Convert.ToInt16(r["Id"]),
-                TaskName = Convert.ToString(r["TaskName"]),
-                TaskDate = Convert.ToDateTime(r["TaskDate"]),
-                TaskCompleted = Convert.ToInt16(r["TaskCompleted"])
-            }, parameters);
+            var tasks = await _tasks.GetTasks(weddingnCode);
 
             return tasks;
         }
 
         [HttpPost]
-        public async Task<IActionResult> TasksPost([FromForm] Tasks tasks)
+        public async Task<IActionResult> TasksPost([FromForm] TasksDTO tasks)
         {
-            string query = "INSERT INTO Task(TaskName, WeddingCode, TaskDate, TaskCompleted) VALUES (@TaskName, @WeddingCode, @TaskDate, @TaskCompleted); SELECT SCOPE_IDENTITY()";
-
-            int taskCompleted = 0;
-
-            List<SqlParameter> parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@TaskName", tasks.TaskName),
-                new SqlParameter("@WeddingCode", weddingnCode),
-                new SqlParameter("@TaskDate", tasks.TaskDate),
-                new SqlParameter("@TaskCompleted", taskCompleted)
-            };
-
-            int id = await _db.PostQueryExecuter(query, parameters);
+            int id = await _tasks.TasksPost(tasks, weddingnCode);
 
             return Ok(id);
         }
@@ -61,14 +37,7 @@ namespace Amare.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteData(int id)
         {
-            string query = "DELETE FROM Task WHERE Id = @Id";
-
-            List<SqlParameter> parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", id)
-            };
-
-            await _db.PatchDeleteQueryExecuter(query, parameters);
+            await _tasks.DeleteTasks(id);
 
             return Ok();
         }
@@ -76,14 +45,7 @@ namespace Amare.Controllers
         [HttpPatch("{id}")]
         public async Task<IActionResult> UpdateTaskCompleted(int id)
         {
-            string query = "UPDATE Task SET TaskCompleted = 1 WHERE Id = @Id";
-
-            List<SqlParameter> parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", id)
-            };
-
-            await _db.PatchDeleteQueryExecuter(query, parameters);
+            await _tasks.UpdateTaskCompleted(id);
 
             return Ok();
         }

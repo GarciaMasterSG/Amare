@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/Index.css">
+    <link rel="icon" href="~/images/Logo.ico">
     <title> Amaré </title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -123,7 +124,8 @@
                                 <option value="Photographer"> Photographer </option>
                                 <option value="Catering"> Catering </option>
                                 <option value="Florist"> Florist </option>
-                                <option value="Other"> Other </option>
+                                <option value="Dj"> DJ </option>
+                                <option value="Other"> Other </option>                               
                             </select>
                             <label for="VendorPrice"> Vendor Price </label>
                             <input id='VendorPrice' name='VendorPrice' type="text">
@@ -173,7 +175,7 @@
                     <div id='TablesPlaningSection'>
                         <div id='SelectedTable'>
                             <div id='SmallCircle'>
-                                <h4> Chicago </h4>
+                                <h4>  </h4>
                             </div>
                         </div>
                     </div>
@@ -199,6 +201,10 @@
                             </div>
                             <button type="submit"> Submit </button>
                         </form>
+                        <div id='GuestsNoFound'>
+                            <img onclick="CloseNoFoundList()" src="~/images/close.png" alt="">
+                            <h3> These guests were not found: </h3>
+                        </div>
                     </div>
                 </div>
                 <div id='WeddingSchedulePlanning'>
@@ -300,39 +306,34 @@
                         </form>
                         <div id='PhoneHeader'>
                             <img src="~/images/ArrowBack.png" alt="">
-                            <h2> Welcome, Jose </h2>
+                            <h2> Welcome, @ViewBag.UserName </h2>
                         </div>
                         <div id='LiveFeedPosts'>
-                            <div class="Post">
-                                <h3> Rafaela </h3>
-                                <div class='MainPost'>
-                                    <div class='PostLike'>
-                                        <h5> 5 </h5>
-                                    </div>
-                                    <a class='PostImage' target="_blank" href="~/images/SignupBrideGroom.png" download="MyWeddingPhoto.png">
-                                        <img src="~/images/SignupBrideGroom.png" alt="" required>
-                                    </a>
-                                </div>
-                                <h4> This photo is amazing!!!</h4>
-                            </div>
-                            <div class="Post">
-                                <h3> Rafaela </h3>
-                                <div class='MainPost'>
-                                    <div class='PostLike'>
-                                        <h5> 5 </h5>
-                                    </div>
-                                    <a class='PostImage' target="_blank" href="~/images/SignupBrideGroom.png" download="MyWeddingPhoto.png">
-                                        <img src="~/images/SignupBrideGroom.png" alt="">
-                                    </a>
-                                </div>
-                                <h4> This photo is amazing!!!</h4>
-                            </div>
+                            
                         </div>                    
                     </div>
                 </div>
             </div>
             <div id='MyAccountPanel' class="Active">
-                <h2> My Wedding Information </h2>
+                <div id='MyAccountPanelHeader'>
+                    <h2> My Wedding Information </h2>
+                    <div id='PersonalizeButtonContainer'>
+                        <div id='PersonalizeFormContainer'>
+                            <img onclick="ClosePersonalizeForm()" src="~/images/close.png" alt="">
+                            <form id='PersonalizeForm' action="">
+                                <label for=""> Wedding Location : </label>
+                                <input id='WeddingLocation' name="WeddingLocation" type="text">
+                                <label for=""> Wedding Date : </label>
+                                <input id='WeddingDate' name="WeddingDate" type="date">
+                                <button type='submit'> Save Changes </button>
+                            </form>
+                        </div>
+                        <div id='PersonalizeButton'>
+                            <img onclick="OpenPersonalizeForm()" src="~/images/Personalize.png" alt="">
+                            <h4> Personalize </h4>
+                        </div>
+                    </div>    
+                </div>
                 <div id='MyWeddingData'>
                     <div id='MyAccountPhoto'>
                         <div id='MyAccountPhotoContainer'>
@@ -349,18 +350,18 @@
                     </div>
                     <div id='MyAccountInformation'>
                         <div id='WeddingInfo1'>
-                            <h2> Bride's Name: Rafaela </h2>
-                            <h2> Groom's Name: Jose </h2>
-                            <h2> Accont's e-mail: jagarcia505050@gmail.com</h2>
+                            <h2> Bride's Name: @ViewBag.Bride </h2>
+                            <h2> Groom's Name: @ViewBag.Groom </h2>
+                            <h2> Accont's e-mail: @ViewBag.Email</h2>
                         </div>
                         <div id='WeddingInfo2'>
                             <div id="WeddingLocation">
                                 <img src="~/images/location.png" alt="">
-                                <h2> Wedding's Location: </h2>
+                                <h2> Wedding's Location: @ViewBag.Location</h2>
                             </div>
                             <div id="WeddingDate">
                                 <img src="~/images/calendar.png" alt="">
-                                <h2> Wedding's Date: </h2>
+                                <h2> Wedding's Date: @ViewBag.Date</h2>
                             </div>
                             <a> Your Wedding Photos </a>
                         </div>
@@ -368,6 +369,143 @@
                 </div>
             </div>
         </div>
+
+        <!--MOBILE VERSION-->
+
+        <div id='PanelMobile'>
+            <img onclick="DisplayDasboardPanelMobile()" id='ArrowBackMobile' src="~/images/ArrowBack.png" alt="">
+            <div id='DashboardPanelMobile'>
+                <div id='DashboardHeaderMobile'>
+                    <h1> Welcome to <span>@ViewBag.Groom</span> & <span>@ViewBag.Bride</span>'s
+                         wedding dashboard!
+                    </h1>
+                </div>
+                <h2> Wedding Menu </h2>
+                <div id='DashboardLinksMobileContainer'>
+                    <div onclick="DisplayLiveFeedPanel()" class='DashboardLinksMobile' id='LiveFeedMobile'>
+                        <img src="~/images/LivefeedMobile.png" alt="">
+                        <h3> Live Feed </h3>
+                    </div>
+                    <div onclick="DisplayChallengePanel()" class='DashboardLinksMobile' id='ChallengesMobile'>
+                        <img src="~/images/ChallengesIcon.png" alt="">
+                        <h3> Challenges </h3>
+                    </div>
+                    <div onclick="DisplayTablesPanel()" class='DashboardLinksMobile' id='TablesMobile'>
+                        <img src="~/images/TablesIcon.png" alt="">
+                        <h3> Tables </h3>
+                    </div>
+                    <div onclick="DisplayWeddingItineraryPanel()" class='DashboardLinksMobile' id='ItineraryMobile'>
+                        <img src="~/images/itinerary.png" alt="">
+                        <h3> Itinerary </h3>
+                    </div>
+                    <div onclick="DisplayLeaderboardPanel()" class='DashboardLinksMobile' id='LeaderboardMobile'>
+                        <img src="~/images/LeaderboardIcon.png" alt="">
+                        <h3> Leaderboard </h3>
+                    </div>
+                    <div onclick="DisplayMyAccountPanel()" class='DashboardLinksMobile' id='ProfileMobile'>
+                        <img src="~/images/ProfileMobile.png" alt="">
+                        <h3> Profile </h3>
+                    </div>
+                </div>
+            </div>
+            <div id='MyAccountPanelMobile'>
+                <div id='ProfilePhotoContainerMobile'>
+                    <div id='MyAccountProfilePhotoMobile'>
+                        <div id='MyAccountPhotoMobileInput'>
+                            <img onclick="CloseProfilePhotoMobile()" id="CloseProfilePhotoMobile" src="~/images/close.png" alt="">
+                            <label for="ProfilePhotoFormInputMobile">
+                                Upload Photo
+                                <input id="ProfilePhotoFormInputMobile" type="file" accept="images/*">
+                            </label>
+                        </div>
+                    <img id='AccountPhotoMobile'  src="" alt="">
+                    <img onclick="OpenProfilePhotoMobile()" id='EditAccountPhotoMobile' src="~/images/edit.png" alt="">
+                    </div>
+                </div>
+                <div id='MyAccountInformationMobile'>
+                    <h3> Groom's name: @ViewBag.Groom </h3>
+                    <h3> Bride's name: @ViewBag.Bride </h3>
+                    <h3> Wedding Date: @ViewBag.Date </h3>
+                    <h3> Wedding Location: @ViewBag.Location </h3>
+                    <h3> User's Name: Jose(Static)</h3>
+                    <h3> Email: @ViewBag.Email </h3>
+                    <button> Wedding Photos </button>
+                </div>   
+            </div>
+            <div id='ChallengesPanelMobile'>
+                <div id='ChallengesHeaderMobile'>
+                    <h2> Challenges </h2>
+                </div>
+                <div id='UserPointsMobile'>
+                    <h3> Current Points: <span id='GuestChallengePoints'>@ViewBag.Points</span> </h3>
+                </div>
+                <div id='ChallengesListMobile'>
+                    <div class='ChallengeMobile'>
+                        <div class='ChallengeInfoMobile'>
+                            <h3> Challenge Name</h3>
+                            <h4> Points: 150</h4>
+                        </div>
+                        <div class='ChallengeButtonsMobile'>
+                            <button> Done </button>
+                            <button onclick="OpenChallengesDescriptionMobile(event)"> Description</button>
+                        </div>
+                        <div class='ChallengeDescriptionMobile'>
+                            <p> Este es es un ejemplo de como seria una descripcion
+                                de un reto dentro del div
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id='LeaderboardPanelMobile'>
+                <div id='LeaderboardHeaderMobile'>
+                    <h2> Leaderboard </h2>
+                </div>
+                <div id='LeaderboardListMobile'>
+                    
+                </div>
+            </div>
+            <div id='WeddingItineraryPanelMobile'>
+                <div id='WeddingItineraryHeaderMobile'>
+                    <h2> Wedding Itinerary </h2>
+                </div>
+                <div id='WeddingItineraryListMobile'>
+
+                </div>
+            </div>
+            <div id='TablesPanelMobile'>
+                <div id='TablesHeaderMobile'>
+                    <h2> Tables </h2>
+                </div>
+                <div id='TablesNamesMobile'>
+
+                </div>
+                <div id='GuestsOnTable'>
+                    <img onclick="closeDisplayGuestOnTableMobile()" src="~/images/close.png" alt="">
+                </div>
+            </div>
+            <div id='LiveFeedPanelMobile'>
+                <form id='UploadPostFormMobile' action="">
+                    <img onclick="CloseUploadFormMobile()" id="CloseUploadPostMobile" src="~/images/close.png" alt="">
+                    <h2> Upload a new Post </h2>
+                    <label for="PostDescription"> Post Description </label>
+                    <textarea id='PostDescription' name="Description" id=""></textarea>
+                    <label id='UploadImage' for="PostImageMobile">
+                        Upload Image
+                        <input id='PostImageMobile' name='PhotoFeed' accept="images/*" type="file">
+                    </label>
+                    <button id='SendFormMobile' type="submit"> Post it! </button>
+                </form>
+                <img onclick="OpenUploadFormMobile()" id='AddPostMobile' src="~/images/Add.png" alt="">
+                <div id='LiveFeedHeaderMobile'>
+                    <h2 id='LiveFeedWelcomeMobile'> Welcome, @ViewBag.UserName </h2>
+                </div>
+                <div id='LiveFeedPostsMobile'>
+
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script src="/js/Index.js"></script>

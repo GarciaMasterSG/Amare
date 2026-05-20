@@ -1,6 +1,5 @@
 ﻿using Amare.Data;
 using Amare.Models;
-using Azure.Core;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -30,8 +29,8 @@ namespace Amare.Controllers
                 new SqlParameter("@Email", email)
             };
 
-            var users = await _db.GetQueryExecuter<UserProfile>(query,
-                    r => new UserProfile
+            var users = await _db.GetQueryExecuter<UserProfileDTO>(query,
+                    r => new UserProfileDTO
                     {
                         Id = Convert.ToInt16(r["UserId"]),
                         Name = Convert.ToString(r["Name"]),
@@ -39,7 +38,8 @@ namespace Amare.Controllers
                         Password = Convert.ToString(r["Password"]),
                         ProfilePhoto = Convert.ToString(r["ProfilePhoto"]),
                         WeddingCode = Convert.ToString(r["WeddingCode"]),
-                        Role = Convert.ToString(r["Role"])
+                        Role = Convert.ToString(r["Role"]),
+                        UserPoints = Convert.ToInt32(r["UserPoints"])
                     }, parameters);
 
             if (!users.Any())
@@ -65,6 +65,8 @@ namespace Amare.Controllers
             HttpContext.Session.SetString("UserWeddingCode", user.WeddingCode);
             HttpContext.Session.SetString("UserName", user.Name);
             HttpContext.Session.SetInt32("UserId", user.Id);
+            HttpContext.Session.SetString("UserEmail", user.Email);
+            HttpContext.Session.SetInt32("UserPoints", user.UserPoints);
 
             return Ok(new {redirectUrl = Url.Action("Index", "Home")});
         }
@@ -76,7 +78,7 @@ namespace Amare.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SignUpBG([FromBody] SignupPost request)
+        public async Task<IActionResult> SignUpBG([FromBody] SignupPostDTO request)
         {
             try
             {
@@ -133,7 +135,7 @@ namespace Amare.Controllers
             return Ok(new {WC = weddingCode});
         }
         [HttpPost]
-        public async Task<IActionResult> SignUpG([FromBody] UserProfile user)
+        public async Task<IActionResult> SignUpG([FromBody] UserProfileDTO user)
         {
             var queryGuest = "INSERT INTO UserProfile(Name, Email, Password, ProfilePhoto, WeddingCode, Role) VALUES (@Name, @Email, @Password, @ProfilePhoto, @WeddingCode, @Role);";
 

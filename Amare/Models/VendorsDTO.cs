@@ -1,0 +1,17 @@
+﻿namespace Amare.Models
+{
+    public class VendorsDTO
+    {
+        public int Id { get; set; }
+        
+        public string? VendorName { get; set; }
+
+        public string? VendorDescription { get; set; }
+
+        public string? VendorType { get; set; }
+
+        public int VendorPrice { get; set; }
+
+        public int Hired { get; set; } = 0;
+    }
+}

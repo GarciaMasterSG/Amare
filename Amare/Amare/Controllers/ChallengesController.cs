@@ -2,6 +2,7 @@
 using Amare.Models;
 using Amare.Data;
 using Microsoft.Data.SqlClient;
+using LogicLayer;
 
 namespace Amare.Controllers
 {
@@ -9,67 +10,55 @@ namespace Amare.Controllers
     [Route("api/[controller]")]
     public class ChallengesController : BaseController
     {
-        private readonly DbUserProfile _db;
+        private readonly Challenges _challenges;
 
-        public ChallengesController(DbUserProfile db)
+        public ChallengesController(Challenges challenges)
         {
-            _db = db;
+            _challenges = challenges;
         }
 
         [HttpGet]
-        public async Task<List<Challenges>> GetChallenges()
+        public async Task<List<ChallengesDTO>> GetChallenges()
         {
-            string query = "SELECT Id, ChallengeName, WeddingCode, Description, Points FROM Challenge WHERE WeddingCode = @WeddingCode";
+            var challenges = await _challenges.GetChallenges(weddingnCode);
 
-            List<SqlParameter> parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@WeddingCode", weddingnCode)
-            };
+            return challenges;
+        }
 
-            var challenges = await _db.GetQueryExecuter(query, r => new Challenges
-            {
-                Id = Convert.ToInt16(r["Id"]),
+        [HttpGet("GuestChallenges")]
+        public async Task<List<ChallengesDTO>> GetGuestChallenges()
+        {
+            var userEmail = HttpContext.Session.GetString("UserEmail");
 
-                ChallengeName = Convert.ToString(r["ChallengeName"]),
-
-                ChallengeDescription = Convert.ToString(r["Description"]),
-
-                ChallengePoints = Convert.ToInt16(r["Points"])
-
-            }, parameters);
+            var challenges = await _challenges.GetGuestChallenges(userEmail, weddingnCode); 
 
             return challenges;
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChallengesPost([FromForm] Challenges challenges)
+        public async Task<IActionResult> ChallengesPost([FromForm] ChallengesDTO challenges)
         {
             var weddingCode = HttpContext.Session.GetString("UserWeddingCode");
-            string query = "INSERT INTO Challenge(ChallengeName, WeddingCode, Description, Points) VALUES (@ChallengeName, @WeddingCode, @Description, @Points); SELECT SCOPE_IDENTITY()";
-            List<SqlParameter> parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@ChallengeName", challenges.ChallengeName),
-                new SqlParameter("@WeddingCode", weddingCode),
-                new SqlParameter("@Description", challenges.ChallengeDescription),
-                new SqlParameter("@Points", challenges.ChallengePoints)
-            };
-
-            int id = await _db.PostQueryExecuter(query, parameters);
-
+            int id = await _challenges.ChallengesPost(challenges, weddingCode);
             return Ok(id);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteData(int id)
+        public async Task<IActionResult> DeleteChallenges(int id)
         {
-            string query = "DELETE FROM Challenge WHERE Id = @Id";
+            await _challenges.DeleteChallenges(id);
 
-            List<SqlParameter> parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", id)
-            };
+            return Ok();
+        }
 
-            await _db.PatchDeleteQueryExecuter(query, parameters);
+        [HttpPost("{id}/{points}")]
+        public async Task<IActionResult> PostIdChallenge(int id, int points) 
+        {
+            int? userId = HttpContext.Session.GetInt32("UserId");
+
+            var userEmail = HttpContext.Session.GetString("UserEmail");
+
+            await _challenges.PostIdChallenge(id, points, userId.Value, userEmail);
 
             return Ok();
         }

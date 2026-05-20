@@ -39,17 +39,68 @@ const dashboardNumberTables = document.getElementById('DashboardNumberTables')
 const dashboardExpenses = document.getElementById('Expenses')
 const chartBudget = document.getElementById('ChartBudget')
 const budgetDaysToGo = document.getElementById('BudgetDaysToGo')
+const guestsNoFound = document.getElementById('GuestsNoFound')
+const tablePlanning = document.querySelectorAll('.TablePlanning')
+const personalizeForm = document.getElementById('PersonalizeFormContainer')
+const personalizeFormForm = document.getElementById('PersonalizeForm')
+const personalizeButton = document.getElementById('PersonalizeButton')
+const budgetAvalaible = document.getElementById('BudgetAvalaible')
+const liveFeedPosts = document.getElementById('LiveFeedPosts')
 
-profilePhotoFormInput.addEventListener('change', () => {
+profilePhotoFormInput.addEventListener('change', async () => {
     const file = profilePhotoFormInput.files[0]
     
     if (file){
-        const url = URL.createObjectURL(file)
-        accountPhoto.src = url
-        profilePhotoForm.style.opacity = '0'
-        profilePhotoForm.style.pointerEvents = 'none'
-        editAccountPhoto.style.display = 'flex'
-        profilePhotoFormInput.value = ''
+        const photo = new FormData()
+        photo.append('Photo', file)
+        const response = await fetch('/api/ProfileImage', {
+            method: 'POST',
+            body: photo
+        })
+        
+        if (response.ok){
+            const url = URL.createObjectURL(file)
+            accountPhoto.src = url
+            profilePhotoForm.style.opacity = '0'
+            profilePhotoForm.style.pointerEvents = 'none'
+            editAccountPhoto.style.display = 'flex'
+            profilePhotoFormInput.value = ''
+        }
+    }
+})
+
+// Get User Profile Photo
+
+async function GetProfilePhoto() {
+    const response = await fetch('/api/ProfileImage')
+    const data = await response.json()
+    console.log(data)
+
+    if (response.ok) {
+        accountPhoto.src = `https://ik.imagekit.io/Garcia5050/${data.imageUrl}`
+    }
+
+}
+
+GetProfilePhoto()
+
+personalizeForm.addEventListener('submit', async e => {
+    e.preventDefault()
+    const formdata =  new FormData(personalizeFormForm)
+    const response = await fetch('/api/WeddingDateLocation', {
+        method : 'PATCH',
+        body : formdata
+    })
+
+    if (response.ok){
+        const weddingLocation = document.querySelector('#WeddingLocation h2')
+        weddingLocation.textContent = `Wedding's Location: ${personalizeFormForm.WeddingLocation.value}`
+        const weddingDate = document.querySelector('#WeddingDate h2')
+        const date = new Date(personalizeFormForm.WeddingDate.value)
+        const dataEU = date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit' })
+        weddingDate.textContent = `Wedding's Date: ${dataEU}`
+        personalizeFormForm.reset()
+        ClosePersonalizeForm()
     }
 })
 
@@ -206,6 +257,18 @@ function OpenProfilePhotoForm(){
     editAccountPhoto.style.display = 'none'
 }
 
+function OpenPersonalizeForm(){
+    personalizeForm.style.transform = 'scale(1)'
+    personalizeButton.style.opacity = '0'
+    personalizeButton.style.pointerEvents = 'none'
+}
+
+function ClosePersonalizeForm(){
+    personalizeForm.style.transform = 'scale(0)'
+    personalizeButton.style.opacity = '1'
+    personalizeButton.style.pointerEvents = 'auto'
+}
+
 vendorsToHireForm.addEventListener('submit', async e => {
     e.preventDefault()
     const vendorName = new FormData(vendorsToHireFormForm)
@@ -222,7 +285,7 @@ vendorsToHireForm.addEventListener('submit', async e => {
         diver.dataset.controller = 'Vendors'
         diver.dataset.hired = 0
         const img = document.createElement('img')
-        img.src = "/images/VendorsPhotos/WeddingDefault.jpg"
+        img.src = VendorTypeImage(vendorsToHireFormForm.FormVendorType.value)
         diver.appendChild(img)
         const subDiv = document.createElement('div')
         subDiv.classList.add('VendorToHireTitle')
@@ -310,11 +373,30 @@ addTablesForm.addEventListener('submit', async e => {
         guestsInputs.forEach(guest =>{
             guest.value = ''
         })
+
+        const ul = document.createElement('ul')
+
+        if (data.length > 0){
+            guestsNoFound.style.display = 'flex'
+            data.forEach(guest => {
+            const li = document.createElement('li')
+            li.textContent = guest
+            ul.appendChild(li)
+            })
+
+            guestsNoFound.appendChild(ul)
+        }
     }  
-    else {
-        console.log(`I didn't receive OK`)
-    }
+        else {
+            TablesOrganizer(table.Guests, table.Name)
+        }
 })
+
+function CloseNoFoundList(){
+    guestsNoFound.style.display = 'none'
+    const ul = guestsNoFound.querySelector('ul')
+    ul.remove()
+}
 
 scheduleForm.addEventListener('submit', async e => {
     e.preventDefault()
@@ -339,6 +421,11 @@ scheduleForm.addEventListener('submit', async e => {
         const h3rd = document.createElement('h3')
         h3rd.textContent = `${scheduleForm.WeddingEventTime.value}`
         eventElement.appendChild(h3rd)
+        const btn = document.createElement('button')
+        btn.classList.add('ManageRemove')
+        btn.textContent = 'Remove'
+        btn.onclick = (e) => DeleteFetch(e.target)
+        eventElement.appendChild(btn)
         weddingItinerary.appendChild(eventElement)
 
         scheduleForm.reset()
@@ -562,6 +649,8 @@ async function DeleteFetch(element){
 
     const father = element.closest('[data-id]')
 
+    console.log(father)
+
     const {id, controller} = father.dataset
 
     const response = await fetch(`/api/${controller}/${id}`,{
@@ -573,19 +662,22 @@ async function DeleteFetch(element){
     }
 }
 
-async function TablesOrganizer() {
-    const tableList = await loadData()
-    if (tableList.Guests.groupedTables.length > 0){
-        const tableNames = tableList.Guests.groupedTables[0].guestNames
+async function TablesOrganizer(SelectedTableDisplay, TableName) {
+    const TableNameElement = document.querySelector('#SmallCircle h4')
+    const seats = document.querySelectorAll('.seat')
+    seats.forEach(seat => {
+        seat.remove()
+    })
+    if (SelectedTableDisplay.length > 0){
         const radius = 5.75
 
-        tableNames.forEach((person, index) => {
+        SelectedTableDisplay.forEach((person, index) => {
             const seat = document.createElement('div')
             seat.classList.add('seat')
             seat.innerHTML += `<h4> 
                 ${person}
             </h4>`
-            const angle = (360 / tableNames.length) * index
+            const angle = (360 / SelectedTableDisplay.length) * index
             seat.style.transform = `
                 translate(-50%,-50%)
                 rotate(${angle}deg)
@@ -593,11 +685,10 @@ async function TablesOrganizer() {
                 rotate(-${angle}deg)
             `
         selectedTable.appendChild(seat)
+        TableNameElement.textContent = TableName
         })
     }
 }
-
-TablesOrganizer()
 
 async function listPlanning(){
     const planningList = await loadData()
@@ -634,6 +725,13 @@ async function listPlanning(){
             }
         }
         tableElement.appendChild(button)
+        tableElement.onclick = async e => {
+            const event = e.target.closest('.TablePlanning').dataset.tableName
+            const data = (await loadData()).Guests.groupedTables
+            const table = data.find(t => t.tableName == event)
+            const guestsNames = table.guestNames
+            TablesOrganizer(guestsNames, event)
+        } 
         tablePlanningList.appendChild(tableElement)
     })
 }
@@ -644,6 +742,8 @@ async function listItinerary(){
     const itineraryList = await loadData()
     const events = itineraryList.WeddingEvents
     events.forEach(event => {
+        console.log(event.weddingEventTime);
+        const eventData = event.weddingEventTime.slice(0, 5);
         const eventElement = document.createElement('div')
         eventElement.classList.add('WeddingActivity')
         eventElement.dataset.id = event.id
@@ -655,8 +755,13 @@ async function listItinerary(){
         h3nd.textContent = `${event.weddingEventName}`
         eventElement.appendChild(h3nd)
         const h3rd = document.createElement('h3')
-        h3rd.textContent = `${event.weddingEventTime}`
+        h3rd.textContent = `${eventData}`
         eventElement.appendChild(h3rd)
+        const btn = document.createElement('button')
+        btn.classList.add('RemoveTable')
+        btn.textContent = 'Remove'
+        btn.onclick = (e) => DeleteFetch(e.target)
+        eventElement.appendChild(btn)
         weddingItinerary.appendChild(eventElement)
     })
 }
@@ -770,6 +875,23 @@ async function GuestList(){
 
 GuestList()
 
+function VendorTypeImage(vendorType){
+    switch (vendorType) {
+        case 'Venue':
+            return "/images/VendorsPhotos/VenueVendor.png"
+        case 'Photographer':
+            return "/images/VendorsPhotos/PhotographerVendor.png"
+        case 'Catering':
+            return "/images/VendorsPhotos/CateringVendor.png"
+        case 'Florist':
+            return "/images/VendorsPhotos/VendorFlorist.png"
+        case 'Dj':
+            return "/images/VendorsPhotos/VendorDj.png"
+        default:
+            return "/images/VendorsPhotos/WeddingDefault.jpg"
+    }
+}
+
 async function VendorsList(){
     const VendorsList = await loadData()
     const Vendors = VendorsList.Vendors
@@ -781,7 +903,7 @@ async function VendorsList(){
             diver.dataset.controller = 'Vendors'
             diver.dataset.hired = vendor.hired
             const img = document.createElement('img')
-            img.src = "/images/VendorsPhotos/WeddingDefault.jpg"
+            img.src = VendorTypeImage(vendor.vendorType)
             diver.appendChild(img)
             const subDiv = document.createElement('div')
             subDiv.classList.add('VendorToHireTitle')
@@ -810,7 +932,7 @@ async function VendorsList(){
             diver.dataset.id = vendor.id
             diver.dataset.controller = 'Vendors'
             const img = document.createElement('img')
-            img.src = "/images/VendorsPhotos/WeddingDefault.jpg"
+            img.src = VendorTypeImage(vendor.vendorType)
             diver.appendChild(img)
             const subDiv = document.createElement('div')
             subDiv.classList.add('VendorHiredTitle')
@@ -962,16 +1084,22 @@ displayMaxBudget()
 
 async function BudgetBar(){
     const data = await loadData()
+    const vendors = data.Vendors
     const expenses = data.Expenses
     const maxBudget = data.Budget[0].maxBudget
     let totalExpenses = 0
     expenses.forEach(e => {
         totalExpenses += e.expensePrice
     })
+    vendors.forEach(v => {
+        if (v.hired == 1){
+            totalExpenses += v.vendorPrice
+        }
+    })
     if (totalExpenses > maxBudget){
         document.documentElement.style.setProperty('--progressBar', '0')
         document.documentElement.style.setProperty('--budgetColorBar', 'red')
-
+        totalBudgetAvailable.dataset.overBudget = `Current expent $${totalExpenses}`
         console.log('Over budget')
     }
     else {
@@ -992,6 +1120,551 @@ async function TotalBudgetAvalaible(){
 }
 
 TotalBudgetAvalaible()
+
+async function DisplayLiveFeedPosts() {
+    const response = await fetch('/api/LiveFeed')
+    const data = await response.json()
+    if (response.ok){
+        data.forEach(LiveFeedPost => {
+            console.log(LiveFeedPost)
+            const post = document.createElement('div')
+            post.classList.add('Post')
+            const h3er = document.createElement('h3')
+            h3er.textContent = LiveFeedPost.userName
+            post.appendChild(h3er)
+            const mainPost = document.createElement('div')
+            mainPost.classList.add('mainPost')
+            const postLike = document.createElement('div')
+            postLike.classList.add('postLike')
+            const h5er = document.createElement('h5')
+            h5er.textContent = 0
+            h5er.addEventListener('click', () => {})
+            mainPost.appendChild(postLike)
+            const postImageDiv = document.createElement('div')
+            postImageDiv.classList.add('PostImage')
+            const postImage = document.createElement('img')
+            postImage.src = `https://ik.imagekit.io/Garcia5050/${LiveFeedPost.photoFeed}`
+            postImageDiv.appendChild(postImage)
+            mainPost.appendChild(postImageDiv)
+            post.appendChild(mainPost)
+            const h4nd = document.createElement('h4')
+            h4nd.textContent = LiveFeedPost.description
+            post.appendChild(h4nd)
+            liveFeedPosts.appendChild(post) 
+        })
+    }
+}
+
+DisplayLiveFeedPosts()
+
+// MOBILE VERSION ↓ ↓ ↓ 
+
+const dashboardLinksMobile = document.querySelectorAll('.DashboardLinksMobile')
+const myAccountProfilePhotoMobile = document.getElementById('MyAccountProfilePhotoMobile')
+const accountPhotoMobile = document.getElementById('AccountPhotoMobile')
+const myAccountPhotoMobileInput = document.getElementById('MyAccountPhotoMobileInput')
+const editAccountPhotoMobile = document.getElementById('EditAccountPhotoMobile')
+const profilePhotoFormInputMobile = document.getElementById('ProfilePhotoFormInputMobile')
+const challengeMobile = document.querySelectorAll('ChallengeMobile')
+const challengeDescriptionMobile = document.querySelectorAll('ChallengeDescriptionMobile')
+const challengesListMobile = document.getElementById('ChallengesListMobile')
+const guestChallengePoints = document.getElementById('GuestChallengePoints')
+const leaderboardListMobile = document.getElementById('LeaderboardListMobile')
+const weddingItineraryListMobile = document.getElementById('WeddingItineraryListMobile')
+const tablesNamesMobile = document.getElementById('TablesNamesMobile')
+const guestsOnTable = document.getElementById('GuestsOnTable')
+const closeGuestTableMobile = document.querySelector('#GuestsOnTable img')
+const uploadPostFormMobile = document.getElementById('UploadPostFormMobile')
+const panelMobile = document.getElementById('PanelMobile')
+const sendFormMobile = document.getElementById('SendFormMobile')
+const liveFeedPostsMobile = document.getElementById('LiveFeedPostsMobile')
+const liveFeedPanelMobile = document.getElementById('LiveFeedPanelMobile')
+const leaderboardPanelMobile = document.getElementById('LeaderboardPanelMobile')
+const challengesPanelMobile = document.getElementById('ChallengesPanelMobile')
+const myAccountPanelMobile = document.getElementById('MyAccountPanelMobile')
+const weddingItineraryPanelMobile = document.getElementById('WeddingItineraryPanelMobile')
+const tablesPanelMobile = document.getElementById('TablesPanelMobile')
+const dashboardPanelMobile = document.getElementById('DashboardPanelMobile')
+const arrowBackMobile = document.getElementById('ArrowBackMobile')
+
+
+async function DisplayProfilePhotoMobile(){
+    const profilePhoto = await fetch('/api/ProfileImage')
+    const profilePhotoData = await profilePhoto.json()
+    if (profilePhoto.ok){
+        accountPhotoMobile.src = `https://ik.imagekit.io/Garcia5050/${profilePhotoData.imageUrl}`
+    }
+}
+
+DisplayProfilePhotoMobile()
+
+profilePhotoFormInputMobile.addEventListener('change', async () => {
+    const file = profilePhotoFormInputMobile.files[0]
+    
+    if (file){
+        const photo = new FormData()
+        photo.append('Photo', file)
+        const response = await fetch('/api/ProfileImage', {
+            method: 'POST',
+            body: photo
+        })
+        
+        if (response.ok){
+            const url = URL.createObjectURL(file)
+            accountPhotoMobile.src = url
+            myAccountPhotoMobileInput.style.opacity = '0'
+            editAccountPhotoMobile.style.display = 'block'
+            profilePhotoFormInputMobile.value = ''
+        }
+    }
+})
+
+function OpenProfilePhotoMobile(){
+    myAccountPhotoMobileInput.style.opacity = '1'
+    editAccountPhotoMobile.style.display = 'none'
+}
+
+function CloseProfilePhotoMobile(){
+    myAccountPhotoMobileInput.style.opacity = '0'
+    editAccountPhotoMobile.style.display = 'block'
+}
+
+function OpenChallengesDescriptionMobile(e){
+    console.log(e.currentTarget)
+    const button = e.currentTarget
+    const challenge = button.closest('.ChallengeMobile');
+    const description = challenge.querySelector('.ChallengeDescriptionMobile');
+    description.style.opacity = '1'
+    description.style.pointerEvents = 'all'
+    setTimeout(() => {
+        const handler = () => {
+            CloseChallengesDescriptionMobile(description)
+            window.removeEventListener('click', handler)
+        }
+
+        window.addEventListener('click', handler)
+    }, 300)
+}
+
+function CloseChallengesDescriptionMobile(element){
+    element.style.opacity = '0'
+    element.style.pointerEvents = 'none'
+}
+
+dashboardLinksMobile.forEach(icon => {
+    icon.addEventListener('click', (e) => {
+        const dashboardIcon = e.currentTarget
+        
+        const dashboardIconInfo = dashboardIcon.getBoundingClientRect()
+
+        const centerX = dashboardIconInfo.width / 2
+        const centerY = dashboardIconInfo.height / 2
+
+        const sparks = 18
+
+        for (let i = 0; i < sparks; i++) {
+            const spark = document.createElement('span')
+            spark.classList.add('sparks')
+            spark.style.left = `${centerX}px`
+            spark.style.top = `${centerY}px`
+            const rotation = Math.random() * 360
+            const distance = Math.random() * 90 
+            spark.style.setProperty('--rotation', `${rotation}deg`)         
+            spark.style.setProperty('--distance', `${distance}px`)
+            dashboardIcon.appendChild(spark)
+            setTimeout(() => {
+                spark.remove()
+            }, 1000)
+        }
+    })
+})
+
+async function ChallengeDone(e){
+    const div = e.currentTarget.closest('.ChallengeMobile')
+    const challengeId = div.dataset.id
+    const points = div.dataset.points
+    const controller = div.dataset.controller
+    let userPoints = parseInt(guestChallengePoints.textContent)
+    const response = await fetch (`/api/${controller}/${challengeId}/${points}`, {
+        method : 'POST'
+    })
+
+    if (response.ok){
+        userPoints += parseInt(points)
+        guestChallengePoints.textContent = userPoints
+        div.style.opacity = '0'
+        setTimeout(() => {
+            div.remove()
+        }, 300)
+    }
+}
+
+async function GetGuestsChallenges(){
+    const guestChallenge = await fetch('/api/Challenges/GuestChallenges')
+    const guestChallengeData = await guestChallenge.json()
+    return guestChallengeData
+}
+
+async function DisplayChallengesMobile(){
+    console.log('Displaying challenges')
+    const challenges = await GetGuestsChallenges()
+    challenges.forEach(challenge => {
+        const diver = document.createElement('div')
+        diver.classList.add('ChallengeMobile')
+        diver.dataset.id = challenge.id
+        diver.dataset.points = challenge.challengePoints
+        diver.dataset.controller = 'Challenges'
+        const divnd = document.createElement('div')
+        divnd.classList.add('ChallengeInfoMobile')
+        const h3er = document.createElement('h3')
+        h3er.textContent = challenge.challengeName
+        divnd.appendChild(h3er)
+        const h4er = document.createElement('h4')
+        h4er.textContent = `${challenge.challengePoints} points`
+        divnd.appendChild(h4er)
+        diver.appendChild(divnd)
+        const divrd = document.createElement('div')
+        divrd.classList.add('ChallengeButtonsMobile')
+        const btner = document.createElement('button')
+        btner.textContent = 'Done'
+        btner.onclick = (e) => ChallengeDone(e)
+        divrd.appendChild(btner)
+        const btnnd = document.createElement('button')
+        btnnd.textContent = 'Description'
+        btnnd.onclick = (e) => OpenChallengesDescriptionMobile(e)
+        divrd.appendChild(btnnd)
+        diver.appendChild(divrd)
+        const divth = document.createElement('div')
+        divth.classList.add('ChallengeDescriptionMobile')
+        const per = document.createElement('p')
+        per.textContent = challenge.description
+        divth.appendChild(per)
+        diver.appendChild(divth)
+        challengesListMobile.appendChild(diver)
+
+    })  
+}
+
+DisplayChallengesMobile()
+
+async function DisplayGuestLeaderboard(){
+    const response = await fetch("/api/Leaderboard")
+    const Leaderboard = await response.json()
+    console.log(Leaderboard)
+    Leaderboard.forEach((guest, index) => {
+        const diver = document.createElement('div')
+        diver.classList.add('LeaderboardGuest')
+        const h3er = document.createElement('h3')
+        h3er.classList.add('PodiumNumber')
+        h3er.textContent = `${index + 1}.`
+        diver.appendChild(h3er)
+        const h3nd = document.createElement('h3')
+        h3nd.textContent = guest.name
+        diver.appendChild(h3nd)
+        const h3rd = document.createElement('h3')
+        h3rd.textContent = `${guest.userPoints} points`
+        diver.appendChild(h3rd)
+        leaderboardListMobile.appendChild(diver)
+    })
+}
+
+DisplayGuestLeaderboard()
+
+function leaderboardPodium(){
+    const guestsOnLeaderboard = document.querySelectorAll('.PodiumNumber')
+    let count = 1
+    console.log(guestsOnLeaderboard.length)
+    guestsOnLeaderboard.forEach(guest => {
+        console.log(count)
+        if (count == 1){
+            guest.classList.add('TopLeaderboard1')
+            guest.style.color = 'gold'
+        }
+        else if (count == 2){
+            guest.classList.add('TopLeaderboard2')
+            guest.style.color = 'silver'
+        }
+        else if (count == 3){
+            guest.classList.add('TopLeaderboard3')
+            guest.style.color = 'bronze'
+        }
+
+        count++
+
+    })
+}
+
+setTimeout(leaderboardPodium, 1000)
+
+async function DisplayWeddingItineraryMobile(){
+    const weddingItineraryList = (await loadData()).WeddingEvents
+    weddingItineraryList.forEach(event => {
+        const eventTime = (event.weddingEventTime).slice(0,5)
+        const diver = document.createElement('div')
+        diver.classList.add('WeddingItineraryListClass')
+        const h3er = document.createElement('h3')
+        h3er.textContent = '→'
+        diver.appendChild(h3er)
+        const h3nd = document.createElement('h3')
+        h3nd.textContent = `${event.weddingEventName}`
+        diver.appendChild(h3nd)
+        const h3rd = document.createElement('h3')
+        h3rd.textContent = `${eventTime}`
+        diver.appendChild(h3rd)
+        weddingItineraryListMobile.appendChild(diver)
+    })
+}
+
+DisplayWeddingItineraryMobile()
+
+async function DisplayNameTableMobile(){
+    const tables = (await loadData()).Guests.groupedTables
+    tables.forEach(table => {
+        const diver = document.createElement('div')
+        diver.style.borderBottom = '1px solid gold'
+        diver.style.display = 'flex'
+        diver.style.justifyContent = 'center'
+        diver.dataset.tableName = table.tableName
+        const h2er = document.createElement('h2')
+        h2er.textContent = `${table.tableName}`
+        diver.appendChild(h2er)
+        tablesNamesMobile.appendChild(diver)
+        diver.addEventListener('click', e => {
+            const clickedTable = e.currentTarget
+            const tableSelected = clickedTable.dataset.tableName
+            tables.forEach(tableName => {
+                if (tableName.tableName === tableSelected){
+                    const guestOnTableSelected = tableName.guestNames
+                    guestOnTableSelected.forEach(guest => {
+                        const h3er = document.createElement('h3')
+                        h3er.classList.add('ThisIsAGuest')
+                        h3er.textContent = `- ${guest}`
+                        guestsOnTable.appendChild(h3er)
+                    })
+                }
+            })
+            guestsOnTable.style.transform = 'scale(1)'
+        })
+    })
+}
+
+DisplayNameTableMobile()
+
+function closeDisplayGuestOnTableMobile(){
+    const TheseAreGuests = document.querySelectorAll('.ThisIsAGuest')
+    guestsOnTable.style.transform = 'scale(0)'
+    TheseAreGuests.forEach(guest => {
+        guest.remove()
+    })
+}
+
+function CloseUploadFormMobile(){
+    uploadPostFormMobile.style.transform = 'translateX(110%)'
+}
+
+function OpenUploadFormMobile(){
+    uploadPostFormMobile.style.transform = 'translateX(0)'
+}
+
+// LiveFeed Function for Eliminate Padding
+
+function isLiveFeedActive(active){
+    if (active !== true && active !== false){
+        active = false
+    }
+
+    let setLiveFeedActive = active
+
+    console.log(setLiveFeedActive)
+
+    switch (setLiveFeedActive){
+        case (true):
+            panelMobile.style.padding = '0'
+        case (false):
+            panelMobile.style.padding = '1'
+    }
+}
+
+isLiveFeedActive(true)
+
+uploadPostFormMobile.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    const dataForm = new FormData(uploadPostFormMobile)
+    const response = await fetch('/api/LiveFeed', {
+        method: 'POST',
+        body: dataForm
+    })
+    
+    if (response.ok){
+        const liveFeedWelcomeMobile = document.getElementById('LiveFeedWelcomeMobile')
+        const urlImage = URL.createObjectURL(dataForm.get('PhotoFeed'))
+        const post = document.createElement('div')
+        post.classList.add('post')
+        const h3er = document.createElement('h3')
+        const UserName = liveFeedWelcomeMobile.textContent.slice(10)
+        h3er.textContent = UserName
+        post.appendChild(h3er)
+        const mainPost = document.createElement('div')
+        mainPost.classList.add('mainPost')
+        const postLike = document.createElement('div')
+        postLike.classList.add('postLike')
+        const h5er = document.createElement('h5')
+        h5er.textContent = 0
+        h5er.addEventListener('click', () => {})
+        mainPost.appendChild(postLike)
+        const postImage = document.createElement('img')
+        postImage.src = urlImage
+        mainPost.appendChild(postImage)
+        post.appendChild(mainPost)
+        const h4nd = document.createElement('h4')
+        const postDescription = dataForm.get('Description')
+        h4nd.textContent = postDescription
+        post.appendChild(h4nd)
+        liveFeedPostsMobile.appendChild(post)
+    }
+})
+
+async function DisplayLiveFeedPostsMobiles() {
+    const response = await fetch('/api/LiveFeed')
+    const data = await response.json()
+    if (response.ok){
+        data.forEach(LiveFeedPost => {
+            console.log(LiveFeedPost)
+            const post = document.createElement('div')
+            post.classList.add('Post')
+            const h3er = document.createElement('h3')
+            h3er.textContent = LiveFeedPost.userName
+            post.appendChild(h3er)
+            const mainPost = document.createElement('div')
+            mainPost.classList.add('mainPost')
+            const postLike = document.createElement('div')
+            postLike.classList.add('postLike')
+            const h5er = document.createElement('h5')
+            h5er.textContent = 0
+            h5er.addEventListener('click', () => {})
+            mainPost.appendChild(postLike)
+            const postImageDiv = document.createElement('div')
+            postImageDiv.classList.add('PostImage')
+            const postImage = document.createElement('img')
+            postImage.src = `https://ik.imagekit.io/Garcia5050/${LiveFeedPost.photoFeed}`
+            postImageDiv.appendChild(postImage)
+            mainPost.appendChild(postImageDiv)
+            post.appendChild(mainPost)
+            const h4nd = document.createElement('h4')
+            h4nd.textContent = LiveFeedPost.description
+            post.appendChild(h4nd)
+            liveFeedPostsMobile.appendChild(post) 
+        })
+    }
+}
+
+DisplayLiveFeedPostsMobiles()
+
+function DisplayMyAccountPanel(){
+    setTimeout(() => {
+        dashboardPanelMobile.style.display = 'none'
+        myAccountPanelMobile.style.display = 'flex'
+        myAccountPanelMobile.offsetHeight
+        myAccountPanelMobile.style.opacity = '1'
+        myAccountPanelMobile.style.pointerEvents = 'auto'
+    }, 750)
+    setTimeout(() => {
+        arrowBackMobile.style.display = 'flex'
+    }, 1000)
+}
+
+function DisplayChallengePanel(){
+    setTimeout(() => {
+        dashboardPanelMobile.style.display = 'none'
+        challengesPanelMobile.style.display = 'flex'
+        challengesPanelMobile.offsetHeight
+        challengesPanelMobile.style.opacity = '1'
+        challengesPanelMobile.style.pointerEvents = 'auto'
+    }, 750)
+    setTimeout(() => {
+        arrowBackMobile.style.display = 'flex'
+    }, 1000)
+}
+
+function DisplayLeaderboardPanel(){
+    setTimeout(() => {
+        dashboardPanelMobile.style.display = 'none'
+        leaderboardPanelMobile.style.display = 'flex'
+        leaderboardPanelMobile.offsetHeight
+        leaderboardPanelMobile.style.opacity = '1'
+        leaderboardPanelMobile.style.pointerEvents = 'auto'
+    }, 750)
+    setTimeout(() => {
+        arrowBackMobile.style.display = 'flex'
+    }, 1000)
+}
+
+function DisplayLiveFeedPanel(){
+    setTimeout(() => {
+        dashboardPanelMobile.style.display = 'none'
+        liveFeedPanelMobile.style.display = 'flex'
+        liveFeedPostsMobile.offsetHeight
+        liveFeedPanelMobile.style.opacity = '1'
+        liveFeedPanelMobile.style.pointerEvents = 'auto'
+    }, 750)
+    setTimeout(() => {
+        arrowBackMobile.style.display = 'flex'
+    }, 1000)
+}
+
+function DisplayWeddingItineraryPanel(){
+    setTimeout(()=> {
+        dashboardPanelMobile.style.display = 'none'
+        weddingItineraryPanelMobile.style.display = 'flex'
+        weddingItineraryPanelMobile.offsetHeight
+        weddingItineraryPanelMobile.style.opacity = '1'
+        weddingItineraryPanelMobile.style.pointerEvents = 'auto'
+    }, 750)
+    setTimeout(() => {
+        arrowBackMobile.style.display = 'flex'
+    }, 1000)
+}
+
+function DisplayTablesPanel(){
+    setTimeout(() => {
+        dashboardPanelMobile.style.display = 'none'
+        tablesPanelMobile.style.display = 'flex'
+        tablesPanelMobile.offsetHeight
+        tablesPanelMobile.style.opacity = '1'
+        tablesPanelMobile.style.pointerEvents = 'auto'
+    }, 750)
+    setTimeout(() => {
+        arrowBackMobile.style.display = 'flex'
+    }, 1000)
+}
+
+const mobilePanels = [myAccountPanelMobile, challengesPanelMobile, leaderboardPanelMobile, liveFeedPanelMobile, 
+    weddingItineraryPanelMobile, tablesPanelMobile
+]
+
+function DisplayDasboardPanelMobile(){
+    mobilePanels.forEach(panel => {
+        panel.style.display = 'none'
+        panel.style.opacity = '0'
+        panel.style.pointerEvents = 'none'
+    })
+    guestsOnTable.style.transform = 'scale(0)'
+    arrowBackMobile.style.display = 'none'
+    dashboardPanelMobile.style.display = 'flex'
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,5 +1,6 @@
 ﻿using Amare.Data;
 using Amare.Models;
+using LogicLayer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 
@@ -9,44 +10,25 @@ namespace Amare.Controllers
     [Route("api/[controller]")]
     public class BudgetController : BaseController
     {
-        private readonly DbUserProfile _db;
+        private readonly Budget _budget;
 
-        public BudgetController(DbUserProfile db)
+        public BudgetController(Budget budget)
         {
-            _db = db;
+            _budget = budget;
         }
 
         [HttpGet]
-        public async Task<List<Budget>> GetBudget()
+        public async Task<List<BudgetDTO>> GetBudget()
         {
-            string query = "SELECT Id, MaxBudget FROM Budget WHERE WeddingCode = @WeddingCode";
-
-            List<SqlParameter> parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@WeddingCode", weddingnCode)
-            };
-
-            var budget = await _db.GetQueryExecuter(query, r => new Budget
-            {
-                Id = Convert.ToInt16(r["Id"]),
-                MaxBudget = Convert.ToInt32(r["MaxBudget"])
-            }, parameters);
+            var budget = await _budget.GetBudget(weddingnCode);
 
             return budget;
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> UpdateBadget(int id)
+        public async Task<IActionResult> UpdateBadget(int id, int maxBudget)
         {
-            string query = "UPDATE Budget SET MaxBudget = @MaxBudget WHERE Id = @Id";
-
-            List<SqlParameter> parameters = new List<SqlParameter>()
-            {
-                new SqlParameter(),
-                new SqlParameter("@Id", id)
-            };
-
-            await _db.PatchDeleteQueryExecuter(query, parameters);
+            await _budget.UpdateBudget(id, maxBudget);
 
             return Ok();
         }

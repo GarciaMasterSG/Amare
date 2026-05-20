@@ -105,6 +105,11 @@ nav h1{
     height: 11%;
 }
 
+#DashboardPanel > h1 {
+    font-size: 2.5rem;
+    font-family: 'Cormorant Garamond';
+}
+
 #Budget{
     grid-row-start: 1;
     grid-row-end: 3;
@@ -711,7 +716,10 @@ nav h1{
 }
 
 #TotalBudgetAvailable::before{
-    content: '';
+    content: attr(data-over-budget);
+    text-align: center;
+    font-size: 1.4rem;
+    color: white;
     position: absolute;
     justify-self: center;
     bottom: 2rem;
@@ -855,6 +863,10 @@ nav h1{
     box-shadow: 0px 0px 3px 3px #ffbf0063;
 }
 
+#SmallCircle h4{
+    padding: 0;
+}
+
 #TablesPlanningList{
     height: 50%;
     width: 100%;
@@ -907,6 +919,7 @@ nav h1{
     width: 100%;
     background-color: white;
     border-radius: 8px;
+    transform: scale(0);
     transition: transform 0.3s;
 }
 
@@ -996,6 +1009,33 @@ nav h1{
     transform: scale(1.1);
 }
 
+#GuestsNoFound{
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none; 
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.95); 
+    border-radius: 8px;
+    z-index: 999;
+    color: #c69f29;
+    padding: 1.5rem;
+    padding-top: 2rem;
+    box-sizing: border-box;
+}
+
+#GuestsNoFound img{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
 #WeddingItinerary{
     overflow-y: scroll;
     scrollbar-width: none;
@@ -1027,6 +1067,7 @@ nav h1{
     width: 100%;
     background-color: white;
     border-radius: 8px;
+    transform: scale(0);
     transition: transform 0.3s;
 }
 
@@ -1136,6 +1177,7 @@ nav h1{
     height: 100%;
     background-color: white;
     border-radius: 8px;
+    transform: scale(0);
     transition: transform 0.3s;
 }
 
@@ -1275,6 +1317,7 @@ nav h1{
     width: 100%;
     background-color: white;
     border-radius: 8px;
+    transform: scale(0);
     transition: transform 0.3s;
 }
 
@@ -1285,7 +1328,7 @@ nav h1{
     top: 5px;
     right: 5px;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: transform 0.3s;
 }
 
 #ChallengeDivForm img:hover{
@@ -1336,6 +1379,7 @@ nav h1{
     width: 100%;
     background-color: white;
     border-radius: 8px;
+    transform: scale(0);
     transition: transform 0.3s;
 }
 
@@ -1346,7 +1390,7 @@ nav h1{
     top: 5px;
     right: 5px;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: transform 0.3s;
 }
 
 #GuestPlanningForm img:hover{
@@ -1480,11 +1524,10 @@ nav h1{
 
 .Post{
     background-color: white;
-    
-
+    border-bottom: 1px solid gold;
 }
 
-.Post h3, h4{
+.Post h2, .Post h3,.Post h4{
     padding-left: 15px;
 }
 
@@ -1640,11 +1683,130 @@ nav h1{
     z-index: 999;
 }
 
+#MyAccountPanelHeader{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
-
-#MyAccountPanel > h2{
+#MyAccountPanelHeader > h2{
     font-size: 2.25rem;
     margin: 0;
+}
+
+#PersonalizeButton{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    border: none;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 3px;
+    font-weight: 800;
+    font-size: 1.25rem;
+    font-family: 'Cormorant Garamond';
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+#PersonalizeButtonContainer{
+    position: relative;
+    height: 4rem;
+    width: 10rem;
+}
+
+#PersonalizeButton img{
+    display: flex;
+    height: 3rem;
+    width: 3rem;
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+#PersonalizeButton h4{
+    display: none;
+}
+
+#PersonalizeButton img:hover{
+    transform: scale(1.05);
+}
+
+#PersonalizeFormContainer img{
+    position: absolute;
+    height: 4.5rem;
+    width: 4.5rem;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    z-index: 999;
+}
+
+#PersonalizeFormContainer img:hover{
+    transform: scale(1.1);
+}
+
+#PersonalizeFormContainer{
+    background: linear-gradient(180deg, rgb(253, 230, 233), rgb(255, 226, 231));
+    position: absolute;
+    font-size: 1rem;
+    gap: 1rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    top: 0;
+    right: 0;
+    width: 30rem;
+    height: 30rem;
+    transform: scale(0);
+    transform-origin: top right;
+    border-radius: 8px 0 8px 8px;
+    box-shadow: 1px 1px 5px 3px rgba(244, 176, 176, 0.345); 
+    transition: transform 0.5s;
+    z-index: 998;
+}
+
+#PersonalizeFormContainer form{
+    display: flex;
+    align-items: center;
+    font-size: 2rem;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+#PersonalizeFormContainer form input{
+    font-family: 'Cormorant Garamond';
+    text-align: center;
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    height: 2rem;
+    width: 15rem;
+    box-sizing: border-box;
+}
+
+#PersonalizeFormContainer form input:focus{
+    outline-color:#e7bf45;
+}
+
+#PersonalizeFormContainer form button{
+    background: linear-gradient(180deg, rgb(243, 199, 206), rgb(220, 137, 151));
+    font-size: 1.6rem;
+    border: none;
+    width: 17rem;
+    height: 2.5rem;
+    margin-top: 1.5rem;
+    border-radius: 3px;
+    font-weight: 500;
+    font-family: 'Cormorant Garamond';
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+    box-shadow: 1px 1px 5px 3px rgba(244, 176, 176, 0.345);
+}
+
+#PersonalizeFormContainer form button:hover{
+    transform: scale(1.05);
 }
 
 #MyWeddingData{
@@ -1803,3 +1965,592 @@ nav h1{
 .Active{
     opacity: 1;
 }
+
+#PanelMobile{
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    nav {
+        display: none;
+    }
+    #Panel{
+        display: none;
+    }
+    #PanelMobile{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+        radial-gradient(circle at 20% 20%, rgba(255, 192, 203, 0.42), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(255, 192, 203, 0.42), transparent 40%),
+        radial-gradient(circle at 65% 20%, rgba(255, 192, 203, 0.42), transparent 40%),
+        radial-gradient(circle at 35% 70%, rgba(255, 192, 203, 0.42), transparent 40%),
+        white
+        ;
+        flex-direction: column;
+        padding: 1rem;
+        box-sizing: border-box;
+        font-family: 'Cormorant Garamond';
+    }
+
+    #DashboardPanelMobile{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+
+    #DashboardHeaderMobile{
+        text-align: center;
+        margin: 1rem 0;
+    }
+
+    #DashboardHeaderMobile span{
+        color: #e7bf45;
+        font-size: 2.5rem;
+        font-style: italic;
+    }
+
+    #DashboardPanelMobile > h2 {
+        text-align: center;
+    }
+
+    #DashboardLinksMobileContainer{
+        display: grid;
+        background-color: white;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 0.5rem;
+        padding: 1rem;
+        box-sizing: border-box;
+        border-radius: 8px;
+        box-shadow: 1px 1px 5px 3px rgba(244, 176, 176, 0.345);
+    }
+
+    .DashboardLinksMobile{
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background: linear-gradient(180deg, rgb(254, 225, 229), rgb(255, 228, 232));
+        border-radius: 8px;
+        padding: 4px;
+        box-sizing: border-box;
+        font-style: italic;
+        color: #c69f29;
+    }
+
+    .DashboardLinksMobile img{
+        height: 4rem;
+        width: 4rem;
+        cursor: pointer;
+    }
+
+    .DashboardLinksMobile h3{
+        margin: 0.5rem 0;
+    }
+
+    .sparks{
+        position: absolute;
+        height: 5px;
+        width: 5px;
+        background-color: gold;
+        border-radius: 50%;
+        animation: spark 0.5s linear forwards;
+    }
+
+    @keyframes spark {
+        0% {
+        transform: rotate(var(--rotation)) translate(0px);
+        opacity: 1;
+        }
+        100% {
+            transform: rotate(var(--rotation)) translate(var(--distance));
+            opacity: 0;
+        }
+    }
+
+    #MyAccountPanelMobile{
+        position: relative;
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1.5rem;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 1s; 
+    }
+
+    #ProfilePhotoContainerMobile{
+        position: absolute;
+        top: 5%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        border-radius: 50%;
+        height: 12rem;
+        width: 12rem;
+        overflow: hidden;
+        z-index: 999;
+    }
+
+    #MyAccountProfilePhotoMobile{
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    #MyAccountPhotoMobileInput{
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        padding-top: 2rem;
+        background-color: rgb(252, 215, 221);
+        gap: 1rem;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    #MyAccountPhotoMobileInput label{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 2rem;
+        width: 75%;
+        background: rgb(220, 137, 151);
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    #MyAccountPhotoMobileInput input{
+        display: none
+    }
+    
+    #MyAccountInformationMobile{
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+        background-color: white;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+        border: 2px solid #e7bf45;
+        box-sizing: border-box;
+    }
+
+    #MyAccountInformationMobile button{
+        align-self: center;
+        background: linear-gradient(180deg, rgb(243, 199, 206), rgb(220, 137, 151));
+        border: none;
+        width: 90%;
+        height: 2rem;
+        border-radius: 3px;
+        font-weight: 500;
+        font-family: 'Cormorant Garamond';
+        transition: transform 0.2s, color 0.2s;
+        box-shadow: 1px 1px 5px 3px rgba(244, 176, 176, 0.345)  ;
+    }
+
+    #AccountPhotoMobile{
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    #EditAccountPhotoMobile{
+        position: absolute;
+        border-radius: 50%;
+        top: 60%;
+        right: 15%;
+        height: 2.5rem;
+        width: 2.5rem;
+        background-color: rgba(255, 255, 255, 0.413);
+    }
+
+    #ArrowBackMobile{
+        display: none;
+        position: absolute;
+        top: 5%;
+        left: 5%;
+        height: 3rem;
+        width: 3rem;
+        z-index: 997;
+    }
+
+    #ChallengesPanelMobile{
+        display: none;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 1s; 
+    }
+
+    #ChallengesHeaderMobile{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        font-size: 1.25rem;
+    }
+
+    #ChallengesListMobile{
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        overflow-y: scroll;
+        scrollbar-width: none;
+    }
+
+    #UserPointsMobile{
+        display: flex;
+        justify-content: center;
+        font-size: 1.5rem;
+        background-color: white;
+        border-radius: 30px;
+        box-sizing: border-box;
+        margin-bottom: 1.5rem;
+    }
+
+    .ChallengeMobile{
+        position: relative;
+        display: flex;
+        justify-content: center;
+        background-color: white;
+        padding: 0.25rem 1rem;
+        border-radius: 8px;
+        box-sizing: border-box;
+        border: 2px solid #e7bf45;
+        transition: opacity 0.3s;
+    }
+
+    .ChallengeInfoMobile{
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        flex: 1;
+    }
+
+    .ChallengeInfoMobile h3{
+        font-size: 1.3rem;
+    }
+
+    .ChallengeInfoMobile h4{
+        font-size: 1.1rem;
+        margin-top: 0;
+        padding: 0;
+    }
+
+    .ChallengeButtonsMobile{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1.5rem;
+        flex: 1;
+    }
+
+    .ChallengeButtonsMobile button{
+        background: linear-gradient(180deg, rgb(243, 199, 206), rgb(220, 137, 151));
+        border: none;
+        width: 60%;
+        height: 2rem;
+        border-radius: 3px;
+        font-weight: 500;
+        font-family: 'Cormorant Garamond';
+        transition: transform 0.2s, color 0.2s;
+        box-shadow: 1px 1px 5px 3px rgba(244, 176, 176, 0.345) 
+    }
+
+    .ChallengeDescriptionMobile{
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: flex;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        border-radius: 8px;
+        padding: 0.5rem;
+        box-sizing: border-box;
+        opacity: 0;
+        transition: opacity 0.3s;
+        pointer-events: none;
+    }
+
+    #LeaderboardPanelMobile{
+        display: none;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 1s; 
+    }
+
+    #LeaderboardHeaderMobile{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        font-size: 1.25rem;
+    }
+
+    #LeaderboardListMobile{
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        overflow-y: scroll;
+        scrollbar-width: none;
+    }
+
+    .LeaderboardGuest{
+        display: flex;
+        justify-content: space-between;
+        background-color: white;
+        border: 2px solid #e7bf45;
+        padding: 0.25rem 1rem;
+        border-radius: 8px;
+    }
+
+    .TopLeaderboard1{
+        animation: blink 1s infinite;
+    }
+
+    .TopLeaderboard2{
+        animation: blink 1s infinite;
+        animation-delay: 0.4s;
+    }
+
+    .TopLeaderboard3{
+        animation-delay: 0.8s;
+        animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+        0%{
+            opacity: 1;
+        }
+
+        50%{
+            opacity: 0.75;
+        }
+
+        100%{
+            opacity: 0;
+        }
+    }
+
+    #WeddingItineraryPanelMobile{
+        display: none;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 1s; 
+    }
+
+    #WeddingItineraryHeaderMobile{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        font-size: 1.25rem;
+    }
+
+    #WeddingItineraryListMobile{
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        overflow-y: scroll;
+        scrollbar-width: none;
+        background-color: white;
+        border-radius: 8px;
+        padding: 5px;
+        height: 85%;
+    }
+
+    .WeddingItineraryListClass{
+        display: flex;
+        justify-content: space-between;
+        background-color: white;
+        border: 2px solid #e7bf45;
+        padding: 0.25rem 1rem;
+        border-radius: 8px;
+
+    }
+
+    #TablesPanelMobile{
+        display: none;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 1s; 
+    }
+
+    #TablesHeaderMobile{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        font-size: 1.25rem;
+    }
+
+    #TablesNamesMobile{
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        overflow-y: scroll;
+        scrollbar-width: none;
+        background-color: white;
+        border-radius: 8px;
+        padding: 5px;
+        height: 85%;
+    }
+
+    #GuestsOnTable{
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        transform: scale(0);
+        transition: transform 0.4s ;
+    }
+
+    #GuestsOnTable img{
+        height: 4rem;
+        width: 4rem;
+        position: fixed;
+        top: 5px;
+        right: 5px;
+    }
+
+    .ThisIsAGuest{
+        font-size: 2.15rem;
+        padding: 1.5rem;
+    }
+
+    #LiveFeedPanelMobile{
+        position: relative;
+        display: none;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        background-color: white; 
+        pointer-events: none; 
+        opacity: 0; 
+        transition: opacity 1s; 
+    }
+
+    #LiveFeedHeaderMobile{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1rem;
+        width: 100%;
+        font-size: 1.25rem;
+        background-color: white;
+    }
+
+    #UploadPostFormMobile{
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        top: 1rem;
+        left: 0.75rem;
+        height: 95%;
+        width: 95%;
+        background-color: white;
+        border-radius: 40px;
+        padding: 2rem;
+        z-index: 998;
+        box-sizing: border-box;
+        user-select: none;
+        transform: translateX(110%);
+        transition: transform 0.5s;
+    }
+
+    #UploadPostFormMobile input[type='file']{
+        display: none;
+    }
+
+    #UploadPostFormMobile textarea{
+        font-size: 1rem;
+        width: 80%;
+        height: 30%;
+        font-family: 'Cormorant Garamond';
+        margin: 2rem auto 0 auto;
+    }
+
+    #UploadPostFormMobile button{
+        margin-top: 4rem;
+        background: linear-gradient(180deg, rgb(243, 199, 206), rgb(220, 137, 151));
+        font-size: 1.5rem;
+        border: none;
+        width: 10rem;
+        height: 3rem;
+        border-radius: 3px;
+        font-weight: 500;
+        font-family: 'Cormorant Garamond';
+        cursor: pointer;
+        transition: transform 0.2s, color 0.2s;
+        box-shadow: 1px 1px 5px 3px rgba(244, 176, 176, 0.345);
+    }
+
+    #CloseUploadPostMobile{
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        height: 3rem;
+        width: 3rem;
+        z-index: 999;
+    }
+
+    #AddPostMobile{
+        position: absolute;
+        bottom: 30px;
+        right: 30px;
+        height: 5rem;
+        width: 5rem;
+        border-radius: 50%;
+        background: linear-gradient(180deg, rgb(243, 199, 206), rgb(220, 137, 151));
+        z-index: 997;
+        user-select: none;
+        cursor: pointer;
+    }
+
+    #LiveFeedPostsMobile{
+        width: 100%;
+        height: 80%;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        scrollbar-width: none;
+        box-sizing: border-box;
+    }
+}
+

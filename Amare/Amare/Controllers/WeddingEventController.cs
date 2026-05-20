@@ -2,6 +2,7 @@
 using Amare.Models;
 using Amare.Data;
 using Microsoft.Data.SqlClient;
+using LogicLayer;
 
 namespace Amare.Controllers
 {
@@ -9,47 +10,25 @@ namespace Amare.Controllers
     [Route("api/[controller]")]
     public class WeddingEventController : BaseController
     {
-        private readonly DbUserProfile _db;
+        private readonly WeddingEvents _weddingEvents;
 
-        public WeddingEventController(DbUserProfile db)
+        public WeddingEventController(WeddingEvents weddingEvents)
         {
-            _db = db;
+            _weddingEvents = weddingEvents;
         }
 
         [HttpGet]
-        public async Task<List<WeddingEvent>> GetWeddingEvents()
+        public async Task<List<WeddingEventDTO>> GetWeddingEvents()
         {
-            string query = "SELECT EventAt, EventName FROM WeddingItinerary WHERE WeddingCode = @WeddingCode";
+            var weddingEventOrginizer = await _weddingEvents.GetWeddingEvents(weddingnCode);
 
-            List<SqlParameter> parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@WeddingCode", weddingnCode)
-            };
-
-            var weddingEvents = await _db.GetQueryExecuter(query,  r => new WeddingEvent
-            {
-                WeddingEventName = Convert.ToString(r["EventName"]),
-                WeddingEventTime = (TimeSpan)r["EventAt"]
-            }, parameters);
-
-            return weddingEvents;
+            return weddingEventOrginizer;
         }
 
         [HttpPost]
-        public async Task<IActionResult> WeddingEventPost([FromForm] WeddingEvent weddingEvent)
+        public async Task<IActionResult> WeddingEventPost([FromForm] WeddingEventDTO weddingEvent)
         {
-            var weddingCode = HttpContext.Session.GetString("UserWeddingCode");
-
-            string query = "INSERT INTO WeddingItinerary(WeddingCode, EventAt, EventName) VALUES (@WeddingCode, @EventAt, @EventName); SELECT SCOPE_IDENTITY()";
-
-            List<SqlParameter> parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@WeddingCode", weddingCode),
-                new SqlParameter("@EventAt", weddingEvent.WeddingEventTime),
-                new SqlParameter("@EventName", weddingEvent.WeddingEventName)
-            };
-
-            int id = await _db.PostQueryExecuter(query, parameters);
+            int id = await _weddingEvents.WeddingEventPost(weddingEvent, weddingnCode);
 
             return Ok(id);
         }
@@ -57,14 +36,7 @@ namespace Amare.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteData(int id) 
         {
-            string query = "DELETE FROM WeddingItinerary WHERE Id = @Id";
-
-            List<SqlParameter> parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", id)
-            };
-
-            await _db.PatchDeleteQueryExecuter(query, parameters);
+            await _weddingEvents.DeleteWeddingEvent(id);
 
             return Ok();
         }

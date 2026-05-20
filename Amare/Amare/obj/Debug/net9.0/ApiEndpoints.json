@@ -1,7 +1,7 @@
 [
   {
     "ContainingType": "Amare.Controllers.AddGuestsController",
-    "Method": "GetGuests",
+    "Method": "GetGuest",
     "RelativePath": "api/AddGuests",
     "HttpMethod": "GET",
     "IsController": true,
@@ -9,7 +9,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "Amare.Models.GetGuests",
+        "Type": "Amare.Models.GetGuestsDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -82,7 +82,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.Budget, Amare, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.BudgetDTO, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -104,6 +104,11 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
+      },
+      {
+        "Name": "maxBudget",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -118,7 +123,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.Challenges, Amare, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.ChallengesDTO, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -161,7 +166,7 @@
   },
   {
     "ContainingType": "Amare.Controllers.ChallengesController",
-    "Method": "DeleteData",
+    "Method": "DeleteChallenges",
     "RelativePath": "api/Challenges/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
@@ -176,16 +181,37 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Amare.Controllers.ExpensesController",
-    "Method": "GetExpenses",
-    "RelativePath": "api/Expenses",
+    "ContainingType": "Amare.Controllers.ChallengesController",
+    "Method": "PostIdChallenge",
+    "RelativePath": "api/Challenges/{id}/{points}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "points",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Amare.Controllers.ChallengesController",
+    "Method": "GetGuestChallenges",
+    "RelativePath": "api/Challenges/GuestChallenges",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.Expenses, Amare, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.ChallengesDTO, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -197,7 +223,27 @@
   },
   {
     "ContainingType": "Amare.Controllers.ExpensesController",
-    "Method": "AddExpense",
+    "Method": "GetExpenses",
+    "RelativePath": "api/Expenses",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.ExpensesDTO, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Amare.Controllers.ExpensesController",
+    "Method": "PostExpense",
     "RelativePath": "api/Expenses",
     "HttpMethod": "POST",
     "IsController": true,
@@ -238,6 +284,98 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Amare.Controllers.LeaderboardController",
+    "Method": "GetLeaderboard",
+    "RelativePath": "api/Leaderboard",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.UserLeaderboardDTO, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Amare.Controllers.LiveFeedController",
+    "Method": "LiveFeedGet",
+    "RelativePath": "api/LiveFeed",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.LiveFeedGetDTO, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Amare.Controllers.LiveFeedController",
+    "Method": "PostLiveFeed",
+    "RelativePath": "api/LiveFeed",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Description",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "FileName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "PhotoFeed",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Amare.Controllers.ProfileImageController",
+    "Method": "PostProfileImage",
+    "RelativePath": "api/ProfileImage",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Photo",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Amare.Controllers.ProfileImageController",
+    "Method": "GetProfileImage",
+    "RelativePath": "api/ProfileImage",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Amare.Controllers.TablesController",
     "Method": "CreateTable",
     "RelativePath": "api/Tables",
@@ -247,7 +385,7 @@
     "Parameters": [
       {
         "Name": "table",
-        "Type": "Amare.Models.Tables",
+        "Type": "Amare.Models.TablesDTO",
         "IsRequired": true
       }
     ],
@@ -263,7 +401,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.Tasks, Amare, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.TasksDTO, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -346,7 +484,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.Vendors, Amare, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.VendorsDTO, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -430,6 +568,27 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Amare.Controllers.WeddingDateLocationController",
+    "Method": "PostWeddingDateLocation",
+    "RelativePath": "api/WeddingDateLocation",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "WeddingLocation",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "WeddingDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Amare.Controllers.WeddingEventController",
     "Method": "GetWeddingEvents",
     "RelativePath": "api/WeddingEvent",
@@ -439,7 +598,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.WeddingEvent, Amare, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.WeddingEventDTO, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

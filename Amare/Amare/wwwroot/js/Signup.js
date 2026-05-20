@@ -18,7 +18,18 @@ const iGEmail = document.getElementById('IGEmail')
 const iGPassword = document.getElementById('IGPassword')
 const iGConfirmedPassword = document.getElementById('IGConfirmedPassword')
 const brideAndGroomNames = document.getElementById('BrideAndGroomNames')
+const createWCInfo = document.getElementById('CreateWCInfo')
+const createWCInfoText = document.getElementById('CreateWCInfoText')
 let errorMessage = document.getElementById('ErrorMessage')
+
+createWCInfo.addEventListener('mouseenter', () => {
+    createWCInfoText.style.opacity = '1'
+})
+
+createWCInfo.addEventListener('mouseleave', () => {
+    createWCInfoText.style.opacity = '0'
+})
+
 
 const wedding = {
     weddingCode : '',
@@ -187,3 +198,18 @@ window.addEventListener('click', e => {
         return
     }
 })
+
+if (window.innerWidth < 1024){ 
+    function ShowInfoForMobile(){
+        const currentOpacity = getComputedStyle(createWCInfoText).opacity
+
+        if (currentOpacity == '0'){
+            createWCInfoText.style.opacity = '1'
+        }
+        else{
+            createWCInfoText.style.opacity = '0'
+        }
+    }
+
+    createWCInfo.addEventListener('click', ShowInfoForMobile)
+}
