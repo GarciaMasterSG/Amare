@@ -4,6 +4,7 @@ namespace Amare.Controllers
 {
     public class BaseController : ControllerBase
     {
-        protected string weddingnCode { get { return HttpContext.Session.GetString("UserWeddingCode"); } }
+        private string? _testWeddingCode;
+        public string weddingnCode { get { return _testWeddingCode ?? HttpContext.Session.GetString("UserWeddingCode"); } set { _testWeddingCode = value; } }
     }
 }

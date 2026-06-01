@@ -33,7 +33,12 @@ namespace Amare.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProfileImage()
         {
-            int? userId = HttpContext.Session.GetInt32("UserId");
+            int? userId = HttpContext?.Session?.GetInt32("UserId");
+
+            if (userId == null)
+            {
+                return BadRequest();
+            }
 
             List<string> imageUrl = await _profileImage.GetProfileImage(userId.Value);
 

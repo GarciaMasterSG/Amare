@@ -3,4 +3,5 @@
   <Project Path="DataLayer/DataLayer.csproj" Id="e3c17c92-f07c-4cd0-9818-3bd3d5db6385" />
   <Project Path="LogicLayer/LogicLayer.csproj" Id="b381d814-b95f-4f92-a9fc-0a3f105f7893" />
   <Project Path="Models/Models.csproj" Id="54ee7bb3-c55f-4466-b8cf-23e94e991ad5" />
+  <Project Path="UnitTests/UnitTests.csproj" Id="009e24b9-e950-42b6-8441-f1d0a7fac475" />
 </Solution>

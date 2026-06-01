@@ -1,4 +1,5 @@
-﻿using Amare.Data;
+﻿
+using Amare.Data;
 using Amare.Models;
 using Imagekit.Sdk;
 using Microsoft.AspNetCore.Http;
@@ -26,13 +27,15 @@ namespace LogicLayer
             return await _LiveFeed.GetLiveFeed(weddingCode);
         }
 
-        public async Task PostLiveFeed(LiveFeedPostDTO post, string description, string weddingCode, string userName)
+        public async Task PostLiveFeed(LiveFeedPostDTO post, string weddingCode, string userName)
         {
+            Stream photoStream = post.PhotoFeed.OpenReadStream();
+
             byte[] finalPhoto;
 
             using (var ms = new MemoryStream())
             {
-                await post.PhotoFeed.CopyToAsync(ms);
+                await photoStream.CopyToAsync(ms);
                 finalPhoto = ms.ToArray();
             }
 

@@ -32,7 +32,7 @@ namespace Amare.Controllers
         {
             string userName = HttpContext.Session.GetString("UserName");
 
-            await _liveFeed.PostLiveFeed(post, post.Description, weddingnCode, userName);
+            await _liveFeed.PostLiveFeed(post, weddingnCode, userName);
 
             return Ok();
         }

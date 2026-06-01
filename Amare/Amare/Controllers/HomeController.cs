@@ -17,6 +17,12 @@ namespace Amare.Controllers
         public async Task<IActionResult> Index()
         {
             var weddingCode = HttpContext.Session.GetString("UserWeddingCode");
+
+            if (weddingCode == null)
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+
             string query = "SELECT * FROM Wedding WHERE WeddingCode = @WeddingCode";
 
             List<SqlParameter> parameters = new List<SqlParameter>()

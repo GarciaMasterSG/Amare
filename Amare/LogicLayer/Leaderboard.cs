@@ -21,7 +21,9 @@ namespace LogicLayer
 
         public async Task<List<UserLeaderboardDTO>> GetLeaderboard(string weddingCode)
         {
-            return await _leaderboard.GetLeaderboard(weddingCode);
+            var userPoints = await _leaderboard.GetLeaderboard(weddingCode);
+            var sortedUserPoints = userPoints.OrderByDescending(u => u.UserPoints).ToList();
+            return sortedUserPoints;
         }
     }
 }

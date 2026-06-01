@@ -69,7 +69,9 @@ wwwroot\css\Index.css
 wwwroot\css\Login.css
 wwwroot\css\Signup.css
 wwwroot\favicon.ico
+wwwroot\images\AIAssistant.png
 wwwroot\images\Add.png
+wwwroot\images\AmyPA.png
 wwwroot\images\ArrowBack.png
 wwwroot\images\Bride.png
 wwwroot\images\ChallengesIcon.png
@@ -107,6 +109,7 @@ wwwroot\images\livefeed.png
 wwwroot\images\location.png
 wwwroot\images\myaccount.png
 wwwroot\images\planning.png
+wwwroot\images\submitMessage.png
 wwwroot\images\vendor.png
 wwwroot\js\Index.js
 wwwroot\js\Login.js

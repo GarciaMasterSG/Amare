@@ -5,6 +5,7 @@ const vendorsToHireFormForm = document.querySelector('#VendorsToHireForm form')
 const extraExpesesForm = document.getElementById('ExtraExpensesForm')
 const extraExpenseFormForm = document.querySelector('#ExtraExpensesForm form')
 const selectedTable = document.getElementById('SelectedTable')
+const weddingAssistantForm = document.getElementById('WeddingAssistantForm')
 const addGuestToTable = document.getElementById('AddGuestToTable')
 const addTablesForm = document.getElementById('AddTablesForm')
 const tablesForm = document.getElementById('TablesForm')
@@ -46,6 +47,7 @@ const personalizeFormForm = document.getElementById('PersonalizeForm')
 const personalizeButton = document.getElementById('PersonalizeButton')
 const budgetAvalaible = document.getElementById('BudgetAvalaible')
 const liveFeedPosts = document.getElementById('LiveFeedPosts')
+const aIAssistantChat = document.getElementById('AIAssistantChat')
 
 profilePhotoFormInput.addEventListener('change', async () => {
     const file = profilePhotoFormInput.files[0]
@@ -124,7 +126,8 @@ const sections = [
     {index : 1 , btn : document.getElementById('Vendors'), text : document.querySelector('#Vendors h2'), panel : document.getElementById('VendorsPanel')},
     {index : 2 , btn : document.getElementById('Planning'), text : document.querySelector('#Planning h2'), panel : document.getElementById('PlanningPanel')},
     {index : 3 , btn : document.getElementById('LiveFeed'), text : document.querySelector('#LiveFeed h2'), panel : document.getElementById('LiveFeedPanelContainer')},
-    {index : 4 , btn : document.getElementById('MyAccount'), text : document.querySelector('#MyAccount h2'), panel : document.getElementById('MyAccountPanel')}
+    {index : 4 , btn : document.getElementById('MyAccount'), text : document.querySelector('#MyAccount h2'), panel : document.getElementById('MyAccountPanel')},
+    {index : 5 , btn : document.getElementById('WeddingAssistant'), text : document.querySelector('#WeddingAssistant h2'), panel : document.getElementById('WeddingAssistantPanel')}
 ]
 
 let currentIndex = sections[0].index
@@ -159,6 +162,77 @@ sections.forEach(section => {
         setMenuActive(section)
     })
 })
+
+// Send User Message to the AI Assistant
+
+weddingAssistantForm.addEventListener('submit', async e => {
+
+    e.preventDefault()
+
+    const userMessageInput = document.getElementById('UserMessageInput')
+    if (userMessageInput.value.trim() == ''){
+        return
+    }
+
+    const userSendButton = weddingAssistantForm.querySelector('#WeddingAssistantForm button img')
+    const form = new FormData(weddingAssistantForm)
+    userSendButton.classList.add("SendingMessage")
+    aIAssistantChat.innerHTML += `<div class='UserMessage'>
+                        <p> ${userMessageInput.value}</p>
+                        <img src="/images/Bride.png" alt="">
+                    </div>`
+    userMessageInput.value = ''
+    userMessageInput.style.opacity = '0.5'
+    userMessageInput.disabled = true
+    const loadingResponse = document.createElement('div')
+    loadingResponse.classList.add('AIMessage')
+    const aIimage = document.createElement('img')
+    aIimage.src = "/images/AmyPA.png"
+    loadingResponse.appendChild(aIimage)
+    const loadingText = document.createElement('div')
+    loadingText.classList.add('LoadingResponse')
+    loadingResponse.appendChild(loadingText)
+    aIAssistantChat.appendChild(loadingResponse)
+    const amyThinking = document.createElement('h3')
+
+    const response = new EventSource(`/api/AIConversation/${form.get('UserMessageInput')}`)
+
+    response.onmessage = (event) => {
+        const data = JSON.parse(event.data)
+        console.log('Tool call:', data.tool_call)
+        console.log('Tool call name:', data.tool_name)
+        console.log('Type:', data.type)
+        if (data.tool_name == 'search_web'){
+            loadingText.remove()
+            amyThinking.textContent = 'Amy is searching on internet...'
+            loadingResponse.appendChild(amyThinking)
+        }
+
+        if (data.type == 'done'){
+            response.close()
+            amyThinking.remove()
+            let final_answer = data.tool_call
+            if (final_answer.startsWith('final_answer("')){
+                const answer = data.tool_call.replace('final_answer("', '')
+                final_answer = answer.replace('")', '')
+            }
+            userMessageInput.disabled = false
+            userMessageInput.style.opacity = '1'
+            userSendButton.classList.remove("SendingMessage")
+            loadingText.remove() 
+            const aIMessage = document.createElement('p')
+            aIMessage.textContent = final_answer
+            loadingResponse.append(aIMessage)
+        }
+    }
+
+
+    /*const amyThinking = document.createElement('h3')
+    amyThinking.textContent = 'Amy is searching on internet...'
+    loadingResponse.appendChild(amyThinking)*/
+
+})
+
 
 function RemoveGuestToTable(){
     const TableGuests = document.querySelectorAll('.NewGuestOnTable')
@@ -1010,8 +1084,8 @@ DisplayTotalTasks()
 async function DisplayTablesDashboard(){
     const newtables = (await loadData()).Guests
     const tables = newtables.groupedTables
-    let peopleTable = 0
     tables.forEach((t, index) => {
+        let peopleTable = 0
         const diver = document.createElement('div')
         diver.classList.add('Table')
         const h3er = document.createElement('h3')

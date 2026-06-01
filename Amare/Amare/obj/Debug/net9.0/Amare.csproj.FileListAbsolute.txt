@@ -88,7 +88,6 @@ C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\staticweba
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\staticwebassets.development.json
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\staticwebassets.build.endpoints.json
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\swae.build.ex.cache
-C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\Amare.dll
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\refint\Amare.dll
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\Amare.pdb
@@ -145,7 +144,6 @@ C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\compressed
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\compressed\gxim75b20w-{0}-xa0ffpmoj6-xa0ffpmoj6.gz
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\compressed\cg6nv817fs-{0}-9km8tmjcqv-9km8tmjcqv.gz
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\compressed\j6qt58j2nk-{0}-jt3om0geev-jt3om0geev.gz
-C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\compressed\vdddlq8t29-{0}-25l1hwemyz-25l1hwemyz.gz
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\bin\Debug\net9.0\libman.json
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\bin\Debug\net9.0\Microsoft.Bcl.Cryptography.dll
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\bin\Debug\net9.0\Microsoft.Data.SqlClient.Extensions.Abstractions.dll
@@ -157,4 +155,6 @@ C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\bin\Debug\net9.0\Models.dll
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\bin\Debug\net9.0\LogicLayer.pdb
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\bin\Debug\net9.0\DataLayer.pdb
 C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\bin\Debug\net9.0\Models.pdb
-C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\compressed\uo9yqerelx-{0}-lfndqkrij0-lfndqkrij0.gz
+C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\compressed\vdddlq8t29-{0}-vxtpbobxbk-vxtpbobxbk.gz
+C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
+C:\Users\jagar\OneDrive\Documentos\Amare\Amare\Amare\obj\Debug\net9.0\compressed\uo9yqerelx-{0}-xy5vgaqbdu-xy5vgaqbdu.gz
