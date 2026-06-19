@@ -18,7 +18,7 @@ namespace DataLayer
         {
             _db = db;
         }
-        public async Task PostWeddingDateLocation(WeddingLocationAndDateDTO postDateLocation, string weddingCode)
+        public async Task PostWeddingDateLocation(WeddingLocationAndDateDomain postDateLocation, string weddingCode)
         {
             string query = "UPDATE Wedding SET WeddingLocation = @WeddingLocation, Weddingdate = @WeddingDate WHERE WeddingCode = @WeddingCode";
 

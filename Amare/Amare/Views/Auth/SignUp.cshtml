@@ -47,14 +47,14 @@
             <label for="IWeddingCode"> Create your <span> Wedding Code </span></label>
             <input id='IWeddingCode' name="WeddingCode" type="text" required>
             <label for="MaxBudget"> Your Budget </label>
-            <input id='MaxBudget' name="MaxBudget" type="text">
+            <input id='MaxBudget' name="MaxBudget" type="number" step="0.01" min="0" required>
             <button onclick="CreateWC()" type="button"> Submit </button>
         </form>
         <div id='CreateWCInfoText'>
             <h3> Wedding Code is a digital key to your wedding. With this code, your guests can enter your private wedding space and find everything they need </h3>
         </div>
         <img id='CreateWCInfo' src="~/images/infoIcon.png" alt="">
-        <form class="SignupForm" id='BrideGroomAccount' action="">
+        <form class="SignupForm" id='BrideGroomAccount'>
             <h2> Last step, set your account 🍾 </h2>
             <label for="IBGEmail"> Email : </label>
             <input id='IBGEmail' name="Email" type="text">
@@ -64,7 +64,7 @@
             <input id='IBGConfirmedPassword' name="ConfirmedPassword" type="text">
             <button onclick="BrideGroomAccount()" type="button"> Signup </button>
         </form>
-        <form class="SignupForm" id="AskWC" action="">
+        <form class="SignupForm" id="AskWC">
             <h2> We're so happy you're here. 😊<br>
                 Do you have a Wedding Code?
             </h2>

@@ -19,12 +19,12 @@ namespace LogicLayer
             _tasks = tasks;
         }
 
-        public async Task<List<TasksDTO>> GetTasks(string weddingCode)
+        public async Task<List<TasksDomain>> GetTasks(string weddingCode)
         {
             return await _tasks.GetTasks(weddingCode);
         }
 
-        public async Task<int> TasksPost(TasksDTO tasks, string weddingCode)
+        public async Task<int> TasksPost(TasksDomain tasks, string weddingCode)
         {
             return await _tasks.TasksPost(tasks, weddingCode);
         }

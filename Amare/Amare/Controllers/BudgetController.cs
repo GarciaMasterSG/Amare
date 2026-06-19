@@ -18,7 +18,7 @@ namespace Amare.Controllers
         }
 
         [HttpGet]
-        public async Task<List<BudgetDTO>> GetBudget()
+        public async Task<List<BudgetDomain>> GetBudget()
         {
             var budget = await _budget.GetBudget(weddingnCode);
 

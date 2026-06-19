@@ -19,7 +19,7 @@ namespace LogicLayer
             _budget = budget;
         }
 
-        public async Task<List<BudgetDTO>> GetBudget(string weddingCode)
+        public async Task<List<BudgetDomain>> GetBudget(string weddingCode)
         {
             return await _budget.GetBudget(weddingCode);
         }

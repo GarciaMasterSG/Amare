@@ -19,7 +19,7 @@ namespace DataLayer
             _db = db;
         }
 
-        public async Task<List<TasksDTO>> GetTasks(string weddingCode)
+        public async Task<List<TasksDomain>> GetTasks(string weddingCode)
         {
             string query = "SELECT Id, TaskName, TaskDate, TaskCompleted FROM Task WHERE WeddingCode = @WeddingCode";
 
@@ -28,7 +28,7 @@ namespace DataLayer
                 new SqlParameter("@WeddingCode", weddingCode)
             };
 
-            var tasks = await _db.GetQueryExecuter(query, r => new TasksDTO
+            var tasks = await _db.GetQueryExecuter(query, r => new TasksDomain
             {
                 Id = Convert.ToInt16(r["Id"]),
                 TaskName = Convert.ToString(r["TaskName"]),
@@ -38,7 +38,7 @@ namespace DataLayer
 
             return tasks;
         }
-        public async Task<int> TasksPost(TasksDTO tasks, string weddingCode)
+        public async Task<int> TasksPost(TasksDomain tasks, string weddingCode)
         {
             string query = "INSERT INTO Task(TaskName, WeddingCode, TaskDate, TaskCompleted) VALUES (@TaskName, @WeddingCode, @TaskDate, @TaskCompleted); SELECT SCOPE_IDENTITY()";
 

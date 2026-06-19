@@ -19,7 +19,7 @@ namespace DataLayer
             _db = db;
         }
 
-        public async Task<List<string>> PostTable(TablesDTO table, string weddingCode)
+        public async Task<List<string>> PostTable(TablesDomain table, string weddingCode)
         {
             var tables = table.Guests.Select(async guest =>
             {

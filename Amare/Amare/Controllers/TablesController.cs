@@ -18,7 +18,7 @@ namespace Amare.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTable([FromBody] TablesDTO table)
+        public async Task<IActionResult> PostTable([FromBody] TablesDomain table)
         {
             var noOnTable = await _tables.PostTable(table, weddingnCode);
 

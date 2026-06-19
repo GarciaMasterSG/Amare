@@ -9,7 +9,7 @@ namespace Models.Interfaces
 {
     public interface IBudget
     {
-        Task<List<BudgetDTO>> GetBudget(string weddingCode);
+        Task<List<BudgetDomain>> GetBudget(string weddingCode);
 
         Task UpdateBudget(int id, int maxBudget);
     }

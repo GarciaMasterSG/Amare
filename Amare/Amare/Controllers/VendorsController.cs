@@ -18,7 +18,7 @@ namespace Amare.Controllers
         }
 
         [HttpGet]
-        public async Task<List<VendorsDTO>> GetVendors()
+        public async Task<List<VendorsDomain>> GetVendors()
         {
             var vendors = await _vendors.GetVendors(weddingnCode);
 
@@ -27,8 +27,18 @@ namespace Amare.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> addVendors([FromForm] VendorsDTO vendors)
+        public async Task<IActionResult> PostVendors([FromForm] VendorsDomain vendors)
         {
+            if (vendors.VendorName.Length > 150)
+            {
+                return BadRequest("Vendor name is too long.");
+            }
+
+            if (vendors.VendorDescription.Length > 300)
+            {
+                return BadRequest("Vendor description is too long.");
+            }
+
             int id = await _vendors.PostVendors(vendors, weddingnCode);
 
             return Ok(id);
@@ -43,7 +53,7 @@ namespace Amare.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteData(int id)
+        public async Task<IActionResult> DeleteVendor(int id)
         {
             await _vendors.DeleteVendors(id);
 

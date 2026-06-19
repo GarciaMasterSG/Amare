@@ -30,6 +30,16 @@ namespace Amare.Controllers
         [HttpPost]
         public async Task<IActionResult> PostLiveFeed([FromForm] LiveFeedPostDTO post)
         {
+            if (post.Description.Length > 301)
+            {
+                return BadRequest(new { error = "Description cannot exceed 300 characters." });
+            }
+
+            if (post.PhotoFeed == null)
+            {
+                return BadRequest(new { error = "PhotoFeed is required." });
+            }
+
             string userName = HttpContext.Session.GetString("UserName");
 
             await _liveFeed.PostLiveFeed(post, weddingnCode, userName);

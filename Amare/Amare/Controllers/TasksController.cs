@@ -19,7 +19,7 @@ namespace Amare.Controllers
         }
 
         [HttpGet]
-        public async Task<List<TasksDTO>> Gettasks()
+        public async Task<List<TasksDomain>> GetTasks()
         {
             var tasks = await _tasks.GetTasks(weddingnCode);
 
@@ -27,15 +27,20 @@ namespace Amare.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> TasksPost([FromForm] TasksDTO tasks)
+        public async Task<IActionResult> TasksPost([FromForm] TasksDomain tasks)
         {
+            if (tasks.TaskName.Length > 150)
+            {
+                return BadRequest("Task name cannot be longer than 150 characters.");
+            }
+
             int id = await _tasks.TasksPost(tasks, weddingnCode);
 
             return Ok(id);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteData(int id)
+        public async Task<IActionResult> DeleteTask(int id)
         {
             await _tasks.DeleteTasks(id);
 

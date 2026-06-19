@@ -19,7 +19,7 @@ namespace LogicLayer
             _leaderboard = leaderboard;
         }
 
-        public async Task<List<UserLeaderboardDTO>> GetLeaderboard(string weddingCode)
+        public async Task<List<UserLeaderboardDomain>> GetLeaderboard(string weddingCode)
         {
             var userPoints = await _leaderboard.GetLeaderboard(weddingCode);
             var sortedUserPoints = userPoints.OrderByDescending(u => u.UserPoints).ToList();

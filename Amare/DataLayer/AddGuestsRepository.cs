@@ -17,7 +17,7 @@ namespace DataLayer
         {
             _db = db;
         }
-        public async Task<List<GuestsDTO>> GetGuest(string weddingCode)
+        public async Task<List<GuestsDomain>> GetGuest(string weddingCode)
         {
             string query = "SELECT Id, GuestName, WeddingCode, TableName FROM Guest WHERE WeddingCode = @WeddingCode";
 
@@ -26,7 +26,7 @@ namespace DataLayer
                 new SqlParameter("@WeddingCode",weddingCode)
             };
 
-            var guest = await _db.GetQueryExecuter(query, r => new GuestsDTO
+            var guest = await _db.GetQueryExecuter(query, r => new GuestsDomain
             {
                 Id = Convert.ToInt16(r["Id"]),
                 GuestName = Convert.ToString(r["Guestname"]),

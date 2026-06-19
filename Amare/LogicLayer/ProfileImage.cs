@@ -2,6 +2,7 @@
 using Imagekit.Sdk;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
+using Models;
 using Models.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -20,17 +21,17 @@ namespace LogicLayer
             _profileImage = profileImage;
         }
 
-        public async Task PostProfileImage(Stream Photo, int id, string PhotoName)
+        public async Task PostProfileImage(ProfileImageDomain image)
         {
             byte[] PhotoImage;
 
             using (var ms = new MemoryStream())
             {
-                await Photo.CopyToAsync(ms);
+                await image.Image.CopyToAsync(ms);
                 PhotoImage = ms.ToArray();
             }
 
-            string fileName = $"{Guid.NewGuid()}{Path.GetExtension(PhotoName)}";
+            string fileName = $"{Guid.NewGuid()}{Path.GetExtension(image.FileName)}";
 
             FileCreateRequest request = new FileCreateRequest
             {
@@ -46,10 +47,16 @@ namespace LogicLayer
 
             var upload = client.Upload(request);
 
-            await _profileImage.PostProfileImage(id, fileName);
+            var postImage = new ProfileImageDomain
+            {
+                FileName = fileName,
+                UserId = image.UserId,
+            };
+
+            await _profileImage.PostProfileImage(postImage); 
         }
 
-        public async Task<List<string>> GetProfileImage(int userId)
+        public async Task<List<string>> GetProfileImage(ProfileImageDomain userId)
         {
             var imageUrl = await _profileImage.GetProfileImage(userId);
 

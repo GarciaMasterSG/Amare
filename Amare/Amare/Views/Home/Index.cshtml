@@ -45,7 +45,7 @@
                 </div>
         </nav>
         <div id="Panel">
-            <div id='DashboardPanel'>
+            <div id='DashboardPanel' class="Active">
                 <h1> @ViewBag.Groom & @ViewBag.Bride's Wedding </h1>
             </div>
             <div id='PanelElements' class="Active">
@@ -105,7 +105,7 @@
                     </div>
                 </div>
             </div>
-            <div id='VendorsPanel' class="Active">
+            <div id='VendorsPanel' class="NoActive">
                 <div id='VendorsToHire'>
                     <div id='VendorsToHireHeader'>
                         <h2> Favorite Vendors </h2>
@@ -119,11 +119,11 @@
                         <form action="">
                             <h1> Add Your Vendor </h1>
                             <label for="FormVendorName"> Vendor Name </label>
-                            <input id='FormVendorName' name="VendorName" type="text">
+                            <input id='FormVendorName' name="VendorName" type="text" required maxlength="150">
                             <label for="FormVendorDescription"> Vendor Description </label>
-                            <input id='FormVendorDescription' name="VendorDescription" type="text">
+                            <input id='FormVendorDescription' name="VendorDescription" type="text" required maxlength="300">
                             <label for="FormVendorType"> Vendor Type </label>
-                            <select id='FormVendorType' name="VendorType">
+                            <select id='FormVendorType' name="VendorType" required>
                                 <option value="Venue"> Venue </option>
                                 <option value="Photographer"> Photographer </option>
                                 <option value="Catering"> Catering </option>
@@ -132,7 +132,7 @@
                                 <option value="Other"> Other </option>                               
                             </select>
                             <label for="VendorPrice"> Vendor Price </label>
-                            <input id='VendorPrice' name='VendorPrice' type="text">
+                            <input id='VendorPrice' name='VendorPrice' type="number" step="0.01" min="0" required>
                             <button> Submit </button>
                         </form>
                     </div>
@@ -156,9 +156,9 @@
                         <h2> Add An Extra Expense </h2>
                         <form action="">
                             <label for=""> Expense Name </label>
-                            <input id='ExpenseName' name='ExpenseName' type="text">
+                            <input id='ExpenseName' name='ExpenseName' type="text" required>
                             <label for=""> Price </label>
-                            <input id='ExpensePrice' name='ExpensePrice' type="text">
+                            <input id='ExpensePrice' name='ExpensePrice' type="number" step="0.01" min="0" required>
                             <button> Submit</button>
                         </form>
                     </div>
@@ -170,7 +170,7 @@
                     </div>
                 </div>
             </div>
-            <div id='PlanningPanel' class="Active">
+            <div id='PlanningPanel' class="NoActive">
                 <div id='TablesPlanning'>
                     <div id='TablesPlanningHeader'>
                         <h2> Tables Seating </h2>
@@ -191,7 +191,7 @@
                         <form id="AddTablesForm" action="">
                             <img onclick="CloseAddTablesForm()" src="~/images/close.png" alt="">
                             <label for="TableName"> Table Name </label>
-                            <input id='TableName' type="" required>
+                            <input id='TableName' type="" required maxlength="150">
                             <div id='AddGuestHeader'>
                                 <h3> Add Guest to this table </h3>
                                 <img onclick="AddGuestToTable()" src="~/images/Add.png" alt="">
@@ -200,7 +200,7 @@
                             <div id='AddGuestToTable'>
                                 <div class='NewGuestOnTable'>
                                     <label for="GuestsName"> Guest Name: </label>
-                                    <input id='GuestsName' type="text" required>
+                                    <input id='GuestsName' type="text" required maxlength="150">
                                 </div>
                             </div>
                             <button type="submit"> Submit </button>
@@ -224,7 +224,7 @@
                         <h2> Add a event to your wedding </h2>
                         <form id='ScheduleForm' action="">
                             <label for="WeddingEventForm"> Wedding Event </label>
-                            <input id='WeddingEventForm' name="WeddingEventName" type="text" required>
+                            <input id='WeddingEventForm' name="WeddingEventName" type="text" required maxlength="150">
                             <label for="EventTimeForm"> Event Time </label>
                             <input id='EventTimeForm' name="WeddingEventTime" type="time" required>
                             <button type="submit"> Submit </button>
@@ -244,7 +244,7 @@
                         <form id='TaskForm' action="">
                             <h2> Add a task </h2>
                             <label for="TaskNameForm"> Task Name </label>
-                            <input id='TaskNameForm' name="TaskName" type="text" required>
+                            <input id='TaskNameForm' name="TaskName" type="text" required maxlength="150">
                             <label for="TaskDateForm"> Task Date </label>
                             <input id='TaskDateForm' name="TaskDate" type="date" required>
                             <button type='submit'> Submit </button>
@@ -264,9 +264,9 @@
                         <form id='ChallengeForm' action="">
                             <h2> Add Challenge </h2>
                             <label for="ChallengeName"> Challenge Name </label>
-                            <input id='ChallengeName' name="ChallengeName" type="text" required>
+                            <input id='ChallengeName' name="ChallengeName" type="text" required maxlength="100">
                             <label for="ChallengeDescription"> Challenge Description </label>
-                            <input id='ChallengeDescription' name="ChallengeDescription" type="text" required>
+                            <input id='ChallengeDescription' name="ChallengeDescription" type="text" required maxlength="300">
                             <label for="ChallengePoints"> Challenge Points </label>
                             <input id='ChallengePoints' name="ChallengePoints" type="text" required>
                             <button type="submit"> Submit </button>
@@ -286,13 +286,13 @@
                         <h2> Add a Guest </h2>
                         <form id='GuestForm' action="">
                             <label for="GuestName"> Guest Name </label>
-                            <input id='GuestName' name='guest' type="text" required>
+                            <input id='GuestName' name='guest' type="text" required maxlength="150">
                             <button type="submit"> Submit </button>
                         </form>
                     </div>
                 </div>
             </div>
-            <div id='LiveFeedPanelContainer' class="Active">
+            <div id='LiveFeedPanelContainer' class="NoActive">
                 <div id='LiveFeedPanel'>
                     <img id="Phone" src="~/images/PhoneDesign.png" alt="">
                     <img onclick="OpenUploadForm()" id='AddPost' src="~/images/Add.png" alt="">
@@ -301,10 +301,10 @@
                             <img onclick="CloseUploadForm()" id="CloseUploadPost" src="~/images/close.png" alt="">
                             <h2> Upload a new Post </h2>
                             <label for="PostDescription"> Post Description </label>
-                            <textarea id='PostDescription' name="PostDescription" id=""></textarea>
+                            <textarea id='PostDescription' name="PostDescription" id="" required maxlength="300"></textarea>
                             <label id='UploadImage' for="PostImage">
                                 Upload Image
-                                <input id='PostImage' name='PostImage' accept="images/*" type="file">
+                                <input id='PostImage' name='PostImage' accept="images/*" type="file" required>
                             </label>
                             <button type="submit"> Post it! </button>
                         </form>
@@ -318,17 +318,21 @@
                     </div>
                 </div>
             </div>
-            <div id='MyAccountPanel' class="Active">
+            <div id='MyAccountPanel' class="NoActive">
                 <div id='MyAccountPanelHeader'>
+                    <a asp-controller="Auth" asp-action="Logout" id='LogoutButton'>
+                        <img src="~/images/logout.png" alt="">
+                        <h3> Logout </h3>
+                    </a>
                     <h2> My Wedding Information </h2>
                     <div id='PersonalizeButtonContainer'>
                         <div id='PersonalizeFormContainer'>
                             <img onclick="ClosePersonalizeForm()" src="~/images/close.png" alt="">
                             <form id='PersonalizeForm' action="">
                                 <label for=""> Wedding Location : </label>
-                                <input id='WeddingLocation' name="WeddingLocation" type="text">
+                                <input id='WeddingLocation' name="WeddingLocation" type="text" required maxlength="150">
                                 <label for=""> Wedding Date : </label>
-                                <input id='WeddingDate' name="WeddingDate" type="date">
+                                <input id='WeddingDate' name="WeddingDate" type="date" required>
                                 <button type='submit'> Save Changes </button>
                             </form>
                         </div>
@@ -372,7 +376,7 @@
                     </div>
                 </div>
             </div>
-            <div id='WeddingAssistantPanel' class="Active">
+            <div id='WeddingAssistantPanel' class="NoActive">
                 <div id='AIAssistantChat'>
                     <div class='AIMessage'>
                         <img src="~/images/AmyPA.png" alt="">
@@ -382,12 +386,11 @@
                             ✨ Tell me about your dream wedding!</p>
                     </div>
                     <div class='UserMessage'>
-                        <p> Hey Amy! I'm excited to plan my wedding with you!</p>
-                        <img src="~/images/Bride.png" alt="">
+                        
                     </div>
                 </div>
                 <form id='WeddingAssistantForm' action="">
-                    <input id='UserMessageInput' name="UserMessageInput" type="text" placeholder="Type your message here...">
+                    <input id='UserMessageInput' name="UserMessageInput" type="text" placeholder="Type your message here..." required>
                     <button type="submit">
                         <img src="~/images/submitMessage.png" alt="">
                     </button>
@@ -514,10 +517,10 @@
                     <img onclick="CloseUploadFormMobile()" id="CloseUploadPostMobile" src="~/images/close.png" alt="">
                     <h2> Upload a new Post </h2>
                     <label for="PostDescription"> Post Description </label>
-                    <textarea id='PostDescription' name="Description" id=""></textarea>
+                    <textarea id='PostDescription' name="Description" id="" maxlength="300"></textarea>
                     <label id='UploadImage' for="PostImageMobile">
                         Upload Image
-                        <input id='PostImageMobile' name='PhotoFeed' accept="images/*" type="file">
+                        <input id='PostImageMobile' name='PhotoFeed' accept="images/*" type="file" required>
                     </label>
                     <button id='SendFormMobile' type="submit"> Post it! </button>
                 </form>

@@ -19,16 +19,16 @@ namespace DataLayer
             _db = db;
         }
 
-        public async Task<List<UserLeaderboardDTO>> GetLeaderboard(string weddingCode)
+        public async Task<List<UserLeaderboardDomain>> GetLeaderboard(string weddingCode)
         {
-            string query = "SELECT Name, UserPoints FROM UserProfile WHERE WeddingCode = @WeddingCode";
+            string query = "SELECT u.Name, u.UserPoints FROM UserProfile u LEFT JOIN UsersInWeddings w ON u.Email = w.UserEmail WHERE WeddingCode = @WeddingCode";
 
             List<SqlParameter> parameters = new List<SqlParameter>()
             {
                 new SqlParameter("@WeddingCode", weddingCode)
             };
 
-            var userPoints = await _db.GetQueryExecuter(query, r => new UserLeaderboardDTO
+            var userPoints = await _db.GetQueryExecuter(query, r => new UserLeaderboardDomain
             {
                 UserPoints = Convert.ToInt32(r["UserPoints"]),
                 Name = Convert.ToString(r["Name"])

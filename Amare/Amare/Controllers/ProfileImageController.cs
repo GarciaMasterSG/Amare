@@ -3,6 +3,7 @@ using Imagekit.Sdk;
 using LogicLayer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Models;
 
 namespace Amare.Controllers
 {
@@ -24,7 +25,14 @@ namespace Amare.Controllers
 
             Stream image = Photo.OpenReadStream();
 
-            await _profileImage.PostProfileImage(image, userId.Value, Photo.FileName);
+            var profileImage = new ProfileImageDomain
+            {
+                Image = image,
+                UserId = userId,
+                FileName = Photo.FileName,
+            };
+
+            await _profileImage.PostProfileImage(profileImage);
 
             return Ok();
 
@@ -33,14 +41,17 @@ namespace Amare.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProfileImage()
         {
-            int? userId = HttpContext?.Session?.GetInt32("UserId");
+            ProfileImageDomain Id = new ProfileImageDomain
+            {
+                UserId = HttpContext.Session.GetInt32("UserId"),
+            };
 
-            if (userId == null)
+            if (Id.UserId == null)
             {
                 return BadRequest();
             }
 
-            List<string> imageUrl = await _profileImage.GetProfileImage(userId.Value);
+            List<string> imageUrl = await _profileImage.GetProfileImage(Id);
 
             return Ok(new { ImageUrl = imageUrl.FirstOrDefault() });
         } 

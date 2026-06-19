@@ -9,11 +9,11 @@ namespace Models.Interfaces
 {
     public interface IChallenges
     {
-        Task<List<ChallengesDTO>> GetChallenges(string weddingCode);
+        Task<List<ChallengesDomain>> GetChallenges(string weddingCode);
 
-        Task<List<ChallengesDTO>> GetGuestChallenges(string userEmail, string weddingCode);
+        Task<List<ChallengesDomain>> GetGuestChallenges(string userEmail, string weddingCode);
 
-        Task<int> ChallengesPost(ChallengesDTO challenges, string weddingCode);
+        Task<int> ChallengesPost(ChallengesDomain challenges, string weddingCode);
 
         Task DeleteChallenges(int id);
 

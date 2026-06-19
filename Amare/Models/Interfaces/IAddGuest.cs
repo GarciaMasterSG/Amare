@@ -10,7 +10,7 @@ namespace Models.Interfaces
 {
     public interface IAddGuest
     {
-        Task<List<GuestsDTO>> GetGuest(string weddingCode);
+        Task<List<GuestsDomain>> GetGuest(string weddingCode);
 
         Task<int> AddGuestsPost(string guest, string weddingCode);
 

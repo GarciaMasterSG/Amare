@@ -9,7 +9,7 @@ namespace Models.Interfaces
 {
     public interface ILeaderboard
     {
-        Task<List<UserLeaderboardDTO>> GetLeaderboard(string weddingCode);
+        Task<List<UserLeaderboardDomain>> GetLeaderboard(string weddingCode);
 
     }
 }

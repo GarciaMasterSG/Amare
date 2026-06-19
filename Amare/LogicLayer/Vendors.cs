@@ -20,12 +20,12 @@ namespace LogicLayer
             _vendors = vendors;
         }
 
-        public async Task<List<VendorsDTO>> GetVendors(string weddingCode)
+        public async Task<List<VendorsDomain>> GetVendors(string weddingCode)
         {
             return await _vendors.GetVendors(weddingCode);
         }
 
-        public async Task<int> PostVendors(VendorsDTO vendors, string weddingCode)
+        public async Task<int> PostVendors(VendorsDomain vendors, string weddingCode)
         {
             return await _vendors.PostVendors(vendors, weddingCode);
         }

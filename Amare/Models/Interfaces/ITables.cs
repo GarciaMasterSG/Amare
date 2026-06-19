@@ -10,7 +10,7 @@ namespace Models.Interfaces
 {
     public interface ITables
     {
-        Task<List<String>> PostTable(TablesDTO table, string weddingCode);
+        Task<List<string>> PostTable(TablesDomain table, string weddingCode);
 
     }
 }

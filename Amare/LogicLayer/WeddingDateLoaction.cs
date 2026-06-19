@@ -19,7 +19,7 @@ namespace LogicLayer
             _weddingDateLocation = weddingDateLocation;
         }
 
-        public async Task PostWeddingDateLocation(WeddingLocationAndDateDTO postDateLocation, string weddingCode)
+        public async Task PostWeddingDateLocation(WeddingLocationAndDateDomain postDateLocation, string weddingCode)
         {
             await _weddingDateLocation.PostWeddingDateLocation(postDateLocation, weddingCode);
         }  

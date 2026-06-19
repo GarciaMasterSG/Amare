@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Amare")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c077971859d363ba865733dc5676b6009be96369")]
 [assembly: System.Reflection.AssemblyProductAttribute("Amare")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Amare")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -18,10 +18,39 @@ builder.Services.AddSession(options =>
         
     );
 
+builder.Services.AddAuthentication("Cookies").AddCookie("Cookies", options =>
+{
+    options.LoginPath = "/Auth/Login";
+    options.AccessDeniedPath = "/Auth/Login";
+    options.ExpireTimeSpan = TimeSpan.FromHours(1);
+
+    options.Events.OnRedirectToLogin = context =>
+    {
+        if (context.Request.Path.StartsWithSegments("/Auth"))
+        {
+            context.Response.StatusCode = 401;
+            return Task.CompletedTask;
+        }
+
+        context.Response.Redirect(context.RedirectUri);
+        return Task.CompletedTask;
+    };
+
+    options.Events.OnRedirectToAccessDenied = context =>
+    {
+        context.Response.StatusCode = 403;
+        return Task.CompletedTask;
+    };
+});
+
+builder.Services.AddAuthorization();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<AppDb>();
 builder.Services.AddScoped<DbUserProfile>();
+builder.Services.AddScoped<Auth>();
+builder.Services.AddScoped<Home>();
 builder.Services.AddScoped<AddGuests>();
 builder.Services.AddScoped<Budget>();
 builder.Services.AddScoped<Challenges>();
@@ -34,6 +63,8 @@ builder.Services.AddScoped<Tasks>();
 builder.Services.AddScoped<Vendors>();
 builder.Services.AddScoped<WeddingDateLoaction>();
 builder.Services.AddScoped<WeddingEvents>();
+builder.Services.AddScoped<IAuth, AuthRepository>();
+builder.Services.AddScoped<IHome, HomeRepository>();
 builder.Services.AddScoped<IAddGuest, AddGuestsRepository>();
 builder.Services.AddScoped<IBudget, BudgetRepository>();
 builder.Services.AddScoped<IChallenges, ChallengesRepository>();
@@ -62,6 +93,7 @@ app.UseSession();
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();

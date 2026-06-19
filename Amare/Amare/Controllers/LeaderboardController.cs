@@ -18,7 +18,7 @@ namespace Amare.Controllers
         }
 
         [HttpGet]
-        public async Task<List<UserLeaderboardDTO>> GetLeaderboard()
+        public async Task<List<UserLeaderboardDomain>> GetLeaderboard()
         {
             var userPoints = await _leaderboard.GetLeaderboard(weddingnCode);
 

@@ -1,6 +1,6 @@
 ﻿namespace Amare.Models
 {
-    public class GuestsDTO : SpecificGuest
+    public class GuestsDomain : SpecificGuest
     {
         public string? WeddingCode { get; set; }
 

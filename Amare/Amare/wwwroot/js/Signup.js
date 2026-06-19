@@ -130,6 +130,7 @@ async function BrideGroomAccount(){
             }, 300)
         }
         else if (response.status == 400){
+            console.log(data)
             window.location.href = `${data.redirectUrl}?error=${data.error}`
         }
     }    

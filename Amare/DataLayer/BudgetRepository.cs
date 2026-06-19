@@ -19,7 +19,7 @@ namespace DataLayer
             _db = db;
         }
 
-        public async Task<List<BudgetDTO>> GetBudget(string weddingCode)
+        public async Task<List<BudgetDomain>> GetBudget(string weddingCode)
         {
             string query = "SELECT Id, MaxBudget FROM Budget WHERE WeddingCode = @WeddingCode";
 
@@ -28,7 +28,7 @@ namespace DataLayer
                 new SqlParameter("@WeddingCode", weddingCode)
             };
 
-            var budget = await _db.GetQueryExecuter(query, r => new BudgetDTO
+            var budget = await _db.GetQueryExecuter(query, r => new BudgetDomain
             {
                 Id = Convert.ToInt16(r["Id"]),
                 MaxBudget = Convert.ToInt32(r["MaxBudget"])

@@ -18,7 +18,7 @@ namespace LogicLayer
         {
             _tables = tables;
         }
-        public async Task<List<string>> PostTable(TablesDTO table, string weddingCode)
+        public async Task<List<string>> PostTable(TablesDomain table, string weddingCode)
         {
             return await _tables.PostTable(table, weddingCode);
         }

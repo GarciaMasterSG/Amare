@@ -1,7 +1,10 @@
-﻿namespace Amare.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Amare.Models
 {
-    public class LiveFeedGetDTO : LiveFeedDTO
+    public class LiveFeedGetDTO : LiveFeedDomain
     {
+        [Required(ErrorMessage = "PhotoFeed is required.")]
         public string PhotoFeed { get; set; }
     }
 }

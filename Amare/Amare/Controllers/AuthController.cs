@@ -1,18 +1,23 @@
 ﻿using Amare.Data;
 using Amare.Models;
+using LogicLayer;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using System.Linq.Expressions;
+using System.Security.Claims;
 
 namespace Amare.Controllers
 {
     public class AuthController : Controller
     {
-        private readonly DbUserProfile _db;
+        private readonly Auth _auth;
 
-        public AuthController(DbUserProfile db)
+        public AuthController(Auth auth)
         {
-            _db = db;
+            _auth = auth;
         }
 
         [HttpGet]
@@ -23,52 +28,104 @@ namespace Amare.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromForm]string email, string password)
         {
-            string query = "SELECT * FROM UserProfile WHERE Email = @Email";
 
-            List<SqlParameter> parameters = new List<SqlParameter> { 
-                new SqlParameter("@Email", email)
+            try
+            {
+                var users = await _auth.Login(email);
+
+                if (!users.Any())
+                {
+                    return BadRequest(new
+                    {
+                        redirectUrl = Url.Action("Login", "Auth"),
+                        noLogin = "No email found"
+                    });
+                }
+
+                var finalUser = users.FirstOrDefault(u => u.Email == email);
+
+                if (users.Count >= 2)
+                {
+                    HttpContext.Session.SetString("UserEmail", finalUser.Email);
+
+                    var weddingCodes = users.Select(u => u.WeddingCode).ToList();
+
+                    return BadRequest(new { redirectUrl = Url.Action("UserWith2Weddings", "Auth"), weddingCodes = weddingCodes });
+                }
+
+                bool isPasswordValid = BCrypt.Net.BCrypt.Verify(password, finalUser.Password);
+
+                if (!isPasswordValid)
+                {
+                    return BadRequest(new
+                    {
+                        redirectUrl = Url.Action("Login", "Auth"),
+                        noLogin = "Wrong Password"
+                    });
+                }
+
+                var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, finalUser.Email),
+                new Claim(ClaimTypes.Role, finalUser.Role)
             };
 
-            var users = await _db.GetQueryExecuter<UserProfileDTO>(query,
-                    r => new UserProfileDTO
-                    {
-                        Id = Convert.ToInt16(r["UserId"]),
-                        Name = Convert.ToString(r["Name"]),
-                        Email = Convert.ToString(r["Email"]),
-                        Password = Convert.ToString(r["Password"]),
-                        ProfilePhoto = Convert.ToString(r["ProfilePhoto"]),
-                        WeddingCode = Convert.ToString(r["WeddingCode"]),
-                        Role = Convert.ToString(r["Role"]),
-                        UserPoints = Convert.ToInt32(r["UserPoints"])
-                    }, parameters);
+                var identity = new ClaimsIdentity(claims, "Cookie");
 
-            if (!users.Any())
-            {
-                return BadRequest(new
-                {
-                    redirectUrl = Url.Action("Login", "Auth"),
-                    noLogin = "No email found"
-                });
+                var principal = new ClaimsPrincipal(identity);
+
+                await HttpContext.SignInAsync("Cookies", principal);
+
+                HttpContext.Session.SetString("UserWeddingCode", finalUser.WeddingCode);
+                HttpContext.Session.SetString("UserName", finalUser.Name);
+                HttpContext.Session.SetInt32("UserId", finalUser.Id);
+                HttpContext.Session.SetString("UserEmail", finalUser.Email);
+                HttpContext.Session.SetInt32("UserPoints", finalUser.UserPoints);
+
+                return Ok(new { redirectUrl = Url.Action("Index", "Home"), role = finalUser.Role });
             }
 
-            var user = users.FirstOrDefault(u => u.Password == password);
-
-            if (user == null)
+            catch (Exception ex)
             {
-                return BadRequest(new
-                {
-                    redirectUrl = Url.Action("Login", "Auth"),
-                    noLogin = "Wrong Password"
-                });
+                return BadRequest(new {error = ex});
             }
+        }
 
-            HttpContext.Session.SetString("UserWeddingCode", user.WeddingCode);
-            HttpContext.Session.SetString("UserName", user.Name);
-            HttpContext.Session.SetInt32("UserId", user.Id);
-            HttpContext.Session.SetString("UserEmail", user.Email);
-            HttpContext.Session.SetInt32("UserPoints", user.UserPoints);
+        [HttpGet]
+        public IActionResult UserWith2Weddings()
+        {
+            return View();
+        }
 
-            return Ok(new {redirectUrl = Url.Action("Index", "Home")});
+        [HttpPost]
+        public async Task<IActionResult> UserWith2Weddings([FromBody] string weddingCode)
+        {
+            var userEmail = HttpContext.Session.GetString("UserEmail");
+
+            var user = await _auth.UsersInWeddings(userEmail);
+
+            var finalUser = user.FirstOrDefault(u => u.Email == userEmail);
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, finalUser.Email),
+                new Claim(ClaimTypes.Role, finalUser.Role)
+            };
+
+            var identity = new ClaimsIdentity(claims, "Cookie");
+
+            var principal = new ClaimsPrincipal(identity);
+
+            await HttpContext.SignInAsync("Cookies", principal);
+
+            HttpContext.Session.SetString("UserWeddingCode", weddingCode);
+            HttpContext.Session.SetString("UserName", finalUser.Name);
+            HttpContext.Session.SetInt32("UserId", finalUser.Id);
+            HttpContext.Session.SetString("UserEmail", finalUser.Email);
+            HttpContext.Session.SetInt32("UserPoints", finalUser.UserPoints);
+
+            return Ok(new { redirectUrl = Url.Action("Index", "Home"), role = finalUser.Role });
+
         }
 
         [HttpGet]
@@ -82,29 +139,18 @@ namespace Amare.Controllers
         {
             try
             {
-                var queryCouple = "INSERT INTO Wedding(WeddingCode, Groom, Bride) VALUES (@WeddingCode, @Groom, @Bride); INSERT INTO UserProfile(Name, Email, Password, ProfilePhoto, WeddingCode, Role) VALUES (@Name, @Email, @Password, @ProfilePhoto, @WeddingCode, @Role); INSERT INTO Budget(WeddingCode, MaxBudget) VALUES (@WeddingCode, @MaxBudget)";
+                await _auth.SignUpBG(request);
 
-                List<SqlParameter> parametersCouple = new List<SqlParameter>() {
-                new SqlParameter("@Name", request.userProfile.Name),
-                new SqlParameter("@Email", request.userProfile.Email),
-                new SqlParameter("@Password", request.userProfile.Password),
-                new SqlParameter("@ProfilePhoto", request.userProfile.ProfilePhoto),
-                new SqlParameter("@WeddingCode", request.userProfile.WeddingCode),
-                new SqlParameter("@Role", request.userProfile.Role),
-                new SqlParameter("@Groom", request.wedding.Groom),
-                new SqlParameter("@Bride", request.wedding.Bride),
-                new SqlParameter("@MaxBudget", request.maxBudget)
-                };
-
-                await _db.PostQueryExecuter(queryCouple, parametersCouple);
-
+                Console.WriteLine("Paso");
 
                 return Ok(new { redirectUrl = Url.Action("Login", "Auth") });
             }
             catch (SqlException exeption)
             {
+                Console.WriteLine(exeption);
+
                 if (exeption.Number == 2627 || exeption.Number == 2601)
-                {
+                {            
                     if (exeption.Message.Contains("UQ_Email"))
                     {
                         return BadRequest(new { redirectUrl = Url.Action("SignUp", "Auth"), Error = "Email already exist" });
@@ -119,12 +165,17 @@ namespace Amare.Controllers
                         return BadRequest(new { redirectUrl = Url.Action("SignUp", "Auth"), Error = "WeddingCode already exist" });
                     }
 
-                    return BadRequest();
+                    else if (exeption.Message.Contains("PK__Wedding__C4BF8FA030F2FD98"))
+                    {
+                        return BadRequest(new { redirectUrl = Url.Action("SignUp", "Auth"), Error = "WeddingCode already exist" });
+                    }
+
+                    return BadRequest(new {Leyo = "no"});
                 }
 
                 else
                 {
-                    return BadRequest();
+                    return BadRequest(new {Leyo = "no 2"});
                 }
             }
         }
@@ -135,22 +186,19 @@ namespace Amare.Controllers
             return Ok(new {WC = weddingCode});
         }
         [HttpPost]
-        public async Task<IActionResult> SignUpG([FromBody] UserProfileDTO user)
+        public async Task<IActionResult> SignUpG([FromBody] UserProfileDomain user)
         {
-            var queryGuest = "INSERT INTO UserProfile(Name, Email, Password, ProfilePhoto, WeddingCode, Role) VALUES (@Name, @Email, @Password, @ProfilePhoto, @WeddingCode, @Role);";
-
-            List<SqlParameter> parametersGuest = new List<SqlParameter>() {
-                new SqlParameter("@Name", user.Name),
-                new SqlParameter("@Email", user.Email),
-                new SqlParameter("@Password", user.Password),
-                new SqlParameter("@ProfilePhoto", user.ProfilePhoto),
-                new SqlParameter("@WeddingCode", user.WeddingCode),
-                new SqlParameter("@Role", user.Role),
-            };
-
-            await _db.PostQueryExecuter(queryGuest, parametersGuest);
+            await _auth.SignUpG(user);
 
             return Ok(new { redirectUrl = Url.Action("Login", "Auth") });
+        }
+
+        [HttpGet]
+        public IActionResult Logout()
+        {
+            HttpContext.SignOutAsync();
+
+            return RedirectToAction("Login");
         }
     }
 }

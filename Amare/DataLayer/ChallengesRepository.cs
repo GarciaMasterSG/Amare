@@ -19,7 +19,7 @@ namespace DataLayer
             _db = db;
         }
 
-        public async Task<List<ChallengesDTO>> GetChallenges(string weddingCode)
+        public async Task<List<ChallengesDomain>> GetChallenges(string weddingCode)
         {
             string query = "SELECT Id, ChallengeName, WeddingCode, Description, Points FROM Challenge WHERE WeddingCode = @WeddingCode";
 
@@ -28,7 +28,7 @@ namespace DataLayer
                 new SqlParameter("@WeddingCode", weddingCode)
             };
 
-            var challenges = await _db.GetQueryExecuter(query, r => new ChallengesDTO
+            var challenges = await _db.GetQueryExecuter(query, r => new ChallengesDomain
             {
                 Id = Convert.ToInt16(r["Id"]),
 
@@ -42,7 +42,7 @@ namespace DataLayer
 
             return challenges;
         }
-        public async Task<List<ChallengesDTO>> GetGuestChallenges(string userEmail, string weddingCode)
+        public async Task<List<ChallengesDomain>> GetGuestChallenges(string userEmail, string weddingCode)
         {
             string query = "SELECT UserEmail, ChallengeId FROM ChallengeCompleted WHERE UserEmail = @Email";
 
@@ -63,7 +63,7 @@ namespace DataLayer
 
             string query2 = $"SELECT Id, ChallengeName, Description, Points FROM Challenge WHERE Id NOT IN ({parameterList}) AND WeddingCode = @WeddingCode";
 
-            var challenges = await _db.GetQueryExecuter(query2, r => new ChallengesDTO
+            var challenges = await _db.GetQueryExecuter(query2, r => new ChallengesDomain
             {
                 Id = Convert.ToInt32(r["Id"]),
                 ChallengeName = Convert.ToString(r["ChallengeName"]),
@@ -73,7 +73,7 @@ namespace DataLayer
 
             return challenges;
         }
-        public async Task<int> ChallengesPost(ChallengesDTO challenges, string weddingCode)
+        public async Task<int> ChallengesPost(ChallengesDomain challenges, string weddingCode)
         {
             string query = "INSERT INTO Challenge(ChallengeName, WeddingCode, Description, Points) VALUES (@ChallengeName, @WeddingCode, @Description, @Points); SELECT SCOPE_IDENTITY()";
             List<SqlParameter> parameters = new List<SqlParameter>()

@@ -71,6 +71,22 @@ profilePhotoFormInput.addEventListener('change', async () => {
     }
 })
 
+function IdentifyUserRole(){
+    const urlParams = new URLSearchParams(window.location.search)
+    
+    const role = urlParams.get('role')
+
+    const roleLowerCase = role.toLowerCase()
+
+    if (roleLowerCase == 'guest' && window.innerWidth > 1024){
+        window.location.href = '/Auth/Login?error=You are not allowed to access as a Guest. Log in with a Groom or Bride account.'
+    }
+}
+
+IdentifyUserRole()
+
+window.addEventListener('resize', IdentifyUserRole)
+
 // Get User Profile Photo
 
 async function GetProfilePhoto() {
@@ -78,7 +94,7 @@ async function GetProfilePhoto() {
     const data = await response.json()
     console.log(data)
 
-    if (response.ok) {
+    if (response.ok && data.imageUrl) {
         accountPhoto.src = `https://ik.imagekit.io/Garcia5050/${data.imageUrl}`
     }
 
@@ -90,7 +106,7 @@ personalizeForm.addEventListener('submit', async e => {
     e.preventDefault()
     const formdata =  new FormData(personalizeFormForm)
     const response = await fetch('/api/WeddingDateLocation', {
-        method : 'PATCH',
+        method : 'POST',
         body : formdata
     })
 
@@ -1265,7 +1281,7 @@ const arrowBackMobile = document.getElementById('ArrowBackMobile')
 async function DisplayProfilePhotoMobile(){
     const profilePhoto = await fetch('/api/ProfileImage')
     const profilePhotoData = await profilePhoto.json()
-    if (profilePhoto.ok){
+    if (profilePhoto.ok && profilePhotoData.imageUrl){
         accountPhotoMobile.src = `https://ik.imagekit.io/Garcia5050/${profilePhotoData.imageUrl}`
     }
 }

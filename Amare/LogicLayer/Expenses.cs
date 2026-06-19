@@ -19,12 +19,12 @@ namespace LogicLayer
             _expenses = expenses;
         }
 
-        public async Task<List<ExpensesDTO>> GetExpenses(string weddingCode)
+        public async Task<List<ExpensesDomain>> GetExpenses(string weddingCode)
         {
             return await _expenses.GetExpenses(weddingCode);
         }
 
-        public async Task<int> PostExpenses(ExpensesDTO expenses, string weddingCode)
+        public async Task<int> PostExpenses(ExpensesDomain expenses, string weddingCode)
         {
             return await _expenses.PostExpenses(expenses, weddingCode);
         }

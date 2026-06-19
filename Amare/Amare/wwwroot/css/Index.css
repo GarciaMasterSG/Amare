@@ -1471,7 +1471,7 @@ nav h1{
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 999;
+    z-index: 0;
 }
 
 #AddPost{
@@ -1480,7 +1480,7 @@ nav h1{
     right: 40px;
     border-radius: 50%;
     background: linear-gradient(180deg, rgb(243, 199, 206), rgb(220, 137, 151));
-    z-index: 998;
+    z-index: 0;
     cursor: pointer;
 }
 
@@ -1955,6 +1955,33 @@ nav h1{
 #WeddingInfo2 a:hover{
     transform: scale(1.1);
 }
+
+#LogoutButton{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background-color: rgb(253, 66, 66);
+    border: 3px solid white;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'Cormorant Garamond';
+    transition: opacity 0.3s;
+}
+
+#LogoutButton img{
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+#LogoutButton:hover{
+    opacity : 0.85;
+}
+
 
 #WeddingAssistantPanel{
     position: absolute;

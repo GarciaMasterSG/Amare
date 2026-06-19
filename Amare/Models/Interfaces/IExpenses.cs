@@ -9,9 +9,9 @@ namespace Models.Interfaces
 {
     public interface IExpenses
     {
-        Task<List<ExpensesDTO>> GetExpenses(string weddingCode);
+        Task<List<ExpensesDomain>> GetExpenses(string weddingCode);
 
-        Task<int> PostExpenses(ExpensesDTO expenses, string weddingCode);
+        Task<int> PostExpenses(ExpensesDomain expenses, string weddingCode);
 
         Task DeleteExpenses(int id);
     }

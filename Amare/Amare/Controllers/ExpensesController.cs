@@ -20,7 +20,7 @@ namespace Amare.Controllers
         }
 
         [HttpGet]
-        public async Task<List<ExpensesDTO>> GetExpenses()
+        public async Task<List<ExpensesDomain>> GetExpenses()
         {
             var expenses = await _expenses.GetExpenses(weddingnCode);
 
@@ -29,15 +29,20 @@ namespace Amare.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostExpense([FromForm] ExpensesDTO expenses)
+        public async Task<IActionResult> PostExpense([FromForm] ExpensesDomain expenses)
         {
+            if (expenses.ExpenseName.Length > 100)
+            {
+                return BadRequest(new { error = "Expense name is too long" });
+            }
+
             int id = await _expenses.PostExpenses(expenses, weddingnCode);
 
             return Ok(id);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteData(int id)
+        public async Task<IActionResult> DeleteExpense(int id)
         {
             await _expenses.DeleteExpenses(id);
 

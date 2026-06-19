@@ -17,8 +17,8 @@ namespace Amare.Controllers
             _weddingDateLocation = weddingDateLocation;
         }
 
-        [HttpPatch]
-        public async Task<IActionResult> PostWeddingDateLocation([FromForm] WeddingLocationAndDateDTO postDateLocation)
+        [HttpPost]
+        public async Task<IActionResult> PostWeddingDateLocation([FromForm] WeddingLocationAndDateDomain postDateLocation)
         {
             await _weddingDateLocation.PostWeddingDateLocation(postDateLocation, weddingnCode);
 

@@ -9,6 +9,6 @@ namespace Models.Interfaces
 {
     public interface IWeddingDateLocation
     {
-        Task PostWeddingDateLocation(WeddingLocationAndDateDTO postDateLocation, string weddingCode);
+        Task PostWeddingDateLocation(WeddingLocationAndDateDomain postDateLocation, string weddingCode);
     }
 }

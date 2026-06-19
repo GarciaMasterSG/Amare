@@ -40,13 +40,17 @@ namespace Amare.Controllers
         [HttpPost]
         public async Task<IActionResult> AddGuestsPost([FromForm] string guest)
         {
+            if (guest.Length > 150)
+            {
+                return BadRequest(new { error = "Guest name cannot exceed 150 characters." });
+        }
             int id = await _addGuests.AddGuestsPost(guest, weddingnCode);
 
             return Ok(id);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteData(int id)
+        public async Task<IActionResult> DeleteGuest(int id)
         {
             await _addGuests.DeleteAddGuests(id);
 

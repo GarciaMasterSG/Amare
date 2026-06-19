@@ -8,8 +8,8 @@ namespace Models.Interfaces
 {
     public interface IProfileImage
     {
-        Task PostProfileImage(int userId, string fileName);
+        Task PostProfileImage(ProfileImageDomain image);
 
-        Task<List<string>> GetProfileImage(int userId);
+        Task<List<string>> GetProfileImage(ProfileImageDomain userId);
     }
 }

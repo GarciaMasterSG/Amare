@@ -20,7 +20,7 @@ namespace LogicLayer
         {
             _addGuest = addGuest;
         }
-        public async Task<List<GuestsDTO>> GetGuest(string weddingCode)
+        public async Task<List<GuestsDomain>> GetGuest(string weddingCode)
         {
             return await _addGuest.GetGuest(weddingCode);
         }

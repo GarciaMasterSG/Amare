@@ -9,9 +9,9 @@ namespace Models.Interfaces
 {
     public interface IVendors
     {
-        Task<List<VendorsDTO>> GetVendors(string weddingCode);
+        Task<List<VendorsDomain>> GetVendors(string weddingCode);
 
-        Task<int> PostVendors(VendorsDTO vendors, string weddingCode);
+        Task<int> PostVendors(VendorsDomain vendors, string weddingCode);
 
         Task UpdateHired(int id);
 

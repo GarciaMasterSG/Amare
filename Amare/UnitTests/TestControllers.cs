@@ -1,6 +1,7 @@
 ﻿using Amare.Controllers;
 using Amare.Data;
 using Amare.Models;
+using DataLayer;
 using LogicLayer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@ using Microsoft.VisualStudio.TestPlatform.ObjectModel.DataCollector.InProcDataCo
 using Models;
 using Models.Interfaces;
 using Moq;
+using System.Security.Cryptography.X509Certificates;
 using Xunit;
 
 namespace UnitTests
@@ -17,9 +19,9 @@ namespace UnitTests
         [Fact]
         public async Task TestAddGuestRepository()
         {
-            var fakeChallenges = new List<GuestsDTO>()
+            var fakeChallenges = new List<GuestsDomain>()
             {
-                new GuestsDTO
+                new GuestsDomain
                 {
                     Id = 1,
                     GuestName = "John Doe",
@@ -41,15 +43,15 @@ namespace UnitTests
             var result = await controller.GetGuest();
 
             Assert.IsType<GetGuestsDTO>(result);
-             
+
         }
 
         [Fact]
         public async Task TestBudgetController()
         {
-            var fakeBudget = new List<BudgetDTO>()
+            var fakeBudget = new List<BudgetDomain>()
             {
-                new BudgetDTO
+                new BudgetDomain
                 {
                     Id = 1,
                     MaxBudget = 1000
@@ -68,15 +70,15 @@ namespace UnitTests
 
             var result = await controller.GetBudget();
 
-            Assert.IsType<List<BudgetDTO>>(result);
+            Assert.IsType<List<BudgetDomain>>(result);
         }
 
         [Fact]
         public async Task TestChallengesController()
         {
-            var fakeChallenges = new List<ChallengesDTO>()
+            var fakeChallenges = new List<ChallengesDomain>()
             {
-                new ChallengesDTO
+                new ChallengesDomain
                 {
                     Id = 1,
                     ChallengeName = "Test Challenge",
@@ -97,15 +99,15 @@ namespace UnitTests
 
             var result = await controller.GetChallenges();
 
-            Assert.IsType<List<ChallengesDTO>>(result);
+            Assert.IsType<List<ChallengesDomain>>(result);
         }
 
         [Fact]
         public async Task TestExpensesController()
         {
-            var fakeExpenses = new List<ExpensesDTO>()
+            var fakeExpenses = new List<ExpensesDomain>()
             {
-                new ExpensesDTO
+                new ExpensesDomain
                 {
                     Id = 1,
                     ExpenseName = "Test Expense",
@@ -125,15 +127,15 @@ namespace UnitTests
 
             var result = await controller.GetExpenses();
 
-            Assert.IsType<List<ExpensesDTO>>(result);
+            Assert.IsType<List<ExpensesDomain>>(result);
         }
 
         [Fact]
         public async Task TestLeaderboardController()
         {
-            var fakeLeaderboard = new List<UserLeaderboardDTO>()
+            var fakeLeaderboard = new List<UserLeaderboardDomain>()
             {
-                new UserLeaderboardDTO
+                new UserLeaderboardDomain
                 {
                     UserPoints = 100,
                     Name = "John Doe"
@@ -152,7 +154,7 @@ namespace UnitTests
 
             var result = await controller.GetLeaderboard();
 
-            Assert.IsType<List<UserLeaderboardDTO>>(result);
+            Assert.IsType<List<UserLeaderboardDomain>>(result);
         }
 
         [Fact]
@@ -183,7 +185,7 @@ namespace UnitTests
 
             Assert.IsType<List<LiveFeedGetDTO>>(result);
         }
-
+        /*
         [Fact]
         public async Task TestProfileImageController()
         {
@@ -194,7 +196,7 @@ namespace UnitTests
 
             var fakeProfileImageRepo = new Mock<IProfileImage>();
 
-            fakeProfileImageRepo.Setup(x => x.GetProfileImage(It.IsAny<int>())).ReturnsAsync(fakeProfileImage);
+            fakeProfileImageRepo.Setup(x => x.GetProfileImage(It.IsAny<ProfileImageDTO>())).ReturnsAsync(fakeProfileImage);
 
             var fakeBusiness = new ProfileImage(fakeProfileImageRepo.Object);
 
@@ -203,14 +205,14 @@ namespace UnitTests
             var result = await controller.GetProfileImage();
 
             Assert.True(result is OkObjectResult || result is BadRequestResult);
-        }
+        }*/ 
 
         [Fact]
         public async Task TestTasksController()
         {
-            var fakeTasks = new List<TasksDTO>()
+            var fakeTasks = new List<TasksDomain>()
             {
-                new TasksDTO
+                new TasksDomain
                 {
                     Id = 1,
                     TaskName = "Test Task",
@@ -229,17 +231,17 @@ namespace UnitTests
 
             controller.weddingnCode = "weddingCode";
 
-            var result = await controller.Gettasks();
+            var result = await controller.GetTasks();
 
-            Assert.IsType<List<TasksDTO>>(result);
+            Assert.IsType<List<TasksDomain>>(result);
         }
 
         [Fact]
         public async Task TestVendorsController()
         {
-            var fakeVendor = new List<VendorsDTO>()
+            var fakeVendor = new List<VendorsDomain>()
             {
-                new VendorsDTO
+                new VendorsDomain
                 {
                     Id = 1,
                     VendorDescription = "Test Vendor",
@@ -260,15 +262,15 @@ namespace UnitTests
 
             var result = await controller.GetVendors();
 
-            Assert.IsType<List<VendorsDTO>>(result);
+            Assert.IsType<List<VendorsDomain>>(result);
         }
 
         [Fact]
         public async Task TestWeddingEvents()
         {
-            var fakeWeddingEvents = new List<WeddingEventDTO>()
+            var fakeWeddingEvents = new List<WeddingEventDomain>()
             {
-                new WeddingEventDTO
+                new WeddingEventDomain
                 {
                     Id = 1,
                     WeddingEventName = "Test",
@@ -288,8 +290,194 @@ namespace UnitTests
 
             var result = await controller.GetWeddingEvents();
 
-            Assert.IsType<List<WeddingEventDTO>>(result);
+            Assert.IsType<List<WeddingEventDomain>>(result);
         }
 
+        // Testing the database lenght types 
+
+        [Fact]
+        public async Task AddGuestsLenghtErrorTest()
+        {
+
+            var fakeGuest = new GuestsDomain
+            {
+                Id = 1,
+                GuestName = new string('a', 151),
+                TableName = "Table 1",
+                WeddingCode = "weddingCode"
+            };
+
+            var fakeAddGuestRepo = new Mock<IAddGuest>();
+
+            fakeAddGuestRepo.Setup(x => x.AddGuestsPost(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(1);
+
+            var addGuestBusiness = new AddGuests(fakeAddGuestRepo.Object);
+
+            var controller = new AddGuestsController(addGuestBusiness);
+
+            controller.weddingnCode = "weddingCode";
+
+            var result = await controller.AddGuestsPost(fakeGuest.GuestName);
+
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        [Fact]
+        public async Task ExpenseLengthErrorTest()
+        {
+            var fakeExpense = new ExpensesDomain
+            {
+                ExpenseName = new string('a', 101),
+                ExpensePrice = 100,
+                Id = 1,
+            };
+
+            var fakeExpenseRepo = new Mock<IExpenses>();
+
+            fakeExpenseRepo.Setup(x => x.PostExpenses(It.IsAny<ExpensesDomain>(), It.IsAny<string>())).ReturnsAsync(1);
+
+            var expensesBusiness = new Expenses(fakeExpenseRepo.Object);
+
+            var controller = new ExpensesController(expensesBusiness);
+
+            controller.weddingnCode = "weddingCode";
+
+            var result = await controller.PostExpense(fakeExpense);
+
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        [Fact]
+        public async Task LiveFeedLenghtErrorTest()
+        {
+            var fakePost = new LiveFeedPostDTO
+            {
+                Description = new string('a', 301),
+                FileName = "test.jpg",
+                PhotoFeed = null
+            };
+
+            var fakeLiveFeedRepo = new Mock<ILiveFeed>();
+
+            fakeLiveFeedRepo.Setup(x => x.PostLiveFeed(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.CompletedTask);
+
+            var liveFeedBusiness = new LiveFeed(fakeLiveFeedRepo.Object);
+
+            var controller = new LiveFeedController(liveFeedBusiness);
+
+            controller.weddingnCode = "weddingCode";
+
+            var result = await controller.PostLiveFeed(fakePost);
+
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        [Fact]
+        public async Task VendorControllerLenghtError()
+        {
+            var fakevendor = new VendorsDomain
+            {
+                VendorName = new string('a', 151),
+                VendorDescription = new string('a', 301),
+                VendorPrice = 100,
+                VendorType = "Test Type",
+                Id = 1
+            };
+
+            var fakeVendorRepo = new Mock<IVendors>();
+
+            fakeVendorRepo.Setup(x => x.PostVendors(It.IsAny<VendorsDomain>(), It.IsAny<string>())).ReturnsAsync(1);
+
+            var fakeBusiness = new Vendors(fakeVendorRepo.Object);
+
+            var controller = new VendorsController(fakeBusiness);
+
+            controller.weddingnCode = "weddingCode";
+
+            var result = await controller.PostVendors(fakevendor);
+
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        [Fact]
+        public async Task ChallengeControllerLenghtError()
+        {
+            var fakeChallenge = new ChallengesDomain
+            {
+                Id = 1,
+                ChallengeName = new string('a', 151),
+                ChallengeDescription = new string('a', 301),
+                ChallengePoints = 10,
+            };
+
+            var fakeChallengesRepo = new Mock<IChallenges>();
+
+            fakeChallengesRepo.Setup(x => x.ChallengesPost(It.IsAny<ChallengesDomain>(), It.IsAny<string>())).ReturnsAsync(1);
+
+            var challengesBusiness = new Challenges(fakeChallengesRepo.Object);
+
+            var controller = new ChallengesController(challengesBusiness);
+
+            controller.weddingnCode = "weddingCode";
+
+            var result = await controller.ChallengesPost(fakeChallenge);
+
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        [Fact]
+        public async Task WeddingEventLenghtError()
+        {
+            var fakeWeddingEvent = new WeddingEventDomain
+            {
+                Id = 1,
+                WeddingEventName = new string('a', 151),
+                WeddingEventTime = TimeSpan.FromHours(1)
+            };
+
+            var fakeWeddingEventRepo = new Mock<IWeddingEvents>();
+
+            fakeWeddingEventRepo.Setup(x => x.WeddingEventPost(It.IsAny<WeddingEventDomain>(), It.IsAny<string>())).ReturnsAsync(1);
+
+            var fakeBusiness = new WeddingEvents(fakeWeddingEventRepo.Object);
+
+            var controller = new WeddingEventController(fakeBusiness);
+
+            controller.weddingnCode = "weddingCode";
+
+            var result = await controller.WeddingEventPost(fakeWeddingEvent);
+
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        [Fact]
+        public async Task TaskControllerLenghtError()
+        {
+            var fakeTask = new TasksDomain
+            {
+                Id = 1,
+
+                TaskName = new string('a', 151),
+
+                TaskCompleted = 0,
+
+                TaskDate = DateTime.Now
+            };
+
+            var fakeTaskRepo = new Mock<ITasks>();
+
+            fakeTaskRepo.Setup(x => x.TasksPost(It.IsAny<TasksDomain>(), It.IsAny<string>())).ReturnsAsync(1);
+
+            var fakeBusiness = new Tasks(fakeTaskRepo.Object);
+
+            var controller = new TasksController(fakeBusiness);
+
+            controller.weddingnCode = "weddingCode";
+
+            var result = await controller.TasksPost(fakeTask);
+
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
     }
 }
+

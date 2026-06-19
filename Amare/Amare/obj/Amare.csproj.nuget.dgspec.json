@@ -57,6 +57,10 @@
           "framework": "net9.0",
           "targetAlias": "net9.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.2.0, )"
+            },
             "Imagekit": {
               "target": "Package",
               "version": "[5.0.0, )"
@@ -68,6 +72,10 @@
             "Microsoft.Data.SqlClient": {
               "target": "Package",
               "version": "[7.0.1, )"
+            },
+            "Microsoft.Data.SqlClient.Extensions.Azure": {
+              "target": "Package",
+              "version": "[1.0.0, )"
             },
             "MySqlConnector": {
               "target": "Package",
@@ -235,6 +243,10 @@
           "framework": "net9.0",
           "targetAlias": "net9.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.2.0, )"
+            },
             "Imagekit": {
               "target": "Package",
               "version": "[5.0.0, )"

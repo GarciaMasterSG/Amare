@@ -22,9 +22,9 @@
         <div id="Logo">
             <img src="~/images/Logo.png" alt="">
         </div>
-        <form asp-controller='Auth' asp-action='Login' method='post' id='LoginForm'>
-            <input placeholder="Email" name="email" type="text">
-            <input placeholder="Password" name='password' type="password">
+        <form action="/Auth/Login" method='post' id='LoginForm'>
+            <input placeholder="Email" name="email" type="text" required>
+            <input placeholder="Password" name='password' type="password" required>
             <button type="submit"> Login </button>
         </form>
         <a id='ToSignUp' asp-controller="Auth" asp-action="Signup"> Don't have account? </a>

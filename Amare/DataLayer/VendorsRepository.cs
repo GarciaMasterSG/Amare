@@ -19,7 +19,7 @@ namespace DataLayer
             _db = db;
         }
 
-        public async Task<List<VendorsDTO>> GetVendors(string weddingCode)
+        public async Task<List<VendorsDomain>> GetVendors(string weddingCode)
         {
             string query = "SELECT Id, VendorName, Description, Price, Hired, Type FROM Vendor WHERE WeddingCode = @WeddingCode";
 
@@ -28,7 +28,7 @@ namespace DataLayer
                 new SqlParameter("@WeddingCode", weddingCode),
             };
 
-            var vendors = await _db.GetQueryExecuter(query, r => new VendorsDTO
+            var vendors = await _db.GetQueryExecuter(query, r => new VendorsDomain
             {
                 Id = Convert.ToInt16(r["Id"]),
                 VendorName = Convert.ToString(r["VendorName"]),
@@ -41,7 +41,7 @@ namespace DataLayer
             return vendors;
 
         }
-        public async Task<int> PostVendors(VendorsDTO vendors, string weddingCode)
+        public async Task<int> PostVendors(VendorsDomain vendors, string weddingCode)
         {
             int hired = 0;
 

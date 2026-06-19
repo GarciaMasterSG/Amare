@@ -37,7 +37,7 @@
   },
   {
     "ContainingType": "Amare.Controllers.AddGuestsController",
-    "Method": "DeleteData",
+    "Method": "DeleteGuest",
     "RelativePath": "api/AddGuests/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
@@ -104,7 +104,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.BudgetDTO, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.BudgetDomain, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -145,7 +145,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.ChallengesDTO, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.ChallengesDomain, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -233,7 +233,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.ChallengesDTO, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.ChallengesDomain, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -253,7 +253,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.ExpensesDTO, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.ExpensesDomain, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -283,7 +283,7 @@
       },
       {
         "Name": "ExpensePrice",
-        "Type": "System.Int32",
+        "Type": "System.Single",
         "IsRequired": false
       }
     ],
@@ -291,7 +291,7 @@
   },
   {
     "ContainingType": "Amare.Controllers.ExpensesController",
-    "Method": "DeleteData",
+    "Method": "DeleteExpense",
     "RelativePath": "api/Expenses/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
@@ -315,7 +315,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.UserLeaderboardDTO, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.UserLeaderboardDomain, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -399,7 +399,7 @@
   },
   {
     "ContainingType": "Amare.Controllers.TablesController",
-    "Method": "CreateTable",
+    "Method": "PostTable",
     "RelativePath": "api/Tables",
     "HttpMethod": "POST",
     "IsController": true,
@@ -407,7 +407,7 @@
     "Parameters": [
       {
         "Name": "table",
-        "Type": "Amare.Models.TablesDTO",
+        "Type": "Amare.Models.TablesDomain",
         "IsRequired": true
       }
     ],
@@ -415,7 +415,7 @@
   },
   {
     "ContainingType": "Amare.Controllers.TasksController",
-    "Method": "Gettasks",
+    "Method": "GetTasks",
     "RelativePath": "api/Tasks",
     "HttpMethod": "GET",
     "IsController": true,
@@ -423,7 +423,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.TasksDTO, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.TasksDomain, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -466,7 +466,7 @@
   },
   {
     "ContainingType": "Amare.Controllers.TasksController",
-    "Method": "DeleteData",
+    "Method": "DeleteTask",
     "RelativePath": "api/Tasks/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
@@ -506,7 +506,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.VendorsDTO, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.VendorsDomain, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -518,7 +518,7 @@
   },
   {
     "ContainingType": "Amare.Controllers.VendorsController",
-    "Method": "addVendors",
+    "Method": "PostVendors",
     "RelativePath": "api/Vendors",
     "HttpMethod": "POST",
     "IsController": true,
@@ -546,7 +546,7 @@
       },
       {
         "Name": "VendorPrice",
-        "Type": "System.Int32",
+        "Type": "System.Single",
         "IsRequired": false
       },
       {
@@ -575,7 +575,7 @@
   },
   {
     "ContainingType": "Amare.Controllers.VendorsController",
-    "Method": "DeleteData",
+    "Method": "DeleteVendor",
     "RelativePath": "api/Vendors/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
@@ -593,7 +593,7 @@
     "ContainingType": "Amare.Controllers.WeddingDateLocationController",
     "Method": "PostWeddingDateLocation",
     "RelativePath": "api/WeddingDateLocation",
-    "HttpMethod": "PATCH",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -604,7 +604,7 @@
       },
       {
         "Name": "WeddingDate",
-        "Type": "System.DateTime",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       }
     ],
@@ -620,7 +620,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.WeddingEventDTO, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Amare.Models.WeddingEventDomain, Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -658,7 +658,7 @@
   },
   {
     "ContainingType": "Amare.Controllers.WeddingEventController",
-    "Method": "DeleteData",
+    "Method": "DeleteWeddingEvent",
     "RelativePath": "api/WeddingEvent/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,

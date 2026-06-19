@@ -1,51 +1,43 @@
 using Amare.Data;
 using Amare.Models;
+using LogicLayer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System.Diagnostics;
 
 namespace Amare.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
-        private readonly DbUserProfile _db;
+        private readonly Home _home;
 
-        public HomeController(DbUserProfile db)
+        public HomeController(Home home)
         {
-           _db = db;
+            _home = home;
         }
         public async Task<IActionResult> Index()
         {
             var weddingCode = HttpContext.Session.GetString("UserWeddingCode");
 
-            if (weddingCode == null)
-            {
-                return RedirectToAction("Login", "Auth");
-            }
-
-            string query = "SELECT * FROM Wedding WHERE WeddingCode = @WeddingCode";
-
-            List<SqlParameter> parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@WeddingCode",weddingCode)
-            };
-
-            var couple = await _db.GetQueryExecuter(query, r => new WeddingDTO {
-                Groom = Convert.ToString(r["Groom"]),
-                Bride = Convert.ToString(r["Bride"]),
-                WeddingCode = Convert.ToString(r["WeddingCode"]),
-                WeddingLocation = Convert.ToString(r["WeddingLocation"]),
-                WeddingDate = Convert.ToDateTime(r["WeddingDate"]) 
-            }, parameters);
-
-            var coupleName = couple.FirstOrDefault(w => w.WeddingCode == weddingCode);
+            var coupleName = await _home.GetIndex(weddingCode);
 
             if (coupleName == null)
             {
                 return View();
             }
 
-            string weddingDate = coupleName.WeddingDate.ToString("dd/MM/yy");
+            string? weddingDate;
+
+            if (coupleName.WeddingDate == null)
+            {
+                weddingDate = "";
+            }
+            else
+            {
+                weddingDate = coupleName.WeddingDate.Value.ToString("dd/MM/yy");
+            }
 
             ViewBag.Groom = coupleName.Groom;
             ViewBag.Bride = coupleName.Bride;

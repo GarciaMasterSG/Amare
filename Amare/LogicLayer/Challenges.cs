@@ -20,17 +20,17 @@ namespace LogicLayer
             _challenges = challenges;
         }
 
-        public async Task<List<ChallengesDTO>> GetChallenges(string weddingCode)
+        public async Task<List<ChallengesDomain>> GetChallenges(string weddingCode)
         {
             return await _challenges.GetChallenges(weddingCode);
         }
 
-        public async Task<List<ChallengesDTO>> GetGuestChallenges(string userEmail, string weddingCode)
+        public async Task<List<ChallengesDomain>> GetGuestChallenges(string userEmail, string weddingCode)
         {
             return await _challenges.GetGuestChallenges(userEmail, weddingCode);
         }
 
-        public async Task<int> ChallengesPost(ChallengesDTO challenges, string weddingCode)
+        public async Task<int> ChallengesPost(ChallengesDomain challenges, string weddingCode)
         {
             return await _challenges.ChallengesPost(challenges, weddingCode);
         }
